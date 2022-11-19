@@ -702,7 +702,7 @@ void move_monster(int x, int y) // 몬스터 위치 동기화
 
 void bef_move_monster(int x, int y) // test
 {
-	map_arr_loCation_level_1[x][y] = 0;
+	map_arr_loCation_level_1[x][y] = 0; // test 2
 }
 
 int keyControl() //enter = 13
