@@ -700,7 +700,7 @@ void move_monster(int x, int y) // 몬스터 위치 동기화
 	map_arr_loCation_level_1[y_mon][x_mon] = monster1;
 }
 
-void bef_move_monster(int x, int y)
+void bef_move_monster(int x, int y) // test
 {
 	map_arr_loCation_level_1[x][y] = 0;
 }
