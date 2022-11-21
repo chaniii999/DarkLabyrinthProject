@@ -14,49 +14,31 @@
 #define RIGHT 3
 #define	SUBMIT 4 // 선택 (Enter 키)
 
-int game = 1; // 타이틀은 0 게임시작은 1
+void gotoxy(int x, int y);
 
+
+// 초기 함수
+
+int game = 0; // 타이틀은 0 게임시작은 1
+
+// 메뉴함수
 int titleDraw(); // 시작화면 함수.
+int proLogueDraw(); //프롤로그 선택함수.
 int menuDraw(); // 메뉴 선택지함수
 int skillmenuDraw(); // 스킬 선택지 함수
-
-int keyControl(); 
-
-
-void gotoxy(int x , int y);
-
-int attack(int x, int y);  // 공격 함수
-
-int attacked_monster(int x, int y); //피격 함수
-
-char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
-
-
-int Player = 1; //플레이어 고유값
-int monster1 = 4; //몬스터1 고유값
-
-int monster1_life = 1; // 몬스터가 살아있는지 여부
-
-int direct_monswer1 = -1; // 몬스터 방향 난수 초기화
-
-int x_mon = 0; //몬스터 좌표값
-int y_mon = 0;
-
-int situation_num = 1; //시츄에이션 넘버
-
-int turn = 0;
-int cnt_turn_stab = -3;
-int cnt_turn_rage = -5;
-int cnt_turn_heal = -3;
-
-char *item[20]; // 문자열을 배열에 넣기위해 * 넣음.
+//int itemDraw();//아이템 선택함수
 
 int select_num = 0; //전투상황 선택지 초기화
 
+//맵 관련함수
 
+int situation_num = 1; //시츄에이션 넘버
+
+char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
 
 void printQuestion(); // 맵 출력
 
+int keyControl();
 
 void move_player(int x, int y); //플레이어 좌표
 void bef_move_player(int x, int y); //플레이어 이전 좌표 초기화
@@ -67,8 +49,31 @@ void bef_move_monster(int x, int y); //몬스터 이전 좌표 초기화
 
 void creaTor_great_Wall(int a, int b); //테두리 벽 제작 함수
 
+int Player = 1; //플레이어 고유값
+int monster1 = 4; //몬스터1 고유값
 
-//스킬 셋
+int x_mon = 0; //몬스터 좌표값
+int y_mon = 0;
+
+int monster1_life = 1; // 몬스터가 살아있는지 여부
+
+int direct_monswer1 = -1; // 몬스터 방향 난수 초기화
+
+//전투함수
+int turn = 0;
+int cnt_turn_stab = -3;
+int cnt_turn_rage = -5;
+int cnt_turn_heal = -3;
+
+int attack(int x, int y);  // 공격 함수
+
+int attacked_monster(int x, int y); //피격 함수
+
+
+char *item[20]; // 문자열을 배열에 넣기위해 * 넣음.
+
+
+//스킬함수
 int skill_several_stab(int a);
 int skill_holy_Heal(int x, int y);
 int skill_rage(int x);
@@ -123,10 +128,101 @@ int main(void)
 	int t = 10; // 맵 가로 길이
 	int g = 10; // 맵 세로 길이
 
-
+	
 	creaTor_great_Wall(t, g); 
+	while (game == 0)
+	{
+		printf("\n\n\n.");
+		Sleep(300);
+		printf(".");
+		Sleep(300);
+		printf(".");
+		Sleep(300);
+		printf(".");
+		Sleep(300);
+		printf(".");
+		Sleep(300);
+		printf(".");
+		Sleep(300);
+		printf("Loading");
+		Sleep(3000);
+		system("cls");
 
-	//titleMenu();
+
+		printf("\n\n      [Dark Labyrinth]\n");
+		switch (titleDraw())
+		{
+		case 0:
+		{
+			system("cls");
+			printf("\n\n\n  Welcome to my Labirinth. . .");
+			Sleep(2500);
+			system("cls");
+			printf("\n\n\n -프롤로그를 보시겠습니까?-");
+			switch (proLogueDraw())
+			{
+			case 0:
+			{
+				system("cls");
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(1500);
+				printf("오늘도 야근이다..\n");
+				Sleep(1500);
+				printf("지친 몸을 이끌고 집으로 향한다...\n");
+				Sleep(1500);
+				printf("\"내일은  휴일이니까 푹 쉬자..\"\n");
+				Sleep(1500);
+				printf("\"어?.. 여긴?... \"\n");
+				Sleep(3000);
+				game = 1;
+			}
+			case 1:
+			{
+				system("cls");
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(100);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				Sleep(2000);
+				system("cls");
+				game = 1;
+
+
+			}
+			default:
+				game = 1;
+				break;
+			}
+
+
+			
+			game = 1;
+		}
+
+
+
+
+
+		} //sw_ed
+			
+	}
 
 	while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  몬스터 소환 좌표 설정 0일때까지 and 캐릭터 옆이 아닐때까지.
 	{
@@ -729,7 +825,9 @@ int titleDraw() {
 	gotoxy(x, y + 1);
 	printf("[Load your memories..]");
 	gotoxy(x, y + 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 	printf("*chaniii999's GitHub*");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	gotoxy(x, y + 3);
 	printf("[Exit]");
 	while (1)
@@ -768,6 +866,54 @@ int titleDraw() {
 		}
 	}
 }
+
+int proLogueDraw() {
+	int x = 3;
+	int y = 5;
+	gotoxy(x, y);
+	printf("-예-");
+	gotoxy(x, y + 1);
+	printf("-아니오-");
+
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 5) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 6)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 5;
+			break;
+		}
+
+
+		}
+	}
+}
+
+
+
 
 int menuDraw() {
 	int x = 3;
