@@ -16,7 +16,7 @@
 
 int game = 1; // 타이틀은 0 게임시작은 1
 
-
+int titleDraw(); // 시작화면 함수.
 int menuDraw(); // 메뉴 선택지함수
 int skillmenuDraw(); // 스킬 선택지 함수
 
@@ -681,7 +681,7 @@ void printQuestion()//맵 출력
 
 }
 
-void creaTor_great_Wall(int a,int b) // 벽만들기.
+void creaTor_great_Wall(int a,int b) // 벽만들기
 {
 	for (int i = 0; i < a; i++)
 	{
@@ -719,6 +719,54 @@ int keyControl() //enter = 13
 		return DOWN;
 	else if (key == 13)
 		return SUBMIT;
+}
+
+int titleDraw() {
+	int x = 3;
+	int y = 5;
+	gotoxy(x, y);
+	printf("[Open your eyes..]");
+	gotoxy(x, y + 1);
+	printf("[Load your memories..]");
+	gotoxy(x, y + 2);
+	printf("*chaniii999's GitHub*");
+	gotoxy(x, y + 3);
+	printf("[Exit]");
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 5) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 8)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 5;
+			break;
+		}
+
+
+		}
+	}
 }
 
 int menuDraw() {
