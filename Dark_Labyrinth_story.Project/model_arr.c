@@ -56,6 +56,8 @@ void creaTor_great_Wall(int a, int b); //테두리 벽 제작 함수
 int Player = 1; //플레이어 고유값
 int monster1 = 4; //몬스터1 고유값
 int npc1 = 5; // npc1고유값.
+int enTrance = 7;
+
 
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
@@ -169,7 +171,7 @@ int main(void)
 		case 0:
 		{
 			system("cls");
-			printf("\n\n\n  Welcome to my Labirinth. . .");
+			printf("\n\n\n  Welcome to my Labyrinth. . .");
 			Sleep(2500);
 			system("cls");
 			printf("\n\n\n -프롤로그를 보시겠습니까?-");
@@ -252,9 +254,15 @@ int main(void)
 		if (situation_num == 1) //평상시
 		{
 			if (dengeon_level = 1)
-				printQuestion_level_1();  //맵 표시
+			{
+				printQuestion_level_1();//맵 표시
+				map_arr_loCation_level_1[8][8] = enTrance;
+			}
 			else if (dengeon_level = 2)
-				printfQuestion_level_2();
+				printQuestion_level_2();
+
+			if (map_arr_loCation_level_1[8][8] == Player)
+				dengeon_level = 2;
 
 			move_player(a, b); // 캐릭터 현 좌표 함수.
 			move_monster(y_mon, x_mon); // 몬스터 현 좌표.
@@ -266,19 +274,19 @@ int main(void)
 				switch (key)
 				{
 				case 72:
-					if (map_arr_loCation_level_1[a - 1][b] == 0) //가고자하는 자리가 0일때만 가능.
+					if (map_arr_loCation_level_1[a - 1][b] == 0,7) //가고자하는 자리가 0일때만 가능.
 						a--;
 					break;
 				case 75:
-					if (map_arr_loCation_level_1[a][b - 1] == 0)
+					if (map_arr_loCation_level_1[a][b - 1] == 0,7)
 						b--;
 					break;
 				case 77:
-					if (map_arr_loCation_level_1[a][b + 1] == 0)
+					if (map_arr_loCation_level_1[a][b + 1] == 0,7)
 						b++;
 					break;
 				case 80:
-					if (map_arr_loCation_level_1[a + 1][b] == 0)
+					if (map_arr_loCation_level_1[a + 1][b] == 0,7)
 						a++;
 					break;
 				default:
