@@ -32,11 +32,15 @@ int select_num = 0; //전투상황 선택지 초기화
 
 //맵 관련함수
 
+int dengeon_level = 1;
+
 int situation_num = 1; //시츄에이션 넘버
 
 char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
+char map_arr_loCation_level_2[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
 
-void printQuestion(); // 맵 출력
+void printQuestion_level_1(); // 맵 출력
+void printQuestion_level_2(); // 2층 출력
 
 int keyControl();
 
@@ -51,6 +55,7 @@ void creaTor_great_Wall(int a, int b); //테두리 벽 제작 함수
 
 int Player = 1; //플레이어 고유값
 int monster1 = 4; //몬스터1 고유값
+int npc1 = 5; // npc1고유값.
 
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
@@ -116,6 +121,15 @@ int main(void)
 	monster1.crono = rand() % 50 + 60;
 	monster1.level = 50;
 	monster1.exp = 500;
+
+	oBject npc1;
+	npc1.name = "kun_ha";
+	npc1.attack = 3;
+	npc1.life = 20;
+	npc1.crono = 600;
+	npc1.level = 3;
+	npc1.exp = 4;
+	
 
 	int cnt_monster1_life = monster1.life;
 	int cnt_player_life = player.life;
@@ -237,8 +251,10 @@ int main(void)
 
 		if (situation_num == 1) //평상시
 		{
-
-			printQuestion();  //맵 표시
+			if (dengeon_level = 1)
+				printQuestion_level_1();  //맵 표시
+			else if (dengeon_level = 2)
+				printfQuestion_level_2();
 
 			move_player(a, b); // 캐릭터 현 좌표 함수.
 			move_monster(y_mon, x_mon); // 몬스터 현 좌표.
@@ -762,7 +778,7 @@ void bef_move_player(int x, int y)
 	map_arr_loCation_level_1[x][y] = 0;
 }
 
-void printQuestion()//맵 출력
+void printQuestion_level_1()//맵 출력
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -776,6 +792,22 @@ void printQuestion()//맵 출력
 	}
 
 }
+
+void printQuestion_level_2()//맵 출력
+{
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			printf(" %d ", map_arr_loCation_level_2[i][j]);
+
+
+		}
+		printf("\n");
+	}
+
+}
+
 
 void creaTor_great_Wall(int a,int b) // 벽만들기
 {
