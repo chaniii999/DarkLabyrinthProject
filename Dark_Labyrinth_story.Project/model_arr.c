@@ -56,7 +56,7 @@ void creaTor_great_Wall(int a, int b); //테두리 벽 제작 함수
 int Player = 1; //플레이어 고유값
 int monster1 = 4; //몬스터1 고유값
 int npc1 = 5; // npc1고유값.
-int enTrance = 7;
+int enTrance = 3;
 
 
 int x_mon = 0; //몬스터 좌표값
@@ -242,8 +242,8 @@ int main(void)
 
 	while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  몬스터 소환 좌표 설정 0일때까지 and 캐릭터 옆이 아닐때까지.
 	{
-		x_mon = rand() % (t - 2) + 1; // 1,2,3,4,5,6,7,8
-		y_mon = rand() % (g - 2) + 1; // 1,2,3,4,5,6,7,8
+		x_mon = rand() % (t - 3) + 2; // 2,3,4,5,6,7,8,9
+		y_mon = rand() % (g - 3) + 2; // 2,3,4,5,6,7,8,9
 	}
 
 
@@ -274,19 +274,19 @@ int main(void)
 				switch (key)
 				{
 				case 72:
-					if (map_arr_loCation_level_1[a - 1][b] == 0,7) //가고자하는 자리가 0일때만 가능.
+					if (map_arr_loCation_level_1[a - 1][b] == 0 ) //가고자하는 자리가 0일때만 가능.
 						a--;
 					break;
 				case 75:
-					if (map_arr_loCation_level_1[a][b - 1] == 0,7)
+					if (map_arr_loCation_level_1[a][b - 1] == 0)
 						b--;
 					break;
 				case 77:
-					if (map_arr_loCation_level_1[a][b + 1] == 0,7)
+					if (map_arr_loCation_level_1[a][b + 1] == 0)
 						b++;
 					break;
 				case 80:
-					if (map_arr_loCation_level_1[a + 1][b] == 0,7)
+					if (map_arr_loCation_level_1[a + 1][b] == 0)
 						a++;
 					break;
 				default:
