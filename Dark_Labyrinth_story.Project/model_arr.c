@@ -59,6 +59,9 @@ int npc1 = 5; // npc1고유값.
 int enTrance = 3;
 
 
+
+
+
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
 
@@ -144,7 +147,9 @@ int main(void)
 	int t = 10; // 맵 가로 길이
 	int g = 10; // 맵 세로 길이
 
-	
+	map_arr_loCation_level_1[8][8] = enTrance;
+
+
 	creaTor_great_Wall(t, g); 
 	while (game == 0)
 	{
@@ -253,17 +258,19 @@ int main(void)
 
 		if (situation_num == 1) //평상시
 		{
-			if (dengeon_level = 1)
+			if (dengeon_level == 1)
 			{
 				printQuestion_level_1();//맵 표시
-				map_arr_loCation_level_1[8][8] = enTrance;
+				if (map_arr_loCation_level_1[8][8] == Player)
+				{
+					dengeon_level = 2;
+				}
 			}
-			else if (dengeon_level = 2)
+			
+			if (dengeon_level == 2) 
+			{
 				printQuestion_level_2();
-
-			if (map_arr_loCation_level_1[8][8] == Player)
-				dengeon_level = 2;
-
+			}
 			move_player(a, b); // 캐릭터 현 좌표 함수.
 			move_monster(y_mon, x_mon); // 몬스터 현 좌표.
 			if (kbhit())
@@ -274,19 +281,23 @@ int main(void)
 				switch (key)
 				{
 				case 72:
-					if (map_arr_loCation_level_1[a - 1][b] == 0 ) //가고자하는 자리가 0일때만 가능.
+					if (map_arr_loCation_level_1[a - 1][b] == 0 ||
+						map_arr_loCation_level_1[a - 1][b] == 3 ) //가고자하는 자리가 0일때만 가능.
 						a--;
 					break;
 				case 75:
-					if (map_arr_loCation_level_1[a][b - 1] == 0)
+					if (map_arr_loCation_level_1[a][b - 1] == 0 ||
+						map_arr_loCation_level_1[a][b - 1] == 3 )
 						b--;
 					break;
 				case 77:
-					if (map_arr_loCation_level_1[a][b + 1] == 0)
+					if (map_arr_loCation_level_1[a][b + 1] == 0 ||
+						map_arr_loCation_level_1[a][b + 1] == 3 )
 						b++;
 					break;
 				case 80:
-					if (map_arr_loCation_level_1[a + 1][b] == 0)
+					if (map_arr_loCation_level_1[a + 1][b] == 0 ||
+						map_arr_loCation_level_1[a + 1][b] == 3 )
 						a++;
 					break;
 				default:
@@ -798,7 +809,7 @@ void printQuestion_level_1()//맵 출력
 		}
 		printf("\n");
 	}
-
+	printf("dengeon_level=%d", dengeon_level);
 }
 
 void printQuestion_level_2()//맵 출력
@@ -813,7 +824,7 @@ void printQuestion_level_2()//맵 출력
 		}
 		printf("\n");
 	}
-
+	printf("dengeon_level=%d", dengeon_level);
 }
 
 
