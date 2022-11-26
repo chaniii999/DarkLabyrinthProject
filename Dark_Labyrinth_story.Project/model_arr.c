@@ -43,6 +43,9 @@ void printQuestion_level_1(); // 맵 출력
 void printQuestion_level_2(); // 2층 출력
 
 int keyControl();
+void monster1_move_system(int arr[][10], int a, int b); // 몬스터 무브 내장 함수
+
+
 
 void move_player(int x, int y); //플레이어 좌표
 void bef_move_player(int x, int y); //플레이어 이전 좌표 초기화
@@ -307,6 +310,7 @@ int main(void)
 			}
 			if (monster1_life == 1)
 			{
+				//monster1_move_system(map_arr_loCation_level_1[10][10], x_mon, y_mon); //
 				if (kbhit())
 				{
 					direct_monswer1 = rand() % 4; //
@@ -1133,4 +1137,46 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 {
 	int t = x * (0.3); // t(추가 공격력) = 공격력 * 0.3 이다.
 	return t; // 공격력에 t를 추가한다.
+}
+
+void monster1_move_system(int arr[][10], int a, int b) // a =x ,y=b
+{
+	if (kbhit())
+	{
+		direct_monswer1 = rand() % 4; //
+		switch (direct_monswer1) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (arr[b - 1][a] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				b--;
+				bef_move_monster(b + 1, a);
+			}
+
+			break;
+		case 1:
+			if (arr[b][a - 1] == 0)
+			{
+				a--;
+				bef_move_monster(b, a + 1);
+			}
+			break;
+		case 2:
+			if (arr[b][a + 1] == 0)
+			{
+				a++;
+				bef_move_monster(b, a - 1);
+			}
+			break;
+		case 3:
+			if (arr[b+ 1][a] == 0)
+			{
+				b++;
+				bef_move_monster(b - 1, a);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }
