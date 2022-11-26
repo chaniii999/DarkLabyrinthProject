@@ -70,7 +70,6 @@ int y_mon = 0;
 
 int monster1_life = 1; // 몬스터가 살아있는지 여부
 
-int direct_monswer1 = -1; // 몬스터 방향 난수 초기화
 
 //전투함수
 int turn = 0;
@@ -313,7 +312,7 @@ int main(void)
 				//monster1_move_system(map_arr_loCation_level_1[10][10], x_mon, y_mon); //
 				if (kbhit())
 				{
-					direct_monswer1 = rand() % 4; //
+					int direct_monswer1 = rand() % 4; //
 					switch (direct_monswer1) // 몬스터 비전투패턴
 					{
 					case 0:
@@ -1143,7 +1142,7 @@ void monster1_move_system(int arr[][10], int a, int b) // a =x ,y=b
 {
 	if (kbhit())
 	{
-		direct_monswer1 = rand() % 4; //
+		int direct_monswer1 = rand() % 4; //
 		switch (direct_monswer1) // 몬스터 비전투패턴
 		{
 		case 0:
@@ -1169,7 +1168,7 @@ void monster1_move_system(int arr[][10], int a, int b) // a =x ,y=b
 			}
 			break;
 		case 3:
-			if (arr[b+ 1][a] == 0)
+			if (arr[b + 1][a] == 0)
 			{
 				b++;
 				bef_move_monster(b - 1, a);
@@ -1178,5 +1177,6 @@ void monster1_move_system(int arr[][10], int a, int b) // a =x ,y=b
 		default:
 			break;
 		}
+
 	}
 }
