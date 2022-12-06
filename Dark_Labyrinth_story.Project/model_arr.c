@@ -246,11 +246,13 @@ int main(void)
 		} //sw_ed
 			
 	}
-
-	while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  몬스터 소환 좌표 설정 0일때까지 and 캐릭터 옆이 아닐때까지.
+	if (dengeon_level == 1) 
 	{
-		x_mon = rand() % (t - 3) + 2; // 2,3,4,5,6,7,8,9
-		y_mon = rand() % (g - 3) + 2; // 2,3,4,5,6,7,8,9
+		while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  몬스터 소환 좌표 설정 0일때까지 and 캐릭터 옆이 아닐때까지.
+		{
+			x_mon = rand() % (t - 3) + 2; // 2,3,4,5,6,7,8,9
+			y_mon = rand() % (g - 3) + 2; // 2,3,4,5,6,7,8,9
+		}
 	}
 
 
@@ -309,46 +311,7 @@ int main(void)
 			}
 			if (monster1_life == 1)
 			{
-				//monster1_move_system(map_arr_loCation_level_1[10][10], x_mon, y_mon); //
-				if (kbhit())
-				{
-					int direct_monswer1 = rand() % 4; //
-					switch (direct_monswer1) // 몬스터 비전투패턴
-					{
-					case 0:
-						if (map_arr_loCation_level_1[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
-						{
-							y_mon--;
-							bef_move_monster(y_mon + 1, x_mon);
-						}
-
-						break;
-					case 1:
-						if (map_arr_loCation_level_1[y_mon][x_mon - 1] == 0)
-						{
-							x_mon--;
-							bef_move_monster(y_mon, x_mon + 1);
-						}
-						break;
-					case 2:
-						if (map_arr_loCation_level_1[y_mon][x_mon + 1] == 0)
-						{
-							x_mon++;
-							bef_move_monster(y_mon, x_mon - 1);
-						}
-						break;
-					case 3:
-						if (map_arr_loCation_level_1[y_mon + 1][x_mon] == 0)
-						{
-							y_mon++;
-							bef_move_monster(y_mon - 1, x_mon);
-						}
-						break;
-					default:
-						break;
-					}
-				}
-
+				monster1_move_system(map_arr_loCation_level_1,y_mon,x_mon);
 			}
 
 
@@ -1138,45 +1101,43 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 	return t; // 공격력에 t를 추가한다.
 }
 
-void monster1_move_system(int arr[][10], int a, int b) // a =x ,y=b
-{
+void monster1_move_system(int arr[][10], int y, int x) {
 	if (kbhit())
 	{
-		int direct_monswer1 = rand() % 4; //
-		switch (direct_monswer1) // 몬스터 비전투패턴
+		int dirM1 = rand() % 4;
+		switch (dirM1) // 몬스터 비전투패턴
 		{
 		case 0:
-			if (arr[b - 1][a] == 0) //가고자하는 자리가 0일때만 가능.
+			if (map_arr_loCation_level_1[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
 			{
-				b--;
-				bef_move_monster(b + 1, a);
+				y_mon--;
+				bef_move_monster(y_mon + 1, x_mon);
 			}
 
 			break;
 		case 1:
-			if (arr[b][a - 1] == 0)
+			if (map_arr_loCation_level_1[y_mon][x_mon - 1] == 0)
 			{
-				a--;
-				bef_move_monster(b, a + 1);
+				x_mon--;
+				bef_move_monster(y_mon, x_mon + 1);
 			}
 			break;
 		case 2:
-			if (arr[b][a + 1] == 0)
+			if (map_arr_loCation_level_1[y_mon][x_mon + 1] == 0)
 			{
-				a++;
-				bef_move_monster(b, a - 1);
+				x_mon++;
+				bef_move_monster(y_mon, x_mon - 1);
 			}
 			break;
 		case 3:
-			if (arr[b + 1][a] == 0)
+			if (map_arr_loCation_level_1[y_mon + 1][x_mon] == 0)
 			{
-				b++;
-				bef_move_monster(b - 1, a);
+				y_mon++;
+				bef_move_monster(y_mon - 1, x_mon);
 			}
 			break;
 		default:
 			break;
 		}
-
 	}
 }
