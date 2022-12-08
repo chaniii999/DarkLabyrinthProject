@@ -26,6 +26,7 @@ int titleDraw(); // 시작화면 함수.
 int proLogueDraw(); //프롤로그 선택함수.
 int menuDraw(); // 메뉴 선택지함수
 int skillmenuDraw(); // 스킬 선택지 함수
+int npc1draw();
 //int itemDraw();//아이템 선택함수
 
 int select_num = 0; //전투상황 선택지 초기화
@@ -49,27 +50,39 @@ void printQuestion_level_4();
 void printQuestion_level_5();
 
 int keyControl();
-void monster1_move_system(int arr[][10], int a, int b); // 몬스터 무브 내장 함수
+
+
+int t_1 = 10; // 맵 가로 길이
+int g_1 = 10; // 맵 세로 길이
+int t_2 = 15;
+int g_2 = 15;
+void monster1_move_system_1(char arr[][10],int a, int b); // 몬스터 무브 내장 함수 1층 몬스터1 
 
 
 
-void move_player(int x, int y); //플레이어 좌표
-void bef_move_player(int x, int y); //플레이어 이전 좌표 초기화
+void move_player_1(char arr[][10],int x, int y); //플레이어 좌표
+void move_player_2(char arr[][15],int x, int y);
+void bef_move_player_1(char arr[][10],int x, int y); //플레이어 이전 좌표 초기화
+void bef_move_player_2(char arr[][15], int x, int y);
 
-void move_monster(int x, int y); // 몬스터좌표
+void move_monster_1(int x, int y); // 몬스터좌표
+void move_monster_2(int x, int y);
 void bef_move_monster(int x, int y); //몬스터 이전 좌표 초기화
 
 
-void creaTor_great_Wall(int a, int b); //테두리 벽 제작 함수
+void creaTor_great_Wall_1(char arr[][10], int a, int b); //테두리 벽 제작 함수
+void creaTor_great_Wall_2(char arr[][15], int a, int b); //4~5층 내장 벽
 
 int Player = 1; //플레이어 고유값
 int monster1 = 4; //몬스터1 고유값
-int npc1 = 5; // npc1고유값.
+int npc_1 = 5; // npc1고유값.
 int enTrance = 3;
 
 
 
 
+int x_npc=5;
+int y_npc=5;
 
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
@@ -120,7 +133,7 @@ int main(void)
 
 	oBject player; //플레이어 정의
 	player.name = "player";
-	player.attack = 10;
+	player.attack = 20;
 	player.crono = 500;
 	player.level = 1;
 	player.exp = 0;
@@ -149,20 +162,37 @@ int main(void)
 
 	int key = 0; // 플레이어 이동 변수 
 
-	int a = 1; //플레이어 시작 위치
-	int b = 1; //플레이어 시작 위치
+	int y_p = 1; //플레이어 시작 위치
+	int x_p = 1; //플레이어 시작 위치
 
-	int t = 10; // 맵 가로 길이
-	int g = 10; // 맵 세로 길이
+
 
 	map_arr_loCation_level_1[8][8] = enTrance;
 	map_arr_loCation_level_2[8][8] = enTrance;
 	map_arr_loCation_level_3[8][8] = enTrance;
-	map_arr_loCation_level_1[12][12] = enTrance;
-	map_arr_loCation_level_1[12][12] = enTrance;
+	map_arr_loCation_level_4[12][12] = enTrance;
+	map_arr_loCation_level_5[12][12] = enTrance;
 
 
-	creaTor_great_Wall(t, g); 
+
+	map_arr_loCation_level_2[5][5]= npc_1;
+
+
+	creaTor_great_Wall_1(map_arr_loCation_level_1,t_1, g_1);
+	creaTor_great_Wall_1(map_arr_loCation_level_2,t_1, g_1);
+	creaTor_great_Wall_1(map_arr_loCation_level_3,t_1, g_1);
+	creaTor_great_Wall_2(map_arr_loCation_level_4, t_1, g_2);
+	creaTor_great_Wall_2(map_arr_loCation_level_5, t_1, g_2);
+
+	
+
+
+
+
+
+
+
+
 	while (game == 0)
 	{
 		printf("\n\n\n.");
@@ -188,7 +218,7 @@ int main(void)
 		case 0:
 		{
 			system("cls");
-			printf("\n\n\n  Welcome to my Labyrinth. . .");
+			printf("\n\n\n Welcome to my Labyrinth. . .");
 			Sleep(2500);
 			system("cls");
 			printf("\n\n\n -프롤로그를 보시겠습니까?-");
@@ -260,8 +290,8 @@ int main(void)
 	{
 		while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  몬스터 소환 좌표 설정 0일때까지 and 캐릭터 옆이 아닐때까지.
 		{
-			x_mon = rand() % (t - 3) + 2; // 2,3,4,5,6,7,8,9
-			y_mon = rand() % (g - 3) + 2; // 2,3,4,5,6,7,8,9
+			x_mon = rand() % (t_1 - 3) + 2; // 2,3,4,5,6,7,8,9
+			y_mon = rand() % (g_1 - 3) + 2; // 2,3,4,5,6,7,8,9
 		}
 	}
 
@@ -287,7 +317,7 @@ int main(void)
 				printQuestion_level_2();
 				if (map_arr_loCation_level_2[8][8] == Player)
 				{
-					dengeon_level = 2;
+					dengeon_level = 3;
 				}
 			}
 
@@ -297,7 +327,7 @@ int main(void)
 				printQuestion_level_3();
 				if (map_arr_loCation_level_3[8][8] == Player)
 				{
-					dengeon_level = 2;
+					dengeon_level = 4;
 				}
 			}
 			if (dengeon_level == 4)
@@ -306,7 +336,7 @@ int main(void)
 				printQuestion_level_4();
 				if (map_arr_loCation_level_4[12][12] == Player)
 				{
-					dengeon_level = 2;
+					dengeon_level = 5;
 				}
 			}
 
@@ -316,66 +346,113 @@ int main(void)
 				printQuestion_level_5();
 				if (map_arr_loCation_level_5[12][12] == Player)
 				{
-					dengeon_level = 2;
+					dengeon_level = 9;
 				}
 			}
 
 
 
-
-			move_player(a, b); // 캐릭터 현 좌표 함수.
-			move_monster(y_mon, x_mon); // 몬스터 현 좌표.
-			if (kbhit())
+			if (dengeon_level == 1) 
 			{
-
-				key = _getch();
-				bef_move_player(a, b); // 이전 플레이어의 위치에 있는 1을 지워줌. 
-				switch (key)
+				move_player_1(map_arr_loCation_level_1,y_p, x_p); // 캐릭터 현 좌표 함수.
+				move_monster_1(map_arr_loCation_level_1, y_mon, x_mon); // 몬스터 현 좌표.
+				if (kbhit())
 				{
-				case 72:
-					if (map_arr_loCation_level_1[a - 1][b] == 0 ||
-						map_arr_loCation_level_1[a - 1][b] == 3 ) //가고자하는 자리가 0일때만 가능.
-						a--;
-					break;
-				case 75:
-					if (map_arr_loCation_level_1[a][b - 1] == 0 ||
-						map_arr_loCation_level_1[a][b - 1] == 3 )
-						b--;
-					break;
-				case 77:
-					if (map_arr_loCation_level_1[a][b + 1] == 0 ||
-						map_arr_loCation_level_1[a][b + 1] == 3 )
-						b++;
-					break;
-				case 80:
-					if (map_arr_loCation_level_1[a + 1][b] == 0 ||
-						map_arr_loCation_level_1[a + 1][b] == 3 )
-						a++;
-					break;
-				default:
-					break;
+
+					key = _getch();
+					bef_move_player_1(map_arr_loCation_level_1,y_p, x_p); // 이전 플레이어의 위치에 있는 1을 지워줌. 
+					switch (key)
+					{
+					case 72:
+						if (map_arr_loCation_level_1[y_p - 1][x_p] == 0 ||
+							map_arr_loCation_level_1[y_p - 1][x_p] == 3) //가고자하는 자리가 0일때만 가능.
+							y_p--;
+						break;
+					case 75:
+						if (map_arr_loCation_level_1[y_p][x_p - 1] == 0 ||
+							map_arr_loCation_level_1[y_p][x_p - 1] == 3)
+							x_p--;
+						break;
+					case 77:
+						if (map_arr_loCation_level_1[y_p][x_p + 1] == 0 ||
+							map_arr_loCation_level_1[y_p][x_p + 1] == 3)
+							x_p++;
+						break;
+					case 80:
+						if (map_arr_loCation_level_1[y_p + 1][x_p] == 0 ||
+							map_arr_loCation_level_1[y_p + 1][x_p] == 3)
+							y_p++;
+						break;
+					default:
+						break;
+					}
+
 				}
 
-			}
-			if (monster1_life == 1)
-			{
-				monster1_move_system(map_arr_loCation_level_1,y_mon,x_mon);
-			}
-
-
-			if (monster1_life == 1)
-			{
-				if (b == x_mon && a == y_mon + 1 ||
-					b == x_mon + 1 && a == y_mon ||
-					b == x_mon - 1 && a == y_mon ||
-					b == x_mon && a == y_mon - 1)
+				if (monster1_life == 1)
 				{
-					situation_num = 2;
-					Sleep(1000);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				}
+					monster1_move_system_1(map_arr_loCation_level_1, y_mon, x_mon);
+					if (x_p == x_mon && y_p == y_mon + 1 ||
+						x_p == x_mon + 1 && y_p == y_mon ||
+						x_p == x_mon - 1 && y_p == y_mon ||
+						x_p == x_mon && y_p == y_mon - 1)
+					{
+						situation_num = 2;
+						Sleep(1000);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					}
 
+				}
+				else
+					bef_move_monster(y_mon, x_mon);
 			}
+			if(dengeon_level==2)
+			{
+				x_p = 2;
+				y_p = 2;
+				move_player_1(map_arr_loCation_level_2, y_p, x_p); // 캐릭터 현 좌표 함수.
+				//move_monster_1(map_arr_loCation_level_2, y_mon, x_mon); // 몬스터 현 좌표.
+				if (kbhit())
+				{
+
+					key = _getch();
+					bef_move_player_1(map_arr_loCation_level_2, y_p, x_p); // 이전 플레이어의 위치에 있는 1을 지워줌. 
+					switch (key)
+					{
+					case 72:
+						if (map_arr_loCation_level_2[y_p - 1][x_p] == 0 ||
+							map_arr_loCation_level_2[y_p - 1][x_p] == 3) //가고자하는 자리가 0일때만 가능.
+							y_p--;
+						break;
+					case 75:
+						if (map_arr_loCation_level_2[y_p][x_p - 1] == 0 ||
+							map_arr_loCation_level_2[y_p][x_p - 1] == 3)
+							x_p--;
+						break;
+					case 77:
+						if (map_arr_loCation_level_2[y_p][x_p + 1] == 0 ||
+							map_arr_loCation_level_2[y_p][x_p + 1] == 3)
+							x_p++;
+						break;
+					case 80:
+						if (map_arr_loCation_level_2[y_p + 1][x_p] == 0 ||
+							map_arr_loCation_level_2[y_p + 1][x_p] == 3)
+							y_p++;
+						break;
+					default:
+						break;
+					}
+				}
+				if (x_p == x_npc && y_p == y_npc + 1 ||
+					x_p == x_npc + 1 && y_p == y_npc ||
+					x_p == x_npc - 1 && y_p == y_npc ||
+					x_p == x_npc && y_p == y_npc - 1)
+				{
+					situation_num = 4;
+				}
+			}
+
+
 
 		}
 		if (situation_num == 2) // 전투시작연출
@@ -530,7 +607,7 @@ int main(void)
 					Sleep(500);
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(500);
-					printf("%s는 힘을 다하였다...", a);
+					printf("%s는 힘을 다하였다...", player.name);
 					Sleep(1000);
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
@@ -783,6 +860,20 @@ int main(void)
 
 		}
 
+		if (situation_num == 4)
+		{
+			system("cls");
+			Sleep(1000);
+			printf("\n\n신비한 초록색 빛을 띄는 오래된 석상이 앞에 있다...\n");
+			Sleep(1500);
+			printf("\n공물함같이 보이는 상자가 있다.\n");
+			Sleep(1000);
+			printf("크로노를 넣으면 무슨 일이 일어날 것 같다.\n");
+			Sleep(1500);
+			npc1draw();
+		}
+
+
 
 		if (rage == 1)
 		{
@@ -798,17 +889,30 @@ int main(void)
 		system("cls");
 
 	}
+
 	return 0;
 }
 ////////////////////////////////////                             ///////////////////////////////////////////////////////                        ///////////////////////
 
-	void move_player(int x, int y)
+void move_player_1(char arr[][10],int x, int y)
 {
-	map_arr_loCation_level_1[x][y] = Player;
+	arr[x][y] = Player;
 }
-void bef_move_player(int x, int y)
+
+void move_player_2(char arr[][15], int x, int y)
 {
-	map_arr_loCation_level_1[x][y] = 0;
+	arr[x][y] = Player;
+}
+
+
+void bef_move_player_1(char arr[][10],int x, int y)
+{
+	arr[x][y] = 0;
+}
+
+void bef_move_player_2(char arr[][15], int x, int y)
+{
+	arr[x][y] = 0;
 }
 
 void printQuestion_level_1()//맵 출력
@@ -887,23 +991,44 @@ void printQuestion_level_5()//맵 출력
 }
 
 
-void creaTor_great_Wall(int a,int b) // 벽만들기
+void creaTor_great_Wall_1(char arr[][10],int a,int b) // 벽만들기
 {
 	for (int i = 0; i < a; i++)
 	{
-		map_arr_loCation_level_1[0][i] = 9; // 0,0 0,1 .... 0,i
-		map_arr_loCation_level_1[a-1][i] = 9; // 5,0, 5,1... 5,i
+		arr[0][i] = 9; // 0,0 0,1 .... 0,i
+		arr[a-1][i] = 9; // 5,0, 5,1... 5,i
 	}
 	for (int j = 1; j < b; j++)
 	{
-		map_arr_loCation_level_1[j][a-1] = 9;
-		map_arr_loCation_level_1[j][0] = 9;
+		arr[j][a-1] = 9;
+		arr[j][0] = 9;
 	}
 }
 
-void move_monster(int x, int y) // 몬스터 위치 동기화
+void creaTor_great_Wall_2(char arr[][15],int a, int b) // 벽만들기
 {
-	map_arr_loCation_level_1[y_mon][x_mon] = monster1;
+	for (int i = 0; i < a; i++)
+	{
+		map_arr_loCation_level_2[0][i] = 9; // 0,0 0,1 .... 0,i
+		map_arr_loCation_level_2[a - 1][i] = 9; // 5,0, 5,1... 5,i
+	}
+	for (int j = 1; j < b; j++)
+	{
+		map_arr_loCation_level_2[j][a - 1] = 9;
+		map_arr_loCation_level_2[j][0] = 9;
+	}
+}
+
+
+
+void move_monster_1(char arr[][10],int x, int y) // 몬스터 위치 동기화
+{
+	arr[x][y] = monster1;
+}
+
+void move_monster_2(char arr[][15], int x, int y) // 몬스터 위치 동기화
+{
+	arr[x][y] = monster1;
 }
 
 void bef_move_monster(int x, int y)
@@ -1021,9 +1146,6 @@ int proLogueDraw() {
 		}
 	}
 }
-
-
-
 
 int menuDraw() {
 	int x = 3;
@@ -1152,6 +1274,56 @@ int skillmenuDraw()
 	}
 }
 
+int npc1draw() {
+	int x = 3;
+	int y = 5;
+	gotoxy(x, y);
+	printf("공격");
+	gotoxy(x, y + 1);
+	printf("방어");
+	gotoxy(x, y + 2);
+	printf("스킬");
+	gotoxy(x, y + 3);
+	printf("아이템");
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 5) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 8)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 5;
+			break;
+		}
+
+
+		}
+	}
+}
+
+
+
 
 void gotoxy(int x, int y)
 {
@@ -1194,14 +1366,14 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 	return t; // 공격력에 t를 추가한다.
 }
 
-void monster1_move_system(int arr[][10], int y, int x) {
+void monster1_move_system_1(char arr[][10],int y, int x) {
 	if (kbhit())
 	{
 		int dirM1 = rand() % 4;
 		switch (dirM1) // 몬스터 비전투패턴
 		{
 		case 0:
-			if (map_arr_loCation_level_1[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			if (arr[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
 			{
 				y_mon--;
 				bef_move_monster(y_mon + 1, x_mon);
@@ -1209,21 +1381,21 @@ void monster1_move_system(int arr[][10], int y, int x) {
 
 			break;
 		case 1:
-			if (map_arr_loCation_level_1[y_mon][x_mon - 1] == 0)
+			if (arr[y_mon][x_mon - 1] == 0)
 			{
 				x_mon--;
 				bef_move_monster(y_mon, x_mon + 1);
 			}
 			break;
 		case 2:
-			if (map_arr_loCation_level_1[y_mon][x_mon + 1] == 0)
+			if (arr[y_mon][x_mon + 1] == 0)
 			{
 				x_mon++;
 				bef_move_monster(y_mon, x_mon - 1);
 			}
 			break;
 		case 3:
-			if (map_arr_loCation_level_1[y_mon + 1][x_mon] == 0)
+			if (arr[y_mon + 1][x_mon] == 0)
 			{
 				y_mon++;
 				bef_move_monster(y_mon - 1, x_mon);
