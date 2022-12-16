@@ -1088,7 +1088,7 @@ void creaTor_great_Wall_2(char arr[][15],int a, int b) // 벽만들기
 	{
 		arr[0][i] = 9; // 0,0 0,1 .... 0,i
 		arr[a - 1][i] = 9; // 5,0, 5,1... 5,i
-	}
+	} 
 	for (int j = 1; j < b; j++)
 	{
 		arr[j][a - 1] = 9;
