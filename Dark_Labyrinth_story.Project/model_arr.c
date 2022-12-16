@@ -972,6 +972,7 @@ int main(void)
 		{
 			printf("     <신성한 녹색 석상>\n");
 			printf("\n");
+			Sleep(1000);
 			printf("   연속 찌르기 Lv.%d\n   신성한 회복 Lv.%d\n   용사의 분노 Lv.%d\n",stab_lv,heal_lv,rage_lv);
 			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 			printf("내 크로노 : %d", player.crono);
@@ -992,7 +993,10 @@ int main(void)
 					if (player.crono >= cost_stab)
 					{
 						player.crono -= cost_stab;
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+						Sleep(1500);
 						printf("\n\n\n  연속 찌르기의 레벨이 상승했습니다.");
+						Sleep(1500);
 						if (stab_lv == 1) {
 							cost_stab = 200;
 							stab_lv++;
@@ -1006,14 +1010,20 @@ int main(void)
 						situation_num = 1;
 					}
 					else
+					{
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+						Sleep(1000);
 						printf("\n\n크로노가 부족합니다.");
-					break;
+						Sleep(1000);
+						break;
+					}
 				}
 				case 1:
 				{
 					break;
 				}
 				}	
+				break;
 			}
 			case 1:
 			{
@@ -1043,9 +1053,13 @@ int main(void)
 						npc1_life = 0;
 						situation_num = 1;
 					}
-					else
+					else {
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+						Sleep(1000);
 						printf("\n\n크로노가 부족합니다.");
-					break;
+						Sleep(1000);
+						break;
+					}
 				}
 				case 1:
 				{
@@ -1079,10 +1093,15 @@ int main(void)
 						}
 						npc1_life = 0;
 						situation_num = 1;
+						break;
 					}
-					else
+					else {
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+						Sleep(1000);
 						printf("\n\n크로노가 부족합니다.");
-					break;
+						Sleep(1000);
+						break;
+					}
 
 				}
 				case 1:
@@ -1097,7 +1116,7 @@ int main(void)
 			}
 			default:
 			{
-				break;
+				situation_num = 1;
 			}
 			}//sw_ed
 		}
