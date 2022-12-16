@@ -181,8 +181,8 @@ int main(void)
 	creaTor_great_Wall_1(map_arr_loCation_level_1,t_1, g_1);
 	creaTor_great_Wall_1(map_arr_loCation_level_2,t_1, g_1);
 	creaTor_great_Wall_1(map_arr_loCation_level_3,t_1, g_1);
-	creaTor_great_Wall_2(map_arr_loCation_level_4, t_1, g_2);
-	creaTor_great_Wall_2(map_arr_loCation_level_5, t_1, g_2);
+	creaTor_great_Wall_2(map_arr_loCation_level_4, t_2, g_2);
+	creaTor_great_Wall_2(map_arr_loCation_level_5, t_2, g_2);
 
 	
 
@@ -1086,13 +1086,13 @@ void creaTor_great_Wall_2(char arr[][15],int a, int b) // 벽만들기
 {
 	for (int i = 0; i < a; i++)
 	{
-		map_arr_loCation_level_2[0][i] = 9; // 0,0 0,1 .... 0,i
-		map_arr_loCation_level_2[a - 1][i] = 9; // 5,0, 5,1... 5,i
+		arr[0][i] = 9; // 0,0 0,1 .... 0,i
+		arr[a - 1][i] = 9; // 5,0, 5,1... 5,i
 	}
 	for (int j = 1; j < b; j++)
 	{
-		map_arr_loCation_level_2[j][a - 1] = 9;
-		map_arr_loCation_level_2[j][0] = 9;
+		arr[j][a - 1] = 9;
+		arr[j][0] = 9;
 	}
 }
 
