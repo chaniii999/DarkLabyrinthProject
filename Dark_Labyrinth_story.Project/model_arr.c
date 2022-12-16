@@ -27,6 +27,7 @@ int proLogueDraw(); //프롤로그 선택함수.
 int menuDraw(); // 메뉴 선택지함수
 int skillmenuDraw(); // 스킬 선택지 함수
 int npc1draw();
+int yesnodraw();
 //int itemDraw();//아이템 선택함수
 
 int select_num = 0; //전투상황 선택지 초기화
@@ -36,6 +37,16 @@ int select_num = 0; //전투상황 선택지 초기화
 int dengeon_level = 1;
 
 int situation_num = 1; //시츄에이션 넘버
+
+//강화관련
+int ganghwa_sit = 0; //강화창
+
+int cost_stab = 50;
+int cost_rage = 150;
+int cost_heal = 100;
+
+
+
 
 char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
 char map_arr_loCation_level_2[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
@@ -78,7 +89,7 @@ int monster1 = 4; //몬스터1 고유값
 int npc_1 = 5; // npc1고유값.
 int enTrance = 3;
 
-
+int stonColor[4] = { "녹색","빨강색","노란색" }; //스킬강화 힐,연속찌르기,버프
 
 
 int x_npc=5;
@@ -87,10 +98,14 @@ int y_npc=5;
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
 
-int monster1_life = 0; // 몬스터가 살아있는지 여부
-
+int monster1_life = 1; // 몬스터가 살아있는지 여부
+int npc1_life = 1;
 
 //전투함수
+int stab_lv = 1;
+int rage_lv = 1;
+int heal_lv = 1;
+
 int turn = 0;
 int cnt_turn_stab = -3;
 int cnt_turn_rage = -5;
@@ -157,6 +172,7 @@ int main(void)
 	npc1.exp = 4;
 	
 
+
 	int cnt_monster1_life = monster1.life;
 	int cnt_player_life = player.life;
 
@@ -174,8 +190,9 @@ int main(void)
 	map_arr_loCation_level_5[12][12] = enTrance;
 
 
-
-	map_arr_loCation_level_2[5][5]= npc_1;
+	if (npc1_life == 1) {
+		map_arr_loCation_level_2[5][5] = npc_1;
+	}
 
 
 	creaTor_great_Wall_1(map_arr_loCation_level_1,t_1, g_1);
@@ -773,7 +790,7 @@ int main(void)
 							x_mon = 15;
 							bef_move_monster(y_mon, x_mon);
 							system("cls");
-							monster1_life;
+							monster1_life=0;
 							situation_num = 1;
 							break;
 
@@ -941,16 +958,154 @@ int main(void)
 		{
 			system("cls");
 			Sleep(1000);
-			printf("\n\n신비한 초록색 빛을 띄는 오래된 석상이 앞에 있다...\n");
+			printf("\n\n신비한 녹색 빛을 띄는 오래된 석상이 앞에 있다...\n");
 			Sleep(1500);
 			printf("\n공물함같이 보이는 상자가 있다.\n");
 			Sleep(1000);
-			printf("크로노를 넣으면 무슨 일이 일어날 것 같다.\n");
+			printf("\n크로노를 바치면 무슨 일이 일어날 것 같다.\n");
 			Sleep(1500);
-			npc1draw();
+			system("cls");
+			situation_num = 5;
 		}
 
+		if (situation_num == 5)
+		{
+			printf("     <신성한 녹색 석상>\n");
+			printf("\n");
+			printf("   연속 찌르기 Lv.%d\n   신성한 회복 Lv.%d\n   용사의 분노 Lv.%d\n",stab_lv,heal_lv,rage_lv);
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+			printf("내 크로노 : %d", player.crono);
+			switch (npc1draw())
+			{
+			case 0:
+			{
+				system("cls");
+				Sleep(1000);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+				Sleep(1500);
+				printf("%d크로노가 필요합니다.\n 연속 찌르기를 강화하시겠습니까?",cost_stab);
+				switch (yesnodraw())
+				{
+				case 0:
+				{
+					system("cls");
+					if (player.crono >= cost_stab)
+					{
+						player.crono -= cost_stab;
+						printf("\n\n\n  연속 찌르기의 레벨이 상승했습니다.");
+						if (stab_lv == 1) {
+							cost_stab = 200;
+							stab_lv++;
+						}
+						if (stab_lv == 2)
+						{
+							cost_stab = 350;
+							stab_lv++;
+						}
+						npc1_life = 0;
+						situation_num = 1;
+					}
+					else
+						printf("\n\n크로노가 부족합니다.");
+					break;
+				}
+				case 1:
+				{
+					break;
+				}
+				}	
+			}
+			case 1:
+			{
+				system("cls");
+				Sleep(1000);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+				Sleep(1500);
+				printf("%d크로노가 필요합니다.\n 신성한 회복을 강화하시겠습니까?\n",cost_heal);
+				switch (yesnodraw())
+				{
+				case 0:
+				{
+					system("cls");
+					if (player.crono >= cost_heal) {
+						player.crono -= cost_heal;
+						printf("\n\n\n  신성한 회복의 레벨이 상승했습니다.");
+						if (heal_lv == 1) 
+						{
+							cost_heal = 250;
+							heal_lv++;
+						}
+						if (heal_lv == 2)
+						{
+							cost_heal = 300;
+							heal_lv++;
+						}
+						npc1_life = 0;
+						situation_num = 1;
+					}
+					else
+						printf("\n\n크로노가 부족합니다.");
+					break;
+				}
+				case 1:
+				{
+					break;
+				}
+				}
+			}
+			case 2:
+			{
+				system("cls");
+				Sleep(1000);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+				Sleep(1500);
+				printf("%d크로노가 필요합니다. 강화하시겠습니까?", cost_rage);
+				switch (yesnodraw())
+				{
+				case 0:
+				{
+					system("cls");
+					if (player.crono >= cost_rage)
+					{
+						player.crono -= cost_rage;
+						printf("\n\n\n  용사의 분노의 레벨이 상승했습니다.");
+						if (rage_lv == 1) {
+							cost_rage = 300;
+							rage_lv++;
+						}
+						if (rage_lv == 2) {
+							cost_rage = 500;
+							rage_lv++;
+						}
+						npc1_life = 0;
+						situation_num = 1;
+					}
+					else
+						printf("\n\n크로노가 부족합니다.");
+					break;
 
+				}
+				case 1:
+				{
+					break;
+				}
+				}
+			}
+			case 3:
+			{
+				break;
+			}
+			default:
+			{
+				break;
+			}
+			}//sw_ed
+		}
+
+		if (situation_num == 6)
+		{
+
+		}
 
 		if (rage == 1)
 		{
@@ -1280,37 +1435,37 @@ int skillmenuDraw()
 	{
 		gotoxy(x, y);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-연속 찌르기(Lv.1)-\n"); //[70 % 의 공격력으로 2~3번 찌른다.\n]
+		printf("-연속 찌르기(Lv.%d)-\n",stab_lv); //[70 % 의 공격력으로 2~3번 찌른다.\n]
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
 	{
 		gotoxy(x, y);
-		printf("-연속 찌르기(Lv.1)-\n"); //[70 % 의 공격력으로 2~3번 찌른다.\n]
+		printf("-연속 찌르기(Lv.%d)-\n",stab_lv); //[70/80/100 % 의 공격력으로 2~3번 찌른다.\n]
 	}
 	if (turn < cnt_turn_heal + 3)
 	{
 		gotoxy(x, y + 1);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-신성한 회복(Lv.1)-\n");//[공격력의 70 % 의 수치로 체력을 회복한다.]
+		printf("-신성한 회복(Lv.%d)-\n",heal_lv);//[공격력의 40/60/80 % 의 수치로 체력을 회복한다.]
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
 	{
 		gotoxy(x, y + 1);
-		printf("-신성한 회복(Lv.1)-\n");//[공격력의 70 % 의 수치로 체력을 회복한다.]
+		printf("-신성한 회복(Lv.%d)-\n",heal_lv);//[공격력의 70 % 의 수치로 체력을 회복한다.]
 	}
 	if (rage == 1 || (rage == 0 && turn < cnt_turn_rage + 5)) // 현재 버프중이거나 쿨타임이 안돌았을떄.
 	{
 		gotoxy(x, y + 2);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-용사의 분노(Lv.1)-\n");
+		printf("-용사의 분노(Lv.%d)-\n",rage_lv);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else if (rage == 0) //[3턴간 공격력이 30 % 증가한다.]
 	{
 		gotoxy(x, y + 2);
-		printf("-용사의 분노(Lv.1)-\n");
+		printf("-용사의 분노(Lv.%d)-\n",rage_lv);
 	}
 	gotoxy(x, y + 3);
 	printf("-돌아간다-");
@@ -1353,15 +1508,13 @@ int skillmenuDraw()
 
 int npc1draw() {
 	int x = 3;
-	int y = 5;
+	int y = 8;
 	gotoxy(x, y);
-	printf("공격");
-	gotoxy(x, y + 1);
-	printf("방어");
-	gotoxy(x, y + 2);
-	printf("스킬");
-	gotoxy(x, y + 3);
-	printf("아이템");
+	printf("연속 찌르기 강화");
+	gotoxy(x, y+1);
+	printf("신성한 회복 강화");
+	gotoxy(x, y+2);
+	printf("용사의 분노 강화");
 	while (1)
 	{
 		int n = keyControl();
@@ -1369,7 +1522,7 @@ int npc1draw() {
 		{
 		case UP:
 		{
-			if (y > 5) {
+			if (y > 8) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -1379,7 +1532,7 @@ int npc1draw() {
 		}
 		case DOWN:
 		{
-			if (y < 8)
+			if (y < 10)
 			{
 				gotoxy(x - 2, y);
 				printf(" ");
@@ -1390,7 +1543,7 @@ int npc1draw() {
 		}
 		case SUBMIT:
 		{
-			return y - 5;
+			return y - 8;
 			break;
 		}
 
@@ -1399,6 +1552,50 @@ int npc1draw() {
 	}
 }
 
+int yesnodraw() {
+	int x = 3;
+	int y = 8;
+	gotoxy(x, y);
+	printf("강화한다.");
+	gotoxy(x, y + 1);
+	printf("하지 않는다.");
+
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 8) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 9)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 8;
+			break;
+		}
+
+
+		}
+	}
+}
 
 
 
@@ -1426,20 +1623,47 @@ int attacked_monster(int x, int y)
 int skill_several_stab(int a)
 {
 	int temp = rand() % 2 + 2; //난수
-	int dem = temp * (a * 0.8);
+	int dem;
+	if (stab_lv == 1) {
+		dem = temp * (a * 0.8);
+	}
+	if (stab_lv == 2) {
+		dem = temp * (a * 1);
+	}
+	if (stab_lv == 3) {
+		dem = temp * (a * 1.2);
+	}
 	return dem;
 }
 
 int skill_holy_Heal(int x, int y) // 용사 체력,용사 공격력
 {
-	int t = y * (0.8);
+	int t;
+	if (heal_lv == 1) {
+		t = y * (0.4);
+	}
+	if (heal_lv == 2) {
+		t = y * (0.6);
+	}
+	if (heal_lv == 3) {
+		t = y * (0.8);
+	}
 	x += t;
 	return t;
 }
 
 int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 {
-	int t = x * (0.3); // t(추가 공격력) = 공격력 * 0.3 이다.
+	int t;
+	if (rage_lv==1) {
+		t = x * (0.3); // t(추가 공격력) = 공격력 * 0.3 이다.
+	}
+	if (rage_lv==2) {
+		t = x * (0.5); 
+	}	
+	if (rage_lv==3) {
+		t = x * (0.7); 
+	}
 	return t; // 공격력에 t를 추가한다.
 }
 
