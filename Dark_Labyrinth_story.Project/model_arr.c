@@ -35,7 +35,7 @@ void gotoxy(int x, int y);
 
 // 초기 함수
 
-int game = 0; // 타이틀은 0 게임시작은 1
+int game = 1; // 타이틀은 0 게임시작은 1
 
 // 메뉴함수
 int titleDraw(); // 시작화면 함수.
@@ -206,6 +206,8 @@ int main(void)
 	if (npc1_life == 1) {
 		map_arr_loCation_level_2[5][5] = npc_1;
 	}
+
+		
 
 
 	creaTor_great_Wall_1(map_arr_loCation_level_1,t_1, g_1);
@@ -1054,35 +1056,43 @@ int main(void)
 				Sleep(1000);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 				Sleep(1500);
-				printf("%d크로노가 필요합니다.\n 신성한 회복을 강화하시겠습니까?\n",cost_heal);
+				printf("%d크로노가 필요합니다.\n\n신성한 회복을 강화하시겠습니까?\n", cost_heal);
 				switch (yesnodraw())
 				{
 				case 0:
 				{
 					system("cls");
-					if (player.crono >= cost_heal) {
+					if (player.crono >= cost_heal)
+					{
 						player.crono -= cost_heal;
-						heal_lv++;
+
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+						Sleep(1500);
 						printf("\n\n\n  신성한 회복의 레벨이 상승했습니다.");
-						if (heal_lv == 2) 
+						Sleep(1500);
+						if (heal_lv == 1) // 50.
 						{
-							cost_heal = 250;
+							heal_lv++;
+							cost_heal = 200;
+						}
+						else if (heal_lv == 2) {
+							cost_heal = 350;
 							heal_lv++;
 						}
 						else if (heal_lv == 3)
 						{
-							cost_heal = 300;
+							cost_heal = 550;
 							heal_lv++;
 						}
 						else if (heal_lv == 4)
 						{
-							cost_heal = 300;
+							cost_heal = 800;
 							heal_lv++;
 						}
 						break;
-
 					}
-					else {
+					else
+					{
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 						Sleep(1000);
 						printf("\n\n크로노가 부족합니다.");
@@ -1095,6 +1105,7 @@ int main(void)
 					break;
 				}
 				}
+				break;
 			}
 			case 2:
 			{
@@ -1102,7 +1113,7 @@ int main(void)
 				Sleep(1000);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 				Sleep(1500);
-				printf("%d크로노가 필요합니다. 강화하시겠습니까?", cost_rage);
+				printf("%d크로노가 필요합니다.\n\n용사의 분노를 강화하시겠습니까?\n", cost_rage);
 				switch (yesnodraw())
 				{
 				case 0:
@@ -1111,44 +1122,58 @@ int main(void)
 					if (player.crono >= cost_rage)
 					{
 						player.crono -= cost_rage;
-						rage_lv++;
+
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+						Sleep(1500);
 						printf("\n\n\n  용사의 분노의 레벨이 상승했습니다.");
-						if (rage_lv == 2) {
-							cost_rage = 300;
+						Sleep(1500);
+						if (rage_lv == 1) // 50.
+						{
+							rage_lv++;
+							cost_rage = 200;
+						}
+						else if (rage_lv == 2) {
+							cost_rage = 350;
 							rage_lv++;
 						}
-						else if (rage_lv == 3) {
-							cost_rage = 500;
+						else if (rage_lv == 3)
+						{
+							cost_rage = 550;
 							rage_lv++;
 						}
-						else if (rage_lv == 4) {
-							cost_rage = 500;
+						else if (rage_lv == 4)
+						{
+							cost_rage = 800;
 							rage_lv++;
 						}
 						break;
 					}
-					else {
+					else
+					{
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 						Sleep(1000);
 						printf("\n\n크로노가 부족합니다.");
 						Sleep(1000);
 						break;
 					}
-
 				}
 				case 1:
 				{
 					break;
 				}
 				}
+				break;
 			}
 			case 3: // 돌아간다.
 			{
+				map_arr_loCation_level_2[5][5] = 0;
+				npc1_life = 0;
 				situation_num = 1;
-				break;
 			}
 			default:
 			{
+				map_arr_loCation_level_2[5][5] = 0;
+				npc1_life = 0;
 				situation_num = 1;
 			}
 			}//sw_ed
@@ -1783,6 +1808,12 @@ int skill_holy_Heal(int x, int y) // 용사 체력,용사 공격력
 	else if (heal_lv == 3) {
 		t = y * (0.8);
 	}
+	else if (heal_lv == 4) {
+		t = y * (1);
+	}
+	else if (heal_lv == 5) {
+		t = y * (1.3);
+	}
 	x += t;
 	return t;
 }
@@ -1791,13 +1822,19 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 {
 	int t;
 	if (rage_lv==1) {
-		t = x * (0.3); // t(추가 공격력) = 공격력 * 0.3 이다.
+		t = x * (0.2); // t(추가 공격력) = 공격력 * 0.3 이다.
 	}
-	if (rage_lv==2) {
-		t = x * (0.5); 
+	else if (rage_lv==2) {
+		t = x * (0.3); 
 	}	
-	if (rage_lv==3) {
-		t = x * (0.7); 
+	else if (rage_lv==3) {
+		t = x * (0.5); 
+	}
+	else if (rage_lv == 4) {
+		t = x * (0.8);
+	}
+	else if (rage_lv == 5) {
+		t = x * (1.2);
 	}
 	return t; // 공격력에 t를 추가한다.
 }
