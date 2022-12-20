@@ -1,55 +1,61 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <string.h>
 #include <Windows.h>
 #include <time.h>
 #include <stdlib.h>
-// ¸ÊÀ» ±¸¼ºÇÏ´Â ´ÙÂ÷¿ø ¹è¿­ ÇÔ¼ö¸¦ ¸¸µéÀÚ.
-// ÁÂÇ¥¸¦ Á¤ÀÇÇÏ´Â ÁÂÇ¥ ¹è¿­°ú , ½ÇÁúÀûÀÎ À§Ä¡¿¡ ÇØ´çÇÏ´Â À§Ä¡ ¹è¿­À» ¸¸µéÀÚ.
-// ÁÂÇ¥¹è¿­Àº int ·Î À§Ä¡ ¹è¿­Àº char ·Î ¼±¾ğÇÏÀÚ.
+#include <wchar.h>
+// ë§µì„ êµ¬ì„±í•˜ëŠ” ë‹¤ì°¨ì› ë°°ì—´ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì.
+// ì¢Œí‘œë¥¼ ì •ì˜í•˜ëŠ” ì¢Œí‘œ ë°°ì—´ê³¼ , ì‹¤ì§ˆì ì¸ ìœ„ì¹˜ì— í•´ë‹¹í•˜ëŠ” ìœ„ì¹˜ ë°°ì—´ì„ ë§Œë“¤ì.
+// ì¢Œí‘œë°°ì—´ì€ int ë¡œ ìœ„ì¹˜ ë°°ì—´ì€ char ë¡œ ì„ ì–¸í•˜ì.
 
-//Å°º¸µå °ª
+//í‚¤ë³´ë“œ ê°’
 #define UP 0
 #define DOWN 1
 #define LEFT 2
 #define RIGHT 3
-#define	SUBMIT 4 // ¼±ÅÃ (Enter Å°)
+#define	SUBMIT 4 // ì„ íƒ (Enter í‚¤)
 
 const char *specialChar()
 {
-	return "¡á";
+	return "â– ";
 }
 const char* specialChar2()
 {
-	return "¡à";
+	return "â–¡";
 }
+const char* specialChar3()
+{
+	return "ï¼†";
+}
+
 
 
 void gotoxy(int x, int y);
 
 
-// ÃÊ±â ÇÔ¼ö
+// ì´ˆê¸° í•¨ìˆ˜
 
-int game = 0; // Å¸ÀÌÆ²Àº 0 °ÔÀÓ½ÃÀÛÀº 1
+int game = 0; // íƒ€ì´í‹€ì€ 0 ê²Œì„ì‹œì‘ì€ 1
 
-// ¸Ş´ºÇÔ¼ö
-int titleDraw(); // ½ÃÀÛÈ­¸é ÇÔ¼ö.
-int proLogueDraw(); //ÇÁ·Ñ·Î±× ¼±ÅÃÇÔ¼ö.
-int menuDraw(); // ¸Ş´º ¼±ÅÃÁöÇÔ¼ö
-int skillmenuDraw(); // ½ºÅ³ ¼±ÅÃÁö ÇÔ¼ö
+// ë©”ë‰´í•¨ìˆ˜
+int titleDraw(); // ì‹œì‘í™”ë©´ í•¨ìˆ˜.
+int proLogueDraw(); //í”„ë¡¤ë¡œê·¸ ì„ íƒí•¨ìˆ˜.
+int menuDraw(); // ë©”ë‰´ ì„ íƒì§€í•¨ìˆ˜
+int skillmenuDraw(); // ìŠ¤í‚¬ ì„ íƒì§€ í•¨ìˆ˜
 int npc1draw();
 int yesnodraw();
-//int itemDraw();//¾ÆÀÌÅÛ ¼±ÅÃÇÔ¼ö
+//int itemDraw();//ì•„ì´í…œ ì„ íƒí•¨ìˆ˜
 
-int select_num = 0; //ÀüÅõ»óÈ² ¼±ÅÃÁö ÃÊ±âÈ­
+int select_num = 0; //ì „íˆ¬ìƒí™© ì„ íƒì§€ ì´ˆê¸°í™”
 
-//¸Ê °ü·ÃÇÔ¼ö
+//ë§µ ê´€ë ¨í•¨ìˆ˜
 
 int dengeon_level = 1;
 
-int situation_num = 1; //½ÃÃò¿¡ÀÌ¼Ç ³Ñ¹ö
+int situation_num = 1; //ì‹œì¸„ì—ì´ì…˜ ë„˜ë²„
 
-//°­È­°ü·Ã
-int ganghwa_sit = 0; //°­È­Ã¢
+//ê°•í™”ê´€ë ¨
+int ganghwa_sit = 0; //ê°•í™”ì°½
 
 int cost_stab = 50;
 int cost_rage = 150;
@@ -58,14 +64,14 @@ int cost_heal = 100;
 
 
 
-char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// À§Ä¡ÇÔ¼ö ¼±¾ğ.
-char map_arr_loCation_level_2[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// À§Ä¡ÇÔ¼ö ¼±¾ğ.
+char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// ìœ„ì¹˜í•¨ìˆ˜ ì„ ì–¸.
+char map_arr_loCation_level_2[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// ìœ„ì¹˜í•¨ìˆ˜ ì„ ì–¸.
 char map_arr_loCation_level_3[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };
 char map_arr_loCation_level_4[15][15];
 char map_arr_loCation_level_5[15][15];
 
-void printQuestion_level_1(); // ¸Ê Ãâ·Â
-void printQuestion_level_2(); // 2Ãş Ãâ·Â
+void printQuestion_level_1(); // ë§µ ì¶œë ¥
+void printQuestion_level_2(); // 2ì¸µ ì¶œë ¥
 void printQuestion_level_3();
 void printQuestion_level_4();
 void printQuestion_level_5();
@@ -73,45 +79,42 @@ void printQuestion_level_5();
 int keyControl();
 
 
-int t_1 = 10; // ¸Ê °¡·Î ±æÀÌ
-int g_1 = 10; // ¸Ê ¼¼·Î ±æÀÌ
+int t_1 = 10; // ë§µ ê°€ë¡œ ê¸¸ì´
+int g_1 = 10; // ë§µ ì„¸ë¡œ ê¸¸ì´
 int t_2 = 15;
 int g_2 = 15;
-void monster1_move_system_1(char arr[][10],int a, int b); // ¸ó½ºÅÍ ¹«ºê ³»Àå ÇÔ¼ö 1Ãş ¸ó½ºÅÍ1 
+void monster1_move_system_1(char arr[][10],int a, int b); // ëª¬ìŠ¤í„° ë¬´ë¸Œ ë‚´ì¥ í•¨ìˆ˜ 1ì¸µ ëª¬ìŠ¤í„°1 
 
 
 
-void move_player_1(char arr[][10],int x, int y); //ÇÃ·¹ÀÌ¾î ÁÂÇ¥
+void move_player_1(char arr[][10],int x, int y); //í”Œë ˆì´ì–´ ì¢Œí‘œ
 void move_player_2(char arr[][15],int x, int y);
-void bef_move_player_1(char arr[][10],int x, int y); //ÇÃ·¹ÀÌ¾î ÀÌÀü ÁÂÇ¥ ÃÊ±âÈ­
+void bef_move_player_1(char arr[][10],int x, int y); //í”Œë ˆì´ì–´ ì´ì „ ì¢Œí‘œ ì´ˆê¸°í™”
 void bef_move_player_2(char arr[][15], int x, int y);
 
-void move_monster_1(int x, int y); // ¸ó½ºÅÍÁÂÇ¥
-void move_monster_2(int x, int y);
-void bef_move_monster(int x, int y); //¸ó½ºÅÍ ÀÌÀü ÁÂÇ¥ ÃÊ±âÈ­
+void move_monster_1(char arr[][10], int x, int y); // ëª¬ìŠ¤í„°ì¢Œí‘œ
+void move_monster_2(char arr[][15], int x, int y);
+void bef_move_monster(int x, int y); //ëª¬ìŠ¤í„° ì´ì „ ì¢Œí‘œ ì´ˆê¸°í™”
 
 
-void creaTor_great_Wall_1(char arr[][10], int a, int b); //Å×µÎ¸® º® Á¦ÀÛ ÇÔ¼ö
-void creaTor_great_Wall_2(char arr[][15], int a, int b); //4~5Ãş ³»Àå º®
+void creaTor_great_Wall_1(char arr[][10], int a, int b); //í…Œë‘ë¦¬ ë²½ ì œì‘ í•¨ìˆ˜
+void creaTor_great_Wall_2(char arr[][15], int a, int b); //4~5ì¸µ ë‚´ì¥ ë²½
 
-int Player = 1; //ÇÃ·¹ÀÌ¾î °íÀ¯°ª
-int monster1 = 4; //¸ó½ºÅÍ1 °íÀ¯°ª
-int npc_1 = 5; // npc1°íÀ¯°ª.
+int Player = 1; //í”Œë ˆì´ì–´ ê³ ìœ ê°’
+int monster1 = 4; //ëª¬ìŠ¤í„°1 ê³ ìœ ê°’
+int npc_1 = 5; // npc1ê³ ìœ ê°’.
 int enTrance = 3;
-
-int stonColor[4] = { "³ì»ö","»¡°­»ö","³ë¶õ»ö" }; //½ºÅ³°­È­ Èú,¿¬¼ÓÂî¸£±â,¹öÇÁ
-
 
 int x_npc=5;
 int y_npc=5;
 
-int x_mon = 0; //¸ó½ºÅÍ ÁÂÇ¥°ª
+int x_mon = 0; //ëª¬ìŠ¤í„° ì¢Œí‘œê°’
 int y_mon = 0;
 
-int monster1_life = 1; // ¸ó½ºÅÍ°¡ »ì¾ÆÀÖ´ÂÁö ¿©ºÎ
+int monster1_life = 0; // ëª¬ìŠ¤í„°ê°€ ì‚´ì•„ìˆëŠ”ì§€ ì—¬ë¶€
 int npc1_life = 1;
 
-//ÀüÅõÇÔ¼ö
+//ì „íˆ¬í•¨ìˆ˜
 int stab_lv = 1;
 int rage_lv = 1;
 int heal_lv = 1;
@@ -121,15 +124,15 @@ int cnt_turn_stab = -3;
 int cnt_turn_rage = -5;
 int cnt_turn_heal = -3;
 
-int attack(int x, int y);  // °ø°İ ÇÔ¼ö
+int attack(int x, int y);  // ê³µê²© í•¨ìˆ˜
 
-int attacked_monster(int x, int y); //ÇÇ°İ ÇÔ¼ö
-
-
-char *item[20]; // ¹®ÀÚ¿­À» ¹è¿­¿¡ ³Ö±âÀ§ÇØ * ³ÖÀ½.
+int attacked_monster(int x, int y); //í”¼ê²© í•¨ìˆ˜
 
 
-//½ºÅ³ÇÔ¼ö
+char *item[20]; // ë¬¸ìì—´ì„ ë°°ì—´ì— ë„£ê¸°ìœ„í•´ * ë„£ìŒ.
+
+
+//ìŠ¤í‚¬í•¨ìˆ˜
 int skill_several_stab(int a);
 int skill_holy_Heal(int x, int y);
 int skill_rage(int x);
@@ -138,13 +141,13 @@ int rage = 0;
 
 typedef struct objecT
 {
-	char* name;// °³Ã¼¸í
-	int attack;// °ø°İ·Â
-	int life;  // »ı¸í·Â
-	int max_life;// ÃÖ´ë »ı¸í·Â
-	char* item[20];// ¾ÆÀÌÅÛÄ­. ¸¸¾à Ã¹Ä­¿¡ ¾ÆÀÌÅÛÀÌÀÖ´Ù¸é? for¹® »ç¿ëÇÏ¿© i++ ÇØ¼­ Àç½ÃµµÇÏ¿© ÀåÂø
-	int crono; //È­Æó
-	int exp; // °æÇèÄ¡
+	char* name;// ê°œì²´ëª…
+	int attack;// ê³µê²©ë ¥
+	int life;  // ìƒëª…ë ¥
+	int max_life;// ìµœëŒ€ ìƒëª…ë ¥
+	char* item[20];// ì•„ì´í…œì¹¸. ë§Œì•½ ì²«ì¹¸ì— ì•„ì´í…œì´ìˆë‹¤ë©´? forë¬¸ ì‚¬ìš©í•˜ì—¬ i++ í•´ì„œ ì¬ì‹œë„í•˜ì—¬ ì¥ì°©
+	int crono; //í™”í
+	int exp; // ê²½í—˜ì¹˜
 	int level;
 }oBject;
 
@@ -156,7 +159,7 @@ int main(void)
 	srand(time(NULL));
 	system("mode con cols=30 lines=12");
 
-	oBject player; //ÇÃ·¹ÀÌ¾î Á¤ÀÇ
+	oBject player; //í”Œë ˆì´ì–´ ì •ì˜
 	player.name = "player";
 	player.attack = 20;
 	player.crono = 5000;
@@ -165,7 +168,7 @@ int main(void)
 	player.max_life = 50;
 	player.life = player.max_life; 
 
-	oBject monster1; //¸ó½ºÅÍ 1 Á¤ÀÇ.
+	oBject monster1; //ëª¬ìŠ¤í„° 1 ì •ì˜.
 	monster1.name = "Black-Dragon";
 	monster1.attack = 8;
 	monster1.life = 60;
@@ -186,10 +189,10 @@ int main(void)
 	int cnt_monster1_life = monster1.life;
 	int cnt_player_life = player.life;
 
-	int key = 0; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ º¯¼ö 
+	int key = 0; // í”Œë ˆì´ì–´ ì´ë™ ë³€ìˆ˜ 
 
-	int y_p = 1; //ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡
-	int x_p = 1; //ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡
+	int y_p = 1; //í”Œë ˆì´ì–´ ì‹œì‘ ìœ„ì¹˜
+	int x_p = 1; //í”Œë ˆì´ì–´ ì‹œì‘ ìœ„ì¹˜
 
 
 
@@ -248,48 +251,48 @@ int main(void)
 			printf("\n\n\n Welcome to my Labyrinth. . .");
 			Sleep(2500);
 			system("cls");
-			printf("\n\n\n -ÇÁ·Ñ·Î±×¸¦ º¸½Ã°Ú½À´Ï±î?-");
+			printf("\n\n\n -í”„ë¡¤ë¡œê·¸ë¥¼ ë³´ì‹œê² ìŠµë‹ˆê¹Œ?-");
 			switch (proLogueDraw())
 			{
 			case 0:
 			{
 				system("cls");
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(1500);
-				printf("¿À´Ãµµ ¾ß±ÙÀÌ´Ù..\n");
+				printf("ì˜¤ëŠ˜ë„ ì•¼ê·¼ì´ë‹¤..\n");
 				Sleep(1500);
-				printf("ÁöÄ£ ¸öÀ» ÀÌ²ø°í ÁıÀ¸·Î ÇâÇÑ´Ù...\n");
+				printf("ì§€ì¹œ ëª¸ì„ ì´ëŒê³  ì§‘ìœ¼ë¡œ í–¥í•œë‹¤...\n");
 				Sleep(1500);
-				printf("\"³»ÀÏÀº  ÈŞÀÏÀÌ´Ï±î Ç« ½¬ÀÚ..\"\n");
+				printf("\"ë‚´ì¼ì€  íœ´ì¼ì´ë‹ˆê¹Œ í‘¹ ì‰¬ì..\"\n");
 				Sleep(1500);
-				printf("\"¾î?.. ¿©±ä?... \"\n");
+				printf("\"ì–´?.. ì—¬ê¸´?... \"\n");
 				Sleep(3000);
 				game = 1;
 			}
 			case 1:
 			{
 				system("cls");
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(100);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(2000);
 				system("cls");
 				game = 1;
@@ -315,7 +318,7 @@ int main(void)
 	}
 	if (dengeon_level == 1) 
 	{
-		while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  ¸ó½ºÅÍ ¼ÒÈ¯ ÁÂÇ¥ ¼³Á¤ 0ÀÏ¶§±îÁö and Ä³¸¯ÅÍ ¿·ÀÌ ¾Æ´Ò¶§±îÁö.
+		while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  ëª¬ìŠ¤í„° ì†Œí™˜ ì¢Œí‘œ ì„¤ì • 0ì¼ë•Œê¹Œì§€ and ìºë¦­í„° ì˜†ì´ ì•„ë‹ë•Œê¹Œì§€.
 		{
 			x_mon = rand() % (t_1 - 3) + 2; // 2,3,4,5,6,7,8,9
 			y_mon = rand() % (g_1 - 3) + 2; // 2,3,4,5,6,7,8,9
@@ -324,14 +327,14 @@ int main(void)
 
 
 
-	while (game == 1)//°ÔÀÓÁøÇàÁß // È­¸é Áö¼Ó.
+	while (game == 1)//ê²Œì„ì§„í–‰ì¤‘ // í™”ë©´ ì§€ì†.
 	{
 
-		if (situation_num == 1) //Æò»ó½Ã
+		if (situation_num == 1) //í‰ìƒì‹œ
 		{
 			if (dengeon_level == 1)
 			{
-				printQuestion_level_1();//¸Ê Ç¥½Ã
+				printQuestion_level_1();//ë§µ í‘œì‹œ
 				if (map_arr_loCation_level_1[8][8] == Player)
 				{
 					dengeon_level = 2;
@@ -387,18 +390,18 @@ int main(void)
 
 			if (dengeon_level == 1) 
 			{
-				move_player_1(map_arr_loCation_level_1,y_p, x_p); // Ä³¸¯ÅÍ Çö ÁÂÇ¥ ÇÔ¼ö.
-				move_monster_1(map_arr_loCation_level_1, y_mon, x_mon); // ¸ó½ºÅÍ Çö ÁÂÇ¥.
+				move_player_1(map_arr_loCation_level_1,y_p, x_p); // ìºë¦­í„° í˜„ ì¢Œí‘œ í•¨ìˆ˜.
+				move_monster_1(map_arr_loCation_level_1, y_mon, x_mon); // ëª¬ìŠ¤í„° í˜„ ì¢Œí‘œ.
 				if (kbhit())
 				{
 
 					key = _getch();
-					bef_move_player_1(map_arr_loCation_level_1,y_p, x_p); // ÀÌÀü ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡ ÀÖ´Â 1À» Áö¿öÁÜ. 
+					bef_move_player_1(map_arr_loCation_level_1,y_p, x_p); // ì´ì „ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì— ìˆëŠ” 1ì„ ì§€ì›Œì¤Œ. 
 					switch (key)
 					{
 					case 72:
 						if (map_arr_loCation_level_1[y_p - 1][x_p] == 0 ||
-							map_arr_loCation_level_1[y_p - 1][x_p] == 3) //°¡°íÀÚÇÏ´Â ÀÚ¸®°¡ 0ÀÏ¶§¸¸ °¡´É.
+							map_arr_loCation_level_1[y_p - 1][x_p] == 3) //ê°€ê³ ìí•˜ëŠ” ìë¦¬ê°€ 0ì¼ë•Œë§Œ ê°€ëŠ¥.
 							y_p--;
 						break;
 					case 75:
@@ -432,7 +435,7 @@ int main(void)
 					{
 						situation_num = 2;
 						Sleep(1000);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					}
 
 				}
@@ -442,18 +445,18 @@ int main(void)
 			if(dengeon_level==2)
 			{
 
-				move_player_1(map_arr_loCation_level_2, y_p, x_p); // Ä³¸¯ÅÍ Çö ÁÂÇ¥ ÇÔ¼ö.
-				//move_monster_1(map_arr_loCation_level_2, y_mon, x_mon); // ¸ó½ºÅÍ Çö ÁÂÇ¥.
+				move_player_1(map_arr_loCation_level_2, y_p, x_p); // ìºë¦­í„° í˜„ ì¢Œí‘œ í•¨ìˆ˜.
+				//move_monster_1(map_arr_loCation_level_2, y_mon, x_mon); // ëª¬ìŠ¤í„° í˜„ ì¢Œí‘œ.
 				if (kbhit())
 				{
 
 					key = _getch();
-					bef_move_player_1(map_arr_loCation_level_2, y_p, x_p); // ÀÌÀü ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡ ÀÖ´Â 1À» Áö¿öÁÜ. 
+					bef_move_player_1(map_arr_loCation_level_2, y_p, x_p); // ì´ì „ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì— ìˆëŠ” 1ì„ ì§€ì›Œì¤Œ. 
 					switch (key)
 					{
 					case 72:
 						if (map_arr_loCation_level_2[y_p - 1][x_p] == 0 ||
-							map_arr_loCation_level_2[y_p - 1][x_p] == 3) //°¡°íÀÚÇÏ´Â ÀÚ¸®°¡ 0ÀÏ¶§¸¸ °¡´É.
+							map_arr_loCation_level_2[y_p - 1][x_p] == 3) //ê°€ê³ ìí•˜ëŠ” ìë¦¬ê°€ 0ì¼ë•Œë§Œ ê°€ëŠ¥.
 							y_p--;
 						break;
 					case 75:
@@ -485,18 +488,18 @@ int main(void)
 			}
 			if (dengeon_level == 3)
 			{
-				move_player_1(map_arr_loCation_level_3, y_p, x_p); // Ä³¸¯ÅÍ Çö ÁÂÇ¥ ÇÔ¼ö.
-				//move_monster_1(map_arr_loCation_level_3, y_mon, x_mon); // ¸ó½ºÅÍ Çö ÁÂÇ¥.
+				move_player_1(map_arr_loCation_level_3, y_p, x_p); // ìºë¦­í„° í˜„ ì¢Œí‘œ í•¨ìˆ˜.
+				//move_monster_1(map_arr_loCation_level_3, y_mon, x_mon); // ëª¬ìŠ¤í„° í˜„ ì¢Œí‘œ.
 				if (kbhit())
 				{
 
 					key = _getch();
-					bef_move_player_1(map_arr_loCation_level_3, y_p, x_p); // ÀÌÀü ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡ ÀÖ´Â 1À» Áö¿öÁÜ. 
+					bef_move_player_1(map_arr_loCation_level_3, y_p, x_p); // ì´ì „ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì— ìˆëŠ” 1ì„ ì§€ì›Œì¤Œ. 
 					switch (key)
 					{
 					case 72:
 						if (map_arr_loCation_level_3[y_p - 1][x_p] == 0 ||
-							map_arr_loCation_level_3[y_p - 1][x_p] == 3) //°¡°íÀÚÇÏ´Â ÀÚ¸®°¡ 0ÀÏ¶§¸¸ °¡´É.
+							map_arr_loCation_level_3[y_p - 1][x_p] == 3) //ê°€ê³ ìí•˜ëŠ” ìë¦¬ê°€ 0ì¼ë•Œë§Œ ê°€ëŠ¥.
 							y_p--;
 						break;
 					case 75:
@@ -521,18 +524,18 @@ int main(void)
 			}
 			if (dengeon_level == 4)
 			{
-				move_player_2(map_arr_loCation_level_4, y_p, x_p); // Ä³¸¯ÅÍ Çö ÁÂÇ¥ ÇÔ¼ö.
-				//move_monster_2(map_arr_loCation_level_4, y_mon, x_mon); // ¸ó½ºÅÍ Çö ÁÂÇ¥.
+				move_player_2(map_arr_loCation_level_4, y_p, x_p); // ìºë¦­í„° í˜„ ì¢Œí‘œ í•¨ìˆ˜.
+				//move_monster_2(map_arr_loCation_level_4, y_mon, x_mon); // ëª¬ìŠ¤í„° í˜„ ì¢Œí‘œ.
 				if (kbhit())
 				{
 
 					key = _getch();
-					bef_move_player_2(map_arr_loCation_level_4, y_p, x_p); // ÀÌÀü ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡ ÀÖ´Â 1À» Áö¿öÁÜ. 
+					bef_move_player_2(map_arr_loCation_level_4, y_p, x_p); // ì´ì „ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì— ìˆëŠ” 1ì„ ì§€ì›Œì¤Œ. 
 					switch (key)
 					{
 					case 72:
 						if (map_arr_loCation_level_4[y_p - 1][x_p] == 0 ||
-							map_arr_loCation_level_4[y_p - 1][x_p] == 3) //°¡°íÀÚÇÏ´Â ÀÚ¸®°¡ 0ÀÏ¶§¸¸ °¡´É.
+							map_arr_loCation_level_4[y_p - 1][x_p] == 3) //ê°€ê³ ìí•˜ëŠ” ìë¦¬ê°€ 0ì¼ë•Œë§Œ ê°€ëŠ¥.
 							y_p--;
 						break;
 					case 75:
@@ -559,36 +562,36 @@ int main(void)
 
 
 		}
-		if (situation_num == 2) // ÀüÅõ½ÃÀÛ¿¬Ãâ
+		if (situation_num == 2) // ì „íˆ¬ì‹œì‘ì—°ì¶œ
 		{
 
 			Sleep(100);
 
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf(" %s°¡ ³ªÅ¸³µ´Ù!\n", monster1.name);
+			printf(" %sê°€ ë‚˜íƒ€ë‚¬ë‹¤!\n", monster1.name);
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(800);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(100);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 			Sleep(500);
 			system("cls");
 			situation_num = 3;
@@ -597,16 +600,16 @@ int main(void)
 
 
 		}
-		if (situation_num == 3) //´ëÄ¡Áß
+		if (situation_num == 3) //ëŒ€ì¹˜ì¤‘
 		{
 
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
-			printf(" %sÀÇ Ã¼·Â: %d\n\n", monster1.name, monster1.life);
-			printf(" ´ç½ÅÀÇ Ã¼·Â :%d\n", player.life);
-			printf("¤Ñ¤Ñ¤Ñ¤ÑÇöÀç ÅÏ:%d¤Ñ¤Ñ¤Ñ\n", turn);
-			switch (menuDraw())//ÀüÅõ¼±ÅÃÁö
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
+			printf(" %sì˜ ì²´ë ¥: %d\n\n", monster1.name, monster1.life);
+			printf(" ë‹¹ì‹ ì˜ ì²´ë ¥ :%d\n", player.life);
+			printf("ã…¡ã…¡ã…¡ã…¡í˜„ì¬ í„´:%dã…¡ã…¡ã…¡\n", turn);
+			switch (menuDraw())//ì „íˆ¬ì„ íƒì§€
 			{
-			case 0: //°ø°İ
+			case 0: //ê³µê²©
 			{
 				system("cls");
 				turn++;
@@ -614,36 +617,36 @@ int main(void)
 				cnt_player_life = player.life;
 				monster1.life -= attack(monster1.life, player.attack);
 				player.life -= attack(player.life, monster1.attack);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				Sleep(1000);
-				printf("% s´Â % s¿¡°Ô\n °ËÀ» ÈûÂ÷°Ô ÈÖµÑ·¶´Ù!\n\n", player.name, monster1.name);
+				printf("% sëŠ” % sì—ê²Œ\n ê²€ì„ í˜ì°¨ê²Œ íœ˜ë‘˜ë €ë‹¤!\n\n", player.name, monster1.name);
 				Sleep(1000);
-				printf("%s¿¡°Ô %dÀÇ\n µ¥¹ÌÁö¸¦ ÁÖ¾ú´Ù.\n\n", monster1.name, cnt_monster1_life - monster1.life);  // °ø°İ¹Ş±âÀü - ¹ŞÀºÈÄ =µ¥¹ÌÁö
+				printf("%sì—ê²Œ %dì˜\n ë°ë¯¸ì§€ë¥¼ ì£¼ì—ˆë‹¤.\n\n", monster1.name, cnt_monster1_life - monster1.life);  // ê³µê²©ë°›ê¸°ì „ - ë°›ì€í›„ =ë°ë¯¸ì§€
 				Sleep(1500);
 				if (monster1.life <= 0)
 				{
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
 					system("cls");
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(1000);
-					printf("%s¸¦ ¾²·¯Æ®·È´Ù!\n", monster1.name);
+					printf("%së¥¼ ì“°ëŸ¬íŠ¸ë ¸ë‹¤!\n", monster1.name);
 					Sleep(1000);
-					printf("%d Å©·Î³ë ¸¦ ¾ò¾ú´Ù!\n", monster1.crono);
+					printf("%d í¬ë¡œë…¸ ë¥¼ ì–»ì—ˆë‹¤!\n", monster1.crono);
 					player.crono += monster1.crono;
 					Sleep(500);
-					printf("%d °æÇèÄ¡¸¦ È¹µæÇß´Ù!", monster1.exp);
+					printf("%d ê²½í—˜ì¹˜ë¥¼ íšë“í–ˆë‹¤!", monster1.exp);
 					player.exp += monster1.exp;
 					Sleep(500);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(2000);
 					y_mon = 15;
 					x_mon = 15;
@@ -655,32 +658,32 @@ int main(void)
 				}
 				else if (monster1.life > 0)
 				{
-					printf("%s´Â %s¿¡°Ô\n ´Ş·Áµé¾ú´Ù!\n\n", monster1.name, player.name);
+					printf("%sëŠ” %sì—ê²Œ\n ë‹¬ë ¤ë“¤ì—ˆë‹¤!\n\n", monster1.name, player.name);
 					Sleep(1000);
-					printf("%s´Â %dÀÇ\n µ¥¹ÌÁö¸¦ ¹Ş¾ú´Ù.\n\n", player.name, cnt_player_life - player.life);
+					printf("%sëŠ” %dì˜\n ë°ë¯¸ì§€ë¥¼ ë°›ì—ˆë‹¤.\n\n", player.name, cnt_player_life - player.life);
 					Sleep(1500);
 					if (player.life <= 0)
 					{
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(500);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(500);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(500);
-						printf("¿ë»ç´Â ÈûÀ» ´ÙÇÏ¿´´Ù...");
+						printf("ìš©ì‚¬ëŠ” í˜ì„ ë‹¤í•˜ì˜€ë‹¤...");
 						Sleep(1000);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(300);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(300);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(300);
 						system("cls");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(500);
 						printf("		   GAME OVER\n");
 						Sleep(1000);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(500);
 						_getch();
 						break;
@@ -690,41 +693,41 @@ int main(void)
 				}
 				break;
 			}
-			case 1: //¹æ¾î
+			case 1: //ë°©ì–´
 			{
 				turn++;
 				cnt_player_life = player.life;
 				system("cls");
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				player.life -= (attack(player.life, monster1.attack)) / 3;
-				printf("%s´Â ¹æ¾îÅÂ¼¼¿¡ µé¾î°¬´Ù!\n", player.name);
+				printf("%sëŠ” ë°©ì–´íƒœì„¸ì— ë“¤ì–´ê°”ë‹¤!\n", player.name);
 				Sleep(1000);
-				printf("%s´Â %s¿¡°Ô\n ´Ş·Áµé¾ú´Ù!\n\n", monster1.name, player.name);
+				printf("%sëŠ” %sì—ê²Œ\n ë‹¬ë ¤ë“¤ì—ˆë‹¤!\n\n", monster1.name, player.name);
 				Sleep(1500);
-				printf("%s´Â %dÀÇ\n µ¥¹ÌÁö¸¦ ¹Ş¾ú´Ù.\n\n", player.name, cnt_player_life - player.life);
+				printf("%sëŠ” %dì˜\n ë°ë¯¸ì§€ë¥¼ ë°›ì—ˆë‹¤.\n\n", player.name, cnt_player_life - player.life);
 				Sleep(1000);
 				if (player.life <= 0)
 				{
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(500);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(500);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(500);
-					printf("%s´Â ÈûÀ» ´ÙÇÏ¿´´Ù...", player.name);
+					printf("%sëŠ” í˜ì„ ë‹¤í•˜ì˜€ë‹¤...", player.name);
 					Sleep(1000);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(300);
 					system("cls");
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(500);
 					printf("		   GAME OVER\n");
 					Sleep(1000);
-					printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+					printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 					Sleep(500);
 					_getch();
 					break;
@@ -734,24 +737,24 @@ int main(void)
 				situation_num = 3;
 				break;
 			}
-			case 2: //½ºÅ³
+			case 2: //ìŠ¤í‚¬
 			{
 				system("cls");
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
-				printf(" %sÀÇ Ã¼·Â: %d\n\n", monster1.name, monster1.life);
-				printf(" ´ç½ÅÀÇ Ã¼·Â :%d\n", player.life);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
+				printf(" %sì˜ ì²´ë ¥: %d\n\n", monster1.name, monster1.life);
+				printf(" ë‹¹ì‹ ì˜ ì²´ë ¥ :%d\n", player.life);
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 				switch (skillmenuDraw())
 				{
-				case 0: //¿¬¼ÓÂî¸£±â
+				case 0: //ì—°ì†ì°Œë¥´ê¸°
 				{
 					if (turn < cnt_turn_stab + 3)
 					{
 						system("cls");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1000);
-						printf("¾ÆÁ÷ »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.\n");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ì•„ì§ ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
@@ -764,37 +767,37 @@ int main(void)
 						cnt_monster1_life = monster1.life;
 						monster1.life -= skill_several_stab(player.attack);
 						player.life -= attack(player.life, monster1.attack);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1500);
-						printf("%s´Â ¿¬¼Ó Âî¸£±â¸¦ »ç¿ëÇß´Ù!\n", player.name);
+						printf("%sëŠ” ì—°ì† ì°Œë¥´ê¸°ë¥¼ ì‚¬ìš©í–ˆë‹¤!\n", player.name);
 						Sleep(1000);
-						printf("%s´Â %s¿¡°Ô %dÀÇ µ¥¹ÌÁö¸¦ ÁÖ¾ú´Ù.\n", player.name, monster1.name, skill_several_stab(player.attack));
+						printf("%sëŠ” %sì—ê²Œ %dì˜ ë°ë¯¸ì§€ë¥¼ ì£¼ì—ˆë‹¤.\n", player.name, monster1.name, skill_several_stab(player.attack));
 						Sleep(2000);
 
 						if (monster1.life <= 0)
 						{
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(300);
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(300);
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(300);
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(300);
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(300);
 							system("cls");
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(1000);
-							printf("%s¸¦ ¾²·¯Æ®·È´Ù!\n", monster1.name);
+							printf("%së¥¼ ì“°ëŸ¬íŠ¸ë ¸ë‹¤!\n", monster1.name);
 							Sleep(1000);
-							printf("%d Å©·Î³ë ¸¦ ¾ò¾ú´Ù!\n", monster1.crono);
+							printf("%d í¬ë¡œë…¸ ë¥¼ ì–»ì—ˆë‹¤!\n", monster1.crono);
 							player.crono += monster1.crono;
 							Sleep(500);
-							printf("%d °æÇèÄ¡¸¦ È¹µæÇß´Ù!\n", monster1.exp);
+							printf("%d ê²½í—˜ì¹˜ë¥¼ íšë“í–ˆë‹¤!\n", monster1.exp);
 							player.exp += monster1.exp;
 							Sleep(500);
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(2000);
 							y_mon = 15;
 							x_mon = 15;
@@ -807,32 +810,32 @@ int main(void)
 						}
 						else if (monster1.life > 0)
 						{
-							printf("%s´Â %s¿¡°Ô\n ´Ş·Áµé¾ú´Ù!\n\n", monster1.name, player.name);
+							printf("%sëŠ” %sì—ê²Œ\n ë‹¬ë ¤ë“¤ì—ˆë‹¤!\n\n", monster1.name, player.name);
 							Sleep(1000);
-							printf("%s´Â %dÀÇ\n µ¥¹ÌÁö¸¦ ¹Ş¾ú´Ù.\n\n", player.name, cnt_player_life - player.life);
+							printf("%sëŠ” %dì˜\n ë°ë¯¸ì§€ë¥¼ ë°›ì—ˆë‹¤.\n\n", player.name, cnt_player_life - player.life);
 							Sleep(1500);
 							if (player.life <= 0)
 							{
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(500);
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(500);
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(500);
-								printf("¿ë»ç´Â ÈûÀ» ´ÙÇÏ¿´´Ù...\n");
+								printf("ìš©ì‚¬ëŠ” í˜ì„ ë‹¤í•˜ì˜€ë‹¤...\n");
 								Sleep(1000);
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(300);
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(300);
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(300);
 								system("cls");
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(500);
 								printf("		   GAME OVER\n");
 								Sleep(1000);
-								printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+								printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 								Sleep(500);
 								_getch();
 								break;
@@ -846,15 +849,15 @@ int main(void)
 					}
 					break;
 				}
-				case 1://È¸º¹
+				case 1://íšŒë³µ
 				{
 					if (turn < cnt_turn_heal + 3)
 					{
 						system("cls");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1000);
-						printf("¾ÆÁ÷ »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.\n");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ì•„ì§ ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
@@ -864,51 +867,51 @@ int main(void)
 						cnt_turn_heal = turn;
 						cnt_player_life = player.life;
 						system("cls");
-						player.life += skill_holy_Heal(player.life, player.attack); //Èú ½ÃÀü
-						if (player.life > cnt_player_life) // ½ÃÀü ÈÄ ÃÖ´ë»ı¸í·Âº¸´Ù ³ô¾ÆÁö°ÔµÈ´Ù¸é
+						player.life += skill_holy_Heal(player.life, player.attack); //í ì‹œì „
+						if (player.life > cnt_player_life) // ì‹œì „ í›„ ìµœëŒ€ìƒëª…ë ¥ë³´ë‹¤ ë†’ì•„ì§€ê²Œëœë‹¤ë©´
 						{
 							player.life = player.max_life;
 
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(1500);
-							printf("½Å²² ±âµµ¸¦ µå¸³´Ï´Ù...\n\n");
+							printf("ì‹ ê»˜ ê¸°ë„ë¥¼ ë“œë¦½ë‹ˆë‹¤...\n\n");
 							Sleep(1500);
-							printf("¿ë»ç´Â %dÀÇ Ã¼·ÂÀ» È¸º¹Çß´Ù!\n", player.max_life - cnt_player_life);
+							printf("ìš©ì‚¬ëŠ” %dì˜ ì²´ë ¥ì„ íšŒë³µí–ˆë‹¤!\n", player.max_life - cnt_player_life);
 						}
 						else
 						{
-							printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+							printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 							Sleep(1500);
-							printf("½Å²² ±âµµ¸¦ µå¸³´Ï´Ù...\n\n");
+							printf("ì‹ ê»˜ ê¸°ë„ë¥¼ ë“œë¦½ë‹ˆë‹¤...\n\n");
 							Sleep(1500);
-							printf("¿ë»ç´Â %dÀÇ Ã¼·ÂÀ» È¸º¹Çß´Ù!\n", skill_holy_Heal(player.life, player.attack));
+							printf("ìš©ì‚¬ëŠ” %dì˜ ì²´ë ¥ì„ íšŒë³µí–ˆë‹¤!\n", skill_holy_Heal(player.life, player.attack));
 						}
 						Sleep(500);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(2000);
 						system("cls");
 						break;
 					}
 				}
-				case 2: //ºĞ³ë
+				case 2: //ë¶„ë…¸
 				{
 					if (rage == 0 && turn < cnt_turn_rage + 5)
 					{
 						system("cls");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1000);
-						printf("¾ÆÁ÷ »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.\n");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ì•„ì§ ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
 					else if (rage == 1)
 					{
 						system("cls");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1000);
-						printf("¾ÆÁ÷ »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.\n");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ì•„ì§ ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
@@ -919,22 +922,22 @@ int main(void)
 						rage = 1;
 						cnt_attack = player.attack;
 						system("cls");
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(1000);
-						printf("¿ë»ç´Â ¿ïºÎÂ¢¾ú´Ù.\n\nÇöÀç ÅÏ%d  ÀúÀåµÈ ÅÏ%d\n", turn, cnt_turn_rage);
+						printf("ìš©ì‚¬ëŠ” ìš¸ë¶€ì§–ì—ˆë‹¤.\n\ní˜„ì¬ í„´%d  ì €ì¥ëœ í„´%d\n", turn, cnt_turn_rage);
 						Sleep(1500);
-						printf(" \"¿ì ¿À ¿À ¿À ! ! !\"\n\n");
+						printf(" \"ìš° ì˜¤ ì˜¤ ì˜¤ ! ! !\"\n\n");
 						player.attack += skill_rage(player.attack);
 						Sleep(1500);
-						printf("¿ë»çÀÇ °ø°İ·ÂÀÌ ÀÏ½ÃÀûÀ¸·Î Áõ°¡Çß´Ù!\n%d %d\n", player.attack, cnt_attack);
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
+						printf("ìš©ì‚¬ì˜ ê³µê²©ë ¥ì´ ì¼ì‹œì ìœ¼ë¡œ ì¦ê°€í–ˆë‹¤!\n%d %d\n", player.attack, cnt_attack);
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
 						Sleep(2000);
 						system("cls");
 						situation_num = 3;
 						break;
 					}
 				}
-				case 3: //µ¹¾Æ°£´Ù
+				case 3: //ëŒì•„ê°„ë‹¤
 				{
 					system("cls");
 					situation_num = 3;
@@ -946,10 +949,10 @@ int main(void)
 			default:
 				break;
 			} //case 2
-			case 3: // ¾ÆÀÌÅÛ
+			case 3: // ì•„ì´í…œ
 			{
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ\n");
-				printf("»ç¿ëÇÒ ¾ÆÀÌÅÛÀ» ¼±ÅÃÇÏ¼¼¿ä. \n");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡\n");
+				printf("ì‚¬ìš©í•  ì•„ì´í…œì„ ì„ íƒí•˜ì„¸ìš”. \n");
 				/*for (int i = 0, i < item[10], i++)
 				{
 					printf("[%s] x %d",item_name,item_count)
@@ -968,11 +971,11 @@ int main(void)
 		{
 			system("cls");
 			Sleep(1000);
-			printf("\n\n½ÅºñÇÑ ³ì»ö ºûÀ» ¶ç´Â ¿À·¡µÈ ¼®»óÀÌ ¾Õ¿¡ ÀÖ´Ù...\n");
+			printf("\n\nì‹ ë¹„í•œ ë…¹ìƒ‰ ë¹›ì„ ë„ëŠ” ì˜¤ë˜ëœ ì„ìƒì´ ì•ì— ìˆë‹¤...\n");
 			Sleep(1500);
-			printf("\n°ø¹°ÇÔ°°ÀÌ º¸ÀÌ´Â »óÀÚ°¡ ÀÖ´Ù.\n");
+			printf("\nê³µë¬¼í•¨ê°™ì´ ë³´ì´ëŠ” ìƒìê°€ ìˆë‹¤.\n");
 			Sleep(1000);
-			printf("\nÅ©·Î³ë¸¦ ¹ÙÄ¡¸é ¹«½¼ ÀÏÀÌ ÀÏ¾î³¯ °Í °°´Ù.\n");
+			printf("\ní¬ë¡œë…¸ë¥¼ ë°”ì¹˜ë©´ ë¬´ìŠ¨ ì¼ì´ ì¼ì–´ë‚  ê²ƒ ê°™ë‹¤.\n");
 			Sleep(1500);
 			system("cls");
 			situation_num = 5;
@@ -980,21 +983,21 @@ int main(void)
 
 		if (situation_num == 5)
 		{
-			printf("     <½Å¼ºÇÑ ³ì»ö ¼®»ó>\n");
+			printf("     <ì‹ ì„±í•œ ë…¹ìƒ‰ ì„ìƒ>\n");
 			printf("\n");
 			Sleep(1000);
-			printf("   ¿¬¼Ó Âî¸£±â Lv.%d\n   ½Å¼ºÇÑ È¸º¹ Lv.%d\n   ¿ë»çÀÇ ºĞ³ë Lv.%d\n",stab_lv,heal_lv,rage_lv);
-			printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
-			printf("³» Å©·Î³ë : %d", player.crono);
+			printf("   ì—°ì† ì°Œë¥´ê¸° Lv.%d\n   ì‹ ì„±í•œ íšŒë³µ Lv.%d\n   ìš©ì‚¬ì˜ ë¶„ë…¸ Lv.%d\n",stab_lv,heal_lv,rage_lv);
+			printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
+			printf("ë‚´ í¬ë¡œë…¸ : %d", player.crono);
 			switch (npc1draw())
 			{
 			case 0:
 			{
 				system("cls");
 				Sleep(1000);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 				Sleep(1500);
-				printf("%dÅ©·Î³ë°¡ ÇÊ¿äÇÕ´Ï´Ù.\n\n¿¬¼Ó Âî¸£±â¸¦ °­È­ÇÏ½Ã°Ú½À´Ï±î?\n",cost_stab);
+				printf("%dí¬ë¡œë…¸ê°€ í•„ìš”í•©ë‹ˆë‹¤.\n\nì—°ì† ì°Œë¥´ê¸°ë¥¼ ê°•í™”í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n",cost_stab);
 				switch (yesnodraw())
 				{
 				case 0:
@@ -1004,9 +1007,9 @@ int main(void)
 					{
 						player.crono -= cost_stab;
 
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 						Sleep(1500);
-						printf("\n\n\n  ¿¬¼Ó Âî¸£±âÀÇ ·¹º§ÀÌ »ó½ÂÇß½À´Ï´Ù.");
+						printf("\n\n\n  ì—°ì† ì°Œë¥´ê¸°ì˜ ë ˆë²¨ì´ ìƒìŠ¹í–ˆìŠµë‹ˆë‹¤.");
 						Sleep(1500);
 						if (stab_lv == 1) // 50.
 						{
@@ -1031,9 +1034,9 @@ int main(void)
 					}
 					else
 					{
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 						Sleep(1000);
-						printf("\n\nÅ©·Î³ë°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+						printf("\n\ní¬ë¡œë…¸ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
 						Sleep(1000);
 						break;
 					}
@@ -1049,9 +1052,9 @@ int main(void)
 			{
 				system("cls");
 				Sleep(1000);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 				Sleep(1500);
-				printf("%dÅ©·Î³ë°¡ ÇÊ¿äÇÕ´Ï´Ù.\n ½Å¼ºÇÑ È¸º¹À» °­È­ÇÏ½Ã°Ú½À´Ï±î?\n",cost_heal);
+				printf("%dí¬ë¡œë…¸ê°€ í•„ìš”í•©ë‹ˆë‹¤.\n ì‹ ì„±í•œ íšŒë³µì„ ê°•í™”í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n",cost_heal);
 				switch (yesnodraw())
 				{
 				case 0:
@@ -1060,7 +1063,7 @@ int main(void)
 					if (player.crono >= cost_heal) {
 						player.crono -= cost_heal;
 						heal_lv++;
-						printf("\n\n\n  ½Å¼ºÇÑ È¸º¹ÀÇ ·¹º§ÀÌ »ó½ÂÇß½À´Ï´Ù.");
+						printf("\n\n\n  ì‹ ì„±í•œ íšŒë³µì˜ ë ˆë²¨ì´ ìƒìŠ¹í–ˆìŠµë‹ˆë‹¤.");
 						if (heal_lv == 2) 
 						{
 							cost_heal = 250;
@@ -1080,9 +1083,9 @@ int main(void)
 
 					}
 					else {
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 						Sleep(1000);
-						printf("\n\nÅ©·Î³ë°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+						printf("\n\ní¬ë¡œë…¸ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
 						Sleep(1000);
 						break;
 					}
@@ -1097,9 +1100,9 @@ int main(void)
 			{
 				system("cls");
 				Sleep(1000);
-				printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+				printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 				Sleep(1500);
-				printf("%dÅ©·Î³ë°¡ ÇÊ¿äÇÕ´Ï´Ù. °­È­ÇÏ½Ã°Ú½À´Ï±î?", cost_rage);
+				printf("%dí¬ë¡œë…¸ê°€ í•„ìš”í•©ë‹ˆë‹¤. ê°•í™”í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", cost_rage);
 				switch (yesnodraw())
 				{
 				case 0:
@@ -1109,7 +1112,7 @@ int main(void)
 					{
 						player.crono -= cost_rage;
 						rage_lv++;
-						printf("\n\n\n  ¿ë»çÀÇ ºĞ³ëÀÇ ·¹º§ÀÌ »ó½ÂÇß½À´Ï´Ù.");
+						printf("\n\n\n  ìš©ì‚¬ì˜ ë¶„ë…¸ì˜ ë ˆë²¨ì´ ìƒìŠ¹í–ˆìŠµë‹ˆë‹¤.");
 						if (rage_lv == 2) {
 							cost_rage = 300;
 							rage_lv++;
@@ -1125,9 +1128,9 @@ int main(void)
 						break;
 					}
 					else {
-						printf("¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ");
+						printf("ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡");
 						Sleep(1000);
-						printf("\n\nÅ©·Î³ë°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+						printf("\n\ní¬ë¡œë…¸ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
 						Sleep(1000);
 						break;
 					}
@@ -1139,7 +1142,7 @@ int main(void)
 				}
 				}
 			}
-			case 3: // µ¹¾Æ°£´Ù.
+			case 3: // ëŒì•„ê°„ë‹¤.
 			{
 				situation_num = 1;
 				break;
@@ -1161,7 +1164,7 @@ int main(void)
 			if (turn == cnt_turn_rage + 3)
 			{
 				rage = 0;
-				player.attack = cnt_attack; // °ø°İ·ÂÀ» ·¹ÀÌÁö Àü¿¡ Àû¿ëÇØ³ù´ø °ø°İ·ÂÀ¸·Î µÇµ¹¸².
+				player.attack = cnt_attack; // ê³µê²©ë ¥ì„ ë ˆì´ì§€ ì „ì— ì ìš©í•´ë†¨ë˜ ê³µê²©ë ¥ìœ¼ë¡œ ë˜ëŒë¦¼.
 
 			}
 		}
@@ -1196,122 +1199,150 @@ void bef_move_player_2(char arr[][15], int x, int y)
 	arr[x][y] = 0;
 }
 
-void printQuestion_level_1()//¸Ê Ãâ·Â
+void printQuestion_level_1()//ë§µ ì¶œë ¥
 {
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (map_arr_loCation_level_1[i][j] == 0)
+			if (map_arr_loCation_level_1[i][j] == 0) // ê³µë°±
 			{
 				printf("  ");
 			}
-			else if (map_arr_loCation_level_1[i][j] == 9)
+			else if (map_arr_loCation_level_1[i][j] == 9) //í…Œë‘ë¦¬ ë²½
 			{
 				printf("%s", specialChar());
 			}
-			else if (map_arr_loCation_level_1[i][j] == 3)
+			else if (map_arr_loCation_level_1[i][j] == 3) // ì¶œêµ¬
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_1[i][j] == 1)
+			{
+				printf("%s", specialChar3());
+			}
 			else
 				printf(" %d", map_arr_loCation_level_1[i][j]);
-
 		}
 		printf("\n");
 	}
 	printf("dengeon_level=%d", dengeon_level);
 }
 
-void printQuestion_level_2()//¸Ê Ãâ·Â
+void printQuestion_level_2()//ë§µ ì¶œë ¥
 {
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (map_arr_loCation_level_2[i][j] == 0)
+			if (map_arr_loCation_level_2[i][j] == 0) // ê³µë°±
 			{
 				printf("  ");
 			}
-			else if (map_arr_loCation_level_2[i][j] == 9)
+			else if (map_arr_loCation_level_2[i][j] == 9) //í…Œë‘ë¦¬ ë²½
 			{
 				printf("%s", specialChar());
+			}
+			else if (map_arr_loCation_level_2[i][j] == 3) // ì¶œêµ¬
+			{
+				printf("%s", specialChar2());
+			}
+			else if (map_arr_loCation_level_2[i][j] == 1)
+			{
+				printf("%s", specialChar3());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_2[i][j]);
-
-
 		}
 		printf("\n");
 	}
 	printf("dengeon_level=%d", dengeon_level);
 }
 
-void printQuestion_level_3()//¸Ê Ãâ·Â
+void printQuestion_level_3()//ë§µ ì¶œë ¥
 {
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (map_arr_loCation_level_3[i][j] == 0)
+			if (map_arr_loCation_level_3[i][j] == 0) // ê³µë°±
 			{
 				printf("  ");
 			}
-			else if (map_arr_loCation_level_3[i][j] == 9)
+			else if (map_arr_loCation_level_3[i][j] == 9) //í…Œë‘ë¦¬ ë²½
 			{
 				printf("%s", specialChar());
+			}
+			else if (map_arr_loCation_level_3[i][j] == 3) // ì¶œêµ¬
+			{
+				printf("%s", specialChar2());
+			}
+			else if (map_arr_loCation_level_3[i][j] == 1)
+			{
+				printf("%s", specialChar3());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_3[i][j]);
-
-
 		}
 		printf("\n");
 	}
 	printf("dengeon_level=%d", dengeon_level);
 }
 
-void printQuestion_level_4()//¸Ê Ãâ·Â
+void printQuestion_level_4()//ë§µ ì¶œë ¥
 {
 	for (int i = 0; i < 15; i++)
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			if (map_arr_loCation_level_4[i][j] == 0)
+			if (map_arr_loCation_level_4[i][j] == 0) // ê³µë°±
 			{
 				printf("  ");
 			}
-			else if (map_arr_loCation_level_4[i][j] == 9)
+			else if (map_arr_loCation_level_4[i][j] == 9) //í…Œë‘ë¦¬ ë²½
 			{
 				printf("%s", specialChar());
+			}
+			else if (map_arr_loCation_level_4[i][j] == 3) // ì¶œêµ¬
+			{
+				printf("%s", specialChar2());
+			}
+			else if (map_arr_loCation_level_4[i][j] == 1)
+			{
+				printf("%s", specialChar3());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_4[i][j]);
-
 		}
 		printf("\n");
 	}
 	printf("dengeon_level=%d", dengeon_level);
 }
 
-void printQuestion_level_5()//¸Ê Ãâ·Â
+void printQuestion_level_5()//ë§µ ì¶œë ¥
 {
 	for (int i = 0; i < 15; i++)
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			if (map_arr_loCation_level_5[i][j] == 0)
+			if (map_arr_loCation_level_5[i][j] == 0) // ê³µë°±
 			{
 				printf("  ");
 			}
-			else if (map_arr_loCation_level_5[i][j] == 9)
+			else if (map_arr_loCation_level_5[i][j] == 9) //í…Œë‘ë¦¬ ë²½
 			{
 				printf("%s", specialChar());
 			}
+			else if (map_arr_loCation_level_5[i][j] == 3) // ì¶œêµ¬
+			{
+				printf("%s", specialChar2());
+			}
+			else if (map_arr_loCation_level_5[i][j] == 1)
+			{
+				printf("%s", specialChar3());
+			}
 			else
 				printf(" %d", map_arr_loCation_level_5[i][j]);
-
-
 		}
 		printf("\n");
 	}
@@ -1319,7 +1350,7 @@ void printQuestion_level_5()//¸Ê Ãâ·Â
 }
 
 
-void creaTor_great_Wall_1(char arr[][10],int a,int b) // º®¸¸µé±â
+void creaTor_great_Wall_1(char arr[][10],int a,int b) // ë²½ë§Œë“¤ê¸°
 {
 	for (int i = 0; i < a; i++)
 	{
@@ -1333,7 +1364,7 @@ void creaTor_great_Wall_1(char arr[][10],int a,int b) // º®¸¸µé±â
 	}
 }
 
-void creaTor_great_Wall_2(char arr[][15],int a, int b) // º®¸¸µé±â
+void creaTor_great_Wall_2(char arr[][15],int a, int b) // ë²½ë§Œë“¤ê¸°
 {
 	for (int i = 0; i < a; i++)
 	{
@@ -1349,12 +1380,12 @@ void creaTor_great_Wall_2(char arr[][15],int a, int b) // º®¸¸µé±â
 
 
 
-void move_monster_1(char arr[][10],int x, int y) // ¸ó½ºÅÍ À§Ä¡ µ¿±âÈ­
+void move_monster_1(char arr[][10],int x, int y) // ëª¬ìŠ¤í„° ìœ„ì¹˜ ë™ê¸°í™”
 {
 	arr[x][y] = monster1;
 }
  
-void move_monster_2(char arr[][15], int x, int y) // ¸ó½ºÅÍ À§Ä¡ µ¿±âÈ­
+void move_monster_2(char arr[][15], int x, int y) // ëª¬ìŠ¤í„° ìœ„ì¹˜ ë™ê¸°í™”
 {
 	arr[x][y] = monster1;
 }
@@ -1434,9 +1465,9 @@ int proLogueDraw() {
 	int x = 3;
 	int y = 5;
 	gotoxy(x, y);
-	printf("-¿¹-");
+	printf("-ì˜ˆ-");
 	gotoxy(x, y + 1);
-	printf("-¾Æ´Ï¿À-");
+	printf("-ì•„ë‹ˆì˜¤-");
 
 	while (1)
 	{
@@ -1479,13 +1510,13 @@ int menuDraw() {
 	int x = 3;
 	int y = 5;
 	gotoxy(x , y);
-	printf("°ø°İ");
+	printf("ê³µê²©");
 	gotoxy(x, y + 1);
-	printf("¹æ¾î");
+	printf("ë°©ì–´");
 	gotoxy(x, y + 2);
-	printf("½ºÅ³");
+	printf("ìŠ¤í‚¬");
 	gotoxy(x, y + 3);
-	printf("¾ÆÀÌÅÛ");
+	printf("ì•„ì´í…œ");
 	while (1) 
 	{
 		int n = keyControl();
@@ -1531,40 +1562,40 @@ int skillmenuDraw()
 	{
 		gotoxy(x, y);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-¿¬¼Ó Âî¸£±â(Lv.%d)-\n",stab_lv); //[70 % ÀÇ °ø°İ·ÂÀ¸·Î 2~3¹ø Âî¸¥´Ù.\n]
+		printf("-ì—°ì† ì°Œë¥´ê¸°(Lv.%d)-\n",stab_lv); //[70 % ì˜ ê³µê²©ë ¥ìœ¼ë¡œ 2~3ë²ˆ ì°Œë¥¸ë‹¤.\n]
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
 	{
 		gotoxy(x, y);
-		printf("-¿¬¼Ó Âî¸£±â(Lv.%d)-\n",stab_lv); //[70/80/100 % ÀÇ °ø°İ·ÂÀ¸·Î 2~3¹ø Âî¸¥´Ù.\n]
+		printf("-ì—°ì† ì°Œë¥´ê¸°(Lv.%d)-\n",stab_lv); //[70/80/100 % ì˜ ê³µê²©ë ¥ìœ¼ë¡œ 2~3ë²ˆ ì°Œë¥¸ë‹¤.\n]
 	}
 	if (turn < cnt_turn_heal + 3)
 	{
 		gotoxy(x, y + 1);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-½Å¼ºÇÑ È¸º¹(Lv.%d)-\n",heal_lv);//[°ø°İ·ÂÀÇ 40/60/80 % ÀÇ ¼öÄ¡·Î Ã¼·ÂÀ» È¸º¹ÇÑ´Ù.]
+		printf("-ì‹ ì„±í•œ íšŒë³µ(Lv.%d)-\n",heal_lv);//[ê³µê²©ë ¥ì˜ 40/60/80 % ì˜ ìˆ˜ì¹˜ë¡œ ì²´ë ¥ì„ íšŒë³µí•œë‹¤.]
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
 	{
 		gotoxy(x, y + 1);
-		printf("-½Å¼ºÇÑ È¸º¹(Lv.%d)-\n",heal_lv);//[°ø°İ·ÂÀÇ 70 % ÀÇ ¼öÄ¡·Î Ã¼·ÂÀ» È¸º¹ÇÑ´Ù.]
+		printf("-ì‹ ì„±í•œ íšŒë³µ(Lv.%d)-\n",heal_lv);//[ê³µê²©ë ¥ì˜ 70 % ì˜ ìˆ˜ì¹˜ë¡œ ì²´ë ¥ì„ íšŒë³µí•œë‹¤.]
 	}
-	if (rage == 1 || (rage == 0 && turn < cnt_turn_rage + 5)) // ÇöÀç ¹öÇÁÁßÀÌ°Å³ª ÄğÅ¸ÀÓÀÌ ¾Èµ¹¾ÒÀ»‹š.
+	if (rage == 1 || (rage == 0 && turn < cnt_turn_rage + 5)) // í˜„ì¬ ë²„í”„ì¤‘ì´ê±°ë‚˜ ì¿¨íƒ€ì„ì´ ì•ˆëŒì•˜ì„ë–„.
 	{
 		gotoxy(x, y + 2);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-¿ë»çÀÇ ºĞ³ë(Lv.%d)-\n",rage_lv);
+		printf("-ìš©ì‚¬ì˜ ë¶„ë…¸(Lv.%d)-\n",rage_lv);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
-	else if (rage == 0) //[3ÅÏ°£ °ø°İ·ÂÀÌ 30 % Áõ°¡ÇÑ´Ù.]
+	else if (rage == 0) //[3í„´ê°„ ê³µê²©ë ¥ì´ 30 % ì¦ê°€í•œë‹¤.]
 	{
 		gotoxy(x, y + 2);
-		printf("-¿ë»çÀÇ ºĞ³ë(Lv.%d)-\n",rage_lv);
+		printf("-ìš©ì‚¬ì˜ ë¶„ë…¸(Lv.%d)-\n",rage_lv);
 	}
 	gotoxy(x, y + 3);
-	printf("-µ¹¾Æ°£´Ù-");
+	printf("-ëŒì•„ê°„ë‹¤-");
 	while (1)
 	{
 		int n = keyControl();
@@ -1606,13 +1637,13 @@ int npc1draw() {
 	int x = 3;
 	int y = 7;
 	gotoxy(x, y);
-	printf("¿¬¼Ó Âî¸£±â °­È­");
+	printf("ì—°ì† ì°Œë¥´ê¸° ê°•í™”");
 	gotoxy(x, y+1);
-	printf("½Å¼ºÇÑ È¸º¹ °­È­");
+	printf("ì‹ ì„±í•œ íšŒë³µ ê°•í™”");
 	gotoxy(x, y+2);
-	printf("¿ë»çÀÇ ºĞ³ë °­È­");
+	printf("ìš©ì‚¬ì˜ ë¶„ë…¸ ê°•í™”");
 	gotoxy(x, y + 3);
-	printf("µ¹¾Æ°£´Ù.");
+	printf("ëŒì•„ê°„ë‹¤.");
 	while (1)
 	{
 		int n = keyControl();
@@ -1654,9 +1685,9 @@ int yesnodraw() {
 	int x = 3;
 	int y = 8;
 	gotoxy(x, y);
-	printf("°­È­ÇÑ´Ù.");
+	printf("ê°•í™”í•œë‹¤.");
 	gotoxy(x, y + 1);
-	printf("ÇÏÁö ¾Ê´Â´Ù.");
+	printf("í•˜ì§€ ì•ŠëŠ”ë‹¤.");
 
 	while (1)
 	{
@@ -1703,24 +1734,24 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-int attack(int x,int y) // x = ¸ó½ºÅÍ ¶óÀÌÇÁ , y = ³» °ø°İ·Â/  ¸ó½ºÅÍ¿¡°Ô °¡ÇÑ ÇÇÇØ·®.
+int attack(int x,int y) // x = ëª¬ìŠ¤í„° ë¼ì´í”„ , y = ë‚´ ê³µê²©ë ¥/  ëª¬ìŠ¤í„°ì—ê²Œ ê°€í•œ í”¼í•´ëŸ‰.
 {
 
 	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t =  i + y; // µ¥¹ÌÁö = ·£´ı³­¼ö + ÇÃ ·¹ÀÌ¾î °ø°İ·Â
+	int t =  i + y; // ë°ë¯¸ì§€ = ëœë¤ë‚œìˆ˜ + í”Œ ë ˆì´ì–´ ê³µê²©ë ¥
 	return t;
 }
 
 int attacked_monster(int x, int y)
 {
 	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t = i + y; //µ¥¹ÌÁö= ·£´ı³­¼ö + ÇÃ·¹ÀÌ¾î °ø°İ·Â
+	int t = i + y; //ë°ë¯¸ì§€= ëœë¤ë‚œìˆ˜ + í”Œë ˆì´ì–´ ê³µê²©ë ¥
 	return t;
 }
 
 int skill_several_stab(int a)
 {
-	int temp = rand() % 2 + 2; //³­¼ö
+	int temp = rand() % 2 + 2; //ë‚œìˆ˜
 	int dem;
 	if (stab_lv == 1) {
 		dem = temp * (a * 0.8);
@@ -1740,7 +1771,7 @@ int skill_several_stab(int a)
 	return dem;
 }
 
-int skill_holy_Heal(int x, int y) // ¿ë»ç Ã¼·Â,¿ë»ç °ø°İ·Â
+int skill_holy_Heal(int x, int y) // ìš©ì‚¬ ì²´ë ¥,ìš©ì‚¬ ê³µê²©ë ¥
 {
 	int t;
 	if (heal_lv == 1) {
@@ -1756,11 +1787,11 @@ int skill_holy_Heal(int x, int y) // ¿ë»ç Ã¼·Â,¿ë»ç °ø°İ·Â
 	return t;
 }
 
-int skill_rage(int x)// 3ÅÏ µ¿¾È ¿ë»ç °ø°İ·Â ÄğÅ¸ÀÓ 6
+int skill_rage(int x)// 3í„´ ë™ì•ˆ ìš©ì‚¬ ê³µê²©ë ¥ ì¿¨íƒ€ì„ 6
 {
 	int t;
 	if (rage_lv==1) {
-		t = x * (0.3); // t(Ãß°¡ °ø°İ·Â) = °ø°İ·Â * 0.3 ÀÌ´Ù.
+		t = x * (0.3); // t(ì¶”ê°€ ê³µê²©ë ¥) = ê³µê²©ë ¥ * 0.3 ì´ë‹¤.
 	}
 	if (rage_lv==2) {
 		t = x * (0.5); 
@@ -1768,17 +1799,17 @@ int skill_rage(int x)// 3ÅÏ µ¿¾È ¿ë»ç °ø°İ·Â ÄğÅ¸ÀÓ 6
 	if (rage_lv==3) {
 		t = x * (0.7); 
 	}
-	return t; // °ø°İ·Â¿¡ t¸¦ Ãß°¡ÇÑ´Ù.
+	return t; // ê³µê²©ë ¥ì— të¥¼ ì¶”ê°€í•œë‹¤.
 }
 
 void monster1_move_system_1(char arr[][10],int y, int x) {
 	if (kbhit())
 	{
 		int dirM1 = rand() % 4;
-		switch (dirM1) // ¸ó½ºÅÍ ºñÀüÅõÆĞÅÏ
+		switch (dirM1) // ëª¬ìŠ¤í„° ë¹„ì „íˆ¬íŒ¨í„´
 		{
 		case 0:
-			if (arr[y_mon - 1][x_mon] == 0) //°¡°íÀÚÇÏ´Â ÀÚ¸®°¡ 0ÀÏ¶§¸¸ °¡´É.
+			if (arr[y_mon - 1][x_mon] == 0) //ê°€ê³ ìí•˜ëŠ” ìë¦¬ê°€ 0ì¼ë•Œë§Œ ê°€ëŠ¥.
 			{
 				y_mon--;
 				bef_move_monster(y_mon + 1, x_mon);
