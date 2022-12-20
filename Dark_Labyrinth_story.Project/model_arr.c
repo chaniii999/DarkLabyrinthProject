@@ -14,6 +14,16 @@
 #define RIGHT 3
 #define	SUBMIT 4 // 선택 (Enter 키)
 
+const char *specialChar()
+{
+	return "■";
+}
+const char* specialChar2()
+{
+	return "□";
+}
+
+
 void gotoxy(int x, int y);
 
 
@@ -149,7 +159,7 @@ int main(void)
 	oBject player; //플레이어 정의
 	player.name = "player";
 	player.attack = 20;
-	player.crono = 500;
+	player.crono = 5000;
 	player.level = 1;
 	player.exp = 0;
 	player.max_life = 50;
@@ -984,7 +994,7 @@ int main(void)
 				Sleep(1000);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 				Sleep(1500);
-				printf("%d크로노가 필요합니다.\n 연속 찌르기를 강화하시겠습니까?",cost_stab);
+				printf("%d크로노가 필요합니다.\n\n연속 찌르기를 강화하시겠습니까?\n",cost_stab);
 				switch (yesnodraw())
 				{
 				case 0:
@@ -993,21 +1003,31 @@ int main(void)
 					if (player.crono >= cost_stab)
 					{
 						player.crono -= cost_stab;
+
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 						Sleep(1500);
 						printf("\n\n\n  연속 찌르기의 레벨이 상승했습니다.");
 						Sleep(1500);
-						if (stab_lv == 1) {
-							cost_stab = 200;
-							stab_lv++;
-						}
-						if (stab_lv == 2)
+						if (stab_lv == 1) // 50.
 						{
+							stab_lv++;
+							cost_stab = 200;
+						}
+						else if (stab_lv == 2) {
 							cost_stab = 350;
 							stab_lv++;
 						}
-						npc1_life = 0;
-						situation_num = 1;
+						else if (stab_lv == 3)
+						{
+							cost_stab = 550;
+							stab_lv++;
+						}
+						else if (stab_lv == 4)
+						{
+							cost_stab = 800;
+							stab_lv++;
+						}
+						break;
 					}
 					else
 					{
@@ -1039,19 +1059,25 @@ int main(void)
 					system("cls");
 					if (player.crono >= cost_heal) {
 						player.crono -= cost_heal;
+						heal_lv++;
 						printf("\n\n\n  신성한 회복의 레벨이 상승했습니다.");
-						if (heal_lv == 1) 
+						if (heal_lv == 2) 
 						{
 							cost_heal = 250;
 							heal_lv++;
 						}
-						if (heal_lv == 2)
+						else if (heal_lv == 3)
 						{
 							cost_heal = 300;
 							heal_lv++;
 						}
-						npc1_life = 0;
-						situation_num = 1;
+						else if (heal_lv == 4)
+						{
+							cost_heal = 300;
+							heal_lv++;
+						}
+						break;
+
 					}
 					else {
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
@@ -1082,17 +1108,20 @@ int main(void)
 					if (player.crono >= cost_rage)
 					{
 						player.crono -= cost_rage;
+						rage_lv++;
 						printf("\n\n\n  용사의 분노의 레벨이 상승했습니다.");
-						if (rage_lv == 1) {
+						if (rage_lv == 2) {
 							cost_rage = 300;
 							rage_lv++;
 						}
-						if (rage_lv == 2) {
+						else if (rage_lv == 3) {
 							cost_rage = 500;
 							rage_lv++;
 						}
-						npc1_life = 0;
-						situation_num = 1;
+						else if (rage_lv == 4) {
+							cost_rage = 500;
+							rage_lv++;
+						}
 						break;
 					}
 					else {
@@ -1110,8 +1139,9 @@ int main(void)
 				}
 				}
 			}
-			case 3:
+			case 3: // 돌아간다.
 			{
+				situation_num = 1;
 				break;
 			}
 			default:
@@ -1172,8 +1202,20 @@ void printQuestion_level_1()//맵 출력
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			printf(" %d ", map_arr_loCation_level_1[i][j]);
-
+			if (map_arr_loCation_level_1[i][j] == 0)
+			{
+				printf("  ");
+			}
+			else if (map_arr_loCation_level_1[i][j] == 9)
+			{
+				printf("%s", specialChar());
+			}
+			else if (map_arr_loCation_level_1[i][j] == 3)
+			{
+				printf("%s", specialChar2());
+			}
+			else
+				printf(" %d", map_arr_loCation_level_1[i][j]);
 
 		}
 		printf("\n");
@@ -1187,7 +1229,16 @@ void printQuestion_level_2()//맵 출력
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			printf(" %d ", map_arr_loCation_level_2[i][j]);
+			if (map_arr_loCation_level_2[i][j] == 0)
+			{
+				printf("  ");
+			}
+			else if (map_arr_loCation_level_2[i][j] == 9)
+			{
+				printf("%s", specialChar());
+			}
+			else
+				printf(" %d", map_arr_loCation_level_2[i][j]);
 
 
 		}
@@ -1202,7 +1253,16 @@ void printQuestion_level_3()//맵 출력
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			printf(" %d ", map_arr_loCation_level_3[i][j]);
+			if (map_arr_loCation_level_3[i][j] == 0)
+			{
+				printf("  ");
+			}
+			else if (map_arr_loCation_level_3[i][j] == 9)
+			{
+				printf("%s", specialChar());
+			}
+			else
+				printf(" %d", map_arr_loCation_level_3[i][j]);
 
 
 		}
@@ -1217,8 +1277,16 @@ void printQuestion_level_4()//맵 출력
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			printf(" %d ", map_arr_loCation_level_4[i][j]);
-
+			if (map_arr_loCation_level_4[i][j] == 0)
+			{
+				printf("  ");
+			}
+			else if (map_arr_loCation_level_4[i][j] == 9)
+			{
+				printf("%s", specialChar());
+			}
+			else
+				printf(" %d", map_arr_loCation_level_4[i][j]);
 
 		}
 		printf("\n");
@@ -1232,7 +1300,16 @@ void printQuestion_level_5()//맵 출력
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			printf(" %d ", map_arr_loCation_level_5[i][j]);
+			if (map_arr_loCation_level_5[i][j] == 0)
+			{
+				printf("  ");
+			}
+			else if (map_arr_loCation_level_5[i][j] == 9)
+			{
+				printf("%s", specialChar());
+			}
+			else
+				printf(" %d", map_arr_loCation_level_5[i][j]);
 
 
 		}
@@ -1527,13 +1604,15 @@ int skillmenuDraw()
 
 int npc1draw() {
 	int x = 3;
-	int y = 8;
+	int y = 7;
 	gotoxy(x, y);
 	printf("연속 찌르기 강화");
 	gotoxy(x, y+1);
 	printf("신성한 회복 강화");
 	gotoxy(x, y+2);
 	printf("용사의 분노 강화");
+	gotoxy(x, y + 3);
+	printf("돌아간다.");
 	while (1)
 	{
 		int n = keyControl();
@@ -1541,7 +1620,7 @@ int npc1draw() {
 		{
 		case UP:
 		{
-			if (y > 8) {
+			if (y > 7) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -1562,7 +1641,7 @@ int npc1draw() {
 		}
 		case SUBMIT:
 		{
-			return y - 8;
+			return y - 7;
 			break;
 		}
 
@@ -1646,11 +1725,17 @@ int skill_several_stab(int a)
 	if (stab_lv == 1) {
 		dem = temp * (a * 0.8);
 	}
-	if (stab_lv == 2) {
+	else if (stab_lv == 2) {
 		dem = temp * (a * 1);
 	}
-	if (stab_lv == 3) {
+	else if (stab_lv == 3) {
 		dem = temp * (a * 1.2);
+	}
+	else if (stab_lv == 4) {
+		dem = temp * (a * 1.5);
+	}
+	else if (stab_lv == 5) {
+		dem = temp * (a * 2.2);
 	}
 	return dem;
 }
@@ -1661,10 +1746,10 @@ int skill_holy_Heal(int x, int y) // 용사 체력,용사 공격력
 	if (heal_lv == 1) {
 		t = y * (0.4);
 	}
-	if (heal_lv == 2) {
+	else if (heal_lv == 2) {
 		t = y * (0.6);
 	}
-	if (heal_lv == 3) {
+	else if (heal_lv == 3) {
 		t = y * (0.8);
 	}
 	x += t;
