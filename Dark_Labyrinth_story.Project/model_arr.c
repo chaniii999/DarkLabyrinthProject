@@ -112,8 +112,8 @@ int black_s = 6;
 int x_npc=5;
 int y_npc=5;
 
-int x_black = 6;
-int y_black = 7;
+int x_black = 5;
+int y_black = 5;
 
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
@@ -255,7 +255,7 @@ int main(void)
 	}
 
 	if (blacks_life == 1) {
-		map_arr_loCation_level_3[6][7] = black_s;
+		map_arr_loCation_level_3[5][5] = black_s;
 	}
 		
 
@@ -391,7 +391,7 @@ int main(void)
 				//status(player.name, player.life, player.max_life, player.mana, player.max_mana, player.crono);
 
 				int qq = 33;
-				int pp = 5;
+				int pp = 3;
 				gotoxy(qq, pp);
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
@@ -400,6 +400,8 @@ int main(void)
 				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
+				gotoxy(qq, pp + 5);
+				printf("floor : 1 ", dengeon_level);
 
 				if (map_arr_loCation_level_1[8][8] == Player)
 				{
@@ -413,7 +415,7 @@ int main(void)
 			{
 				printQuestion_level_2();
 				int qq = 33;
-				int pp = 5;
+				int pp = 3;
 				gotoxy(qq, pp);
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
@@ -422,6 +424,8 @@ int main(void)
 				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
+				gotoxy(qq, pp + 5);
+				printf("floor : 1 ", dengeon_level);
 				if (map_arr_loCation_level_2[8][8] == Player)
 				{
 					dengeon_level = 3;
@@ -434,7 +438,7 @@ int main(void)
 			{
 				printQuestion_level_3();
 				int qq = 33;
-				int pp = 5;
+				int pp = 3;
 				gotoxy(qq, pp);
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
@@ -443,6 +447,8 @@ int main(void)
 				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
+				gotoxy(qq, pp + 5);
+				printf("floor : 1 ", dengeon_level);
 				if (map_arr_loCation_level_3[8][8] == Player)
 				{
 					dengeon_level = 4;
@@ -454,7 +460,7 @@ int main(void)
 			{
 				printQuestion_level_4();
 				int qq = 33;
-				int pp = 5;
+				int pp = 3;
 				gotoxy(qq, pp);
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
@@ -463,6 +469,8 @@ int main(void)
 				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
+				gotoxy(qq, pp + 5);
+				printf("floor : 1 ", dengeon_level);
 				if (map_arr_loCation_level_4[12][12] == Player)
 				{
 					dengeon_level = 5;
@@ -475,7 +483,7 @@ int main(void)
 			{
 				printQuestion_level_5();
 				int qq = 33;
-				int pp = 5;
+				int pp = 3;
 				gotoxy(qq, pp);
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
@@ -484,6 +492,8 @@ int main(void)
 				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
+				gotoxy(qq, pp + 5);
+				printf("floor : 1 ", dengeon_level);
 				if (map_arr_loCation_level_5[12][12] == Player)
 				{
 					dengeon_level = 9;
@@ -633,7 +643,7 @@ int main(void)
 					x_p == x_black && y_p == y_black - 1)
 				{
 					situation_num = 6;
-					map_arr_loCation_level_2[5][5] = 0;
+					map_arr_loCation_level_3[5][5] = 0;
 				}
 			}
 			if (dengeon_level == 4)
@@ -1348,6 +1358,7 @@ void printQuestion_level_1()//맵 출력
 {
 	for (int i = 0; i < 10; i++)
 	{
+		printf("     ");
 		for (int j = 0; j < 10; j++)
 		{
 			if (map_arr_loCation_level_1[i][j] == 0) // 공백
@@ -1371,13 +1382,13 @@ void printQuestion_level_1()//맵 출력
 		}
 		printf("\n");
 	}
-	printf("dengeon_level=%d", dengeon_level);
 }
 
 void printQuestion_level_2()//맵 출력
 {
 	for (int i = 0; i < 10; i++)
 	{
+		printf("     ");
 		for (int j = 0; j < 10; j++)
 		{
 			if (map_arr_loCation_level_2[i][j] == 0) // 공백
@@ -1401,13 +1412,13 @@ void printQuestion_level_2()//맵 출력
 		}
 		printf("\n");
 	}
-	printf("dengeon_level=%d", dengeon_level);
 }
 
 void printQuestion_level_3()//맵 출력
 {
 	for (int i = 0; i < 10; i++)
 	{
+		printf("     ");
 		for (int j = 0; j < 10; j++)
 		{
 			if (map_arr_loCation_level_3[i][j] == 0) // 공백
@@ -1431,7 +1442,6 @@ void printQuestion_level_3()//맵 출력
 		}
 		printf("\n");
 	}
-	printf("dengeon_level=%d", dengeon_level);
 }
 
 void printQuestion_level_4()//맵 출력
@@ -1461,7 +1471,6 @@ void printQuestion_level_4()//맵 출력
 		}
 		printf("\n");
 	}
-	printf("dengeon_level=%d", dengeon_level);
 }
 
 void printQuestion_level_5()//맵 출력
@@ -1491,7 +1500,6 @@ void printQuestion_level_5()//맵 출력
 		}
 		printf("\n");
 	}
-	printf("dengeon_level=%d", dengeon_level);
 }
 
 
