@@ -151,6 +151,9 @@ typedef struct objecT
 	int level;
 }oBject;
 
+char player_name[20] = "ricaus";
+
+
 ////////////////////////////////////                             ///////////////////////////////////////////////////////                        ///////////////////////
 
 
@@ -160,30 +163,51 @@ int main(void)
 	system("mode con cols=30 lines=12");
 
 	oBject player; //플레이어 정의
-	player.name = "player";
+	player.name = player_name;
 	player.attack = 20;
 	player.crono = 5000;
-	player.level = 1;
-	player.exp = 0;
-	player.max_life = 50;
+	player.max_life = 30;
 	player.life = player.max_life; 
 
+
+	oBject npc1;
+	npc1.name = "신성한 녹색 조각상";
+
+	oBject pari; //자고새
+	pari.name = "자고새";
+	pari.attack = 3;
+	pari.life = 15;
+	pari.crono = rand() % 10 + 10;
+
+	oBject bat; //박쥐
+	bat.name = "박쥐";
+	bat.attack = 3;
+	bat.life = 10;
+	bat.crono = rand() % 12 + 10;
+
+	oBject moth; // 
+	moth.name = "나방";
+	moth.attack = 2;
+	moth.life = 7;
+	moth.crono = rand() % 15 + 15;
+
+	oBject spider; // 
+	spider.name = "거미";
+	spider.attack = 4;
+	spider.life = 6;
+	spider.crono = rand() % 25 + 10;
+
+	oBject sping; // 
+	sping.name = "스핑크스";
+	sping.attack = 13;
+	sping.life = 80;
+	sping.crono = rand() % 100 + 150;
+
 	oBject monster1; //몬스터 1 정의.
-	monster1.name = "Black-Dragon";
+	monster1.name = "블랙-드래곤";
 	monster1.attack = 8;
 	monster1.life = 60;
 	monster1.crono = rand() % 50 + 60;
-	monster1.level = 50;
-	monster1.exp = 500;
-
-	oBject npc1;
-	npc1.name = "kun_ha";
-	npc1.attack = 3;
-	npc1.life = 20;
-	npc1.crono = 600;
-	npc1.level = 3;
-	npc1.exp = 4;
-	
 
 
 	int cnt_monster1_life = monster1.life;
@@ -486,6 +510,7 @@ int main(void)
 					x_p == x_npc && y_p == y_npc - 1)
 				{
 					situation_num = 4;
+					map_arr_loCation_level_2[5][5] = 0;
 				}
 			}
 			if (dengeon_level == 3)
@@ -971,16 +996,23 @@ int main(void)
 
 		if (situation_num == 4)
 		{
-			system("cls");
-			Sleep(1000);
-			printf("\n\n신비한 녹색 빛을 띄는 오래된 석상이 앞에 있다...\n");
-			Sleep(1500);
-			printf("\n공물함같이 보이는 상자가 있다.\n");
-			Sleep(1000);
-			printf("\n크로노를 바치면 무슨 일이 일어날 것 같다.\n");
-			Sleep(1500);
-			system("cls");
-			situation_num = 5;
+			if (npc1_life == 0)
+			{
+				situation_num = 1;
+			}
+			else
+			{
+				system("cls");
+				Sleep(1000);
+				printf("\n\n신비한 녹색 빛을 띄는 오래된 석상이 앞에 있다...\n");
+				Sleep(1500);
+				printf("\n공물함같이 보이는 상자가 있다.\n");
+				Sleep(1000);
+				printf("\n크로노를 바치면 무슨 일이 일어날 것 같다.\n");
+				Sleep(1500);
+				system("cls");
+				situation_num = 5;
+			}
 		}
 
 		if (situation_num == 5)
@@ -990,7 +1022,7 @@ int main(void)
 			Sleep(1000);
 			printf("   연속 찌르기 Lv.%d\n   신성한 회복 Lv.%d\n   용사의 분노 Lv.%d\n",stab_lv,heal_lv,rage_lv);
 			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-			printf("내 크로노 : %d", player.crono);
+			printf("   내 크로노 : %d", player.crono);
 			switch (npc1draw())
 			{
 			case 0:
@@ -1169,6 +1201,7 @@ int main(void)
 				map_arr_loCation_level_2[5][5] = 0;
 				npc1_life = 0;
 				situation_num = 1;
+				break;
 			}
 			default:
 			{
