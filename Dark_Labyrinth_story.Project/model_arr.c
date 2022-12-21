@@ -78,6 +78,8 @@ void printQuestion_level_5();
 
 int keyControl();
 
+void status(char name, int cnt_life, int max_life, int cnt_mana, int max_mana, int crono);
+
 
 int t_1 = 10; // 맵 가로 길이
 int g_1 = 10; // 맵 세로 길이
@@ -104,15 +106,23 @@ int Player = 1; //플레이어 고유값
 int monster1 = 4; //몬스터1 고유값
 int npc_1 = 5; // npc1고유값.
 int enTrance = 3;
+int black_s = 6;
+
 
 int x_npc=5;
 int y_npc=5;
+
+int x_black = 6;
+int y_black = 7;
 
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
 
 int monster1_life = 0; // 몬스터가 살아있는지 여부
 int npc1_life = 1;
+int blacks_life = 1;
+
+
 
 //전투함수
 int stab_lv = 1;
@@ -145,6 +155,8 @@ typedef struct objecT
 	int attack;// 공격력
 	int life;  // 생명력
 	int max_life;// 최대 생명력
+	int mana;
+	int max_mana;
 	char* item[20];// 아이템칸. 만약 첫칸에 아이템이있다면? for문 사용하여 i++ 해서 재시도하여 장착
 	int crono; //화폐
 	int exp; // 경험치
@@ -160,7 +172,7 @@ char player_name[20] = "ricaus";
 int main(void)
 {
 	srand(time(NULL));
-	system("mode con cols=30 lines=12");
+	system("mode con cols=50 lines=19");
 
 	oBject player; //플레이어 정의
 	player.name = player_name;
@@ -168,10 +180,15 @@ int main(void)
 	player.crono = 5000;
 	player.max_life = 30;
 	player.life = player.max_life; 
+	player.max_mana = 30;
+	player.mana = player.max_mana;
 
 
 	oBject npc1;
 	npc1.name = "신성한 녹색 조각상";
+
+	oBject blacks;
+	blacks.name = "대장장이";
 
 	oBject pari; //자고새
 	pari.name = "자고새";
@@ -203,11 +220,17 @@ int main(void)
 	sping.life = 80;
 	sping.crono = rand() % 100 + 150;
 
+	oBject kero; // 
+	sping.name = "케르베로스";
+	sping.attack = 20;
+	sping.life = 60;
+	sping.crono = rand() % 100 + 250;
+
 	oBject monster1; //몬스터 1 정의.
 	monster1.name = "블랙-드래곤";
-	monster1.attack = 8;
-	monster1.life = 60;
-	monster1.crono = rand() % 50 + 60;
+	monster1.attack = 17;
+	monster1.life = 130;
+	monster1.crono = rand() % 150 + 360;
 
 
 	int cnt_monster1_life = monster1.life;
@@ -231,6 +254,9 @@ int main(void)
 		map_arr_loCation_level_2[5][5] = npc_1;
 	}
 
+	if (blacks_life == 1) {
+		map_arr_loCation_level_3[6][7] = black_s;
+	}
 		
 
 
@@ -358,9 +384,23 @@ int main(void)
 
 		if (situation_num == 1) //평상시
 		{
+
 			if (dengeon_level == 1)
 			{
 				printQuestion_level_1();//맵 표시
+				//status(player.name, player.life, player.max_life, player.mana, player.max_mana, player.crono);
+
+				int qq = 33;
+				int pp = 5;
+				gotoxy(qq, pp);
+				printf("%s", player.name);
+				gotoxy(qq, pp + 1);
+				printf("LIFE ( %d / %d )", player.life, player.max_life);
+				gotoxy(qq, pp + 2);
+				printf("MANA ( %d / %d )", player.mana, player.max_mana);
+				gotoxy(qq, pp + 3);
+				printf("CRONO : %d", player.crono);
+
 				if (map_arr_loCation_level_1[8][8] == Player)
 				{
 					dengeon_level = 2;
@@ -372,6 +412,16 @@ int main(void)
 			if (dengeon_level == 2) 
 			{
 				printQuestion_level_2();
+				int qq = 33;
+				int pp = 5;
+				gotoxy(qq, pp);
+				printf("%s", player.name);
+				gotoxy(qq, pp + 1);
+				printf("LIFE ( %d / %d )", player.life, player.max_life);
+				gotoxy(qq, pp + 2);
+				printf("MANA ( %d / %d )", player.mana, player.max_mana);
+				gotoxy(qq, pp + 3);
+				printf("CRONO : %d", player.crono);
 				if (map_arr_loCation_level_2[8][8] == Player)
 				{
 					dengeon_level = 3;
@@ -383,6 +433,16 @@ int main(void)
 			if (dengeon_level == 3)
 			{
 				printQuestion_level_3();
+				int qq = 33;
+				int pp = 5;
+				gotoxy(qq, pp);
+				printf("%s", player.name);
+				gotoxy(qq, pp + 1);
+				printf("LIFE ( %d / %d )", player.life, player.max_life);
+				gotoxy(qq, pp + 2);
+				printf("MANA ( %d / %d )", player.mana, player.max_mana);
+				gotoxy(qq, pp + 3);
+				printf("CRONO : %d", player.crono);
 				if (map_arr_loCation_level_3[8][8] == Player)
 				{
 					dengeon_level = 4;
@@ -393,6 +453,16 @@ int main(void)
 			if (dengeon_level == 4)
 			{
 				printQuestion_level_4();
+				int qq = 33;
+				int pp = 5;
+				gotoxy(qq, pp);
+				printf("%s", player.name);
+				gotoxy(qq, pp + 1);
+				printf("LIFE ( %d / %d )", player.life, player.max_life);
+				gotoxy(qq, pp + 2);
+				printf("MANA ( %d / %d )", player.mana, player.max_mana);
+				gotoxy(qq, pp + 3);
+				printf("CRONO : %d", player.crono);
 				if (map_arr_loCation_level_4[12][12] == Player)
 				{
 					dengeon_level = 5;
@@ -404,6 +474,16 @@ int main(void)
 			if (dengeon_level == 5)
 			{
 				printQuestion_level_5();
+				int qq = 33;
+				int pp = 5;
+				gotoxy(qq, pp);
+				printf("%s", player.name);
+				gotoxy(qq, pp + 1);
+				printf("LIFE ( %d / %d )", player.life, player.max_life);
+				gotoxy(qq, pp + 2);
+				printf("MANA ( %d / %d )", player.mana, player.max_mana);
+				gotoxy(qq, pp + 3);
+				printf("CRONO : %d", player.crono);
 				if (map_arr_loCation_level_5[12][12] == Player)
 				{
 					dengeon_level = 9;
@@ -472,7 +552,6 @@ int main(void)
 			{
 
 				move_player_1(map_arr_loCation_level_2, y_p, x_p); // 캐릭터 현 좌표 함수.
-				//move_monster_1(map_arr_loCation_level_2, y_mon, x_mon); // 몬스터 현 좌표.
 				if (kbhit())
 				{
 
@@ -547,6 +626,14 @@ int main(void)
 					default:
 						break;
 					}
+				}
+				if (x_p == x_black && y_p == y_black + 1 ||
+					x_p == x_black + 1 && y_p == y_black ||
+					x_p == x_black - 1 && y_p == y_black ||
+					x_p == x_black && y_p == y_black - 1)
+				{
+					situation_num = 6;
+					map_arr_loCation_level_2[5][5] = 0;
 				}
 			}
 			if (dengeon_level == 4)
@@ -669,9 +756,6 @@ int main(void)
 					Sleep(1000);
 					printf("%d 크로노 를 얻었다!\n", monster1.crono);
 					player.crono += monster1.crono;
-					Sleep(500);
-					printf("%d 경험치를 획득했다!", monster1.exp);
-					player.exp += monster1.exp;
 					Sleep(500);
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(2000);
@@ -820,9 +904,6 @@ int main(void)
 							Sleep(1000);
 							printf("%d 크로노 를 얻었다!\n", monster1.crono);
 							player.crono += monster1.crono;
-							Sleep(500);
-							printf("%d 경험치를 획득했다!\n", monster1.exp);
-							player.exp += monster1.exp;
 							Sleep(500);
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(2000);
@@ -1214,6 +1295,12 @@ int main(void)
 
 		if (situation_num == 6)
 		{
+			printf("깡... 깡.. 깡..");
+			Sleep(1000);
+			printf("철 두드리는 소리가 계속해서 울린다.");
+			Sleep(1000);
+			printf("흰머리가 난 늙은 할아버지가 검을 두드리고 있다.");
+
 
 		}
 
@@ -1562,6 +1649,19 @@ int proLogueDraw() {
 
 		}
 	}
+}
+
+void status(char name,int cnt_life,int max_life,int cnt_mana,int max_mana,int crono) {
+	int x = 30;
+	int y = 5;
+	gotoxy(x, y);
+	printf("%s",name);
+	gotoxy(x, y + 1);
+	printf("LIFE ( %d / %d )",cnt_life,max_life);
+	gotoxy(x, y + 2);
+	printf("MANA ( %d / %d )", cnt_mana, max_mana);
+	gotoxy(x, y + 3);
+	printf("CRONO : %d", crono);
 }
 
 int menuDraw() {
