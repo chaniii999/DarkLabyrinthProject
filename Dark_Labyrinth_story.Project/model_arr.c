@@ -27,6 +27,22 @@ const char* specialChar3()
 {
 	return "＆";
 }
+const char* specialChar4()
+{
+	return "┌";
+}
+const char* specialChar5()
+{
+	return "└";
+}
+const char* specialChar6()
+{
+	return "┘";
+}
+const char* specialChar7()
+{
+	return "┐";
+}
 
 
 
@@ -44,13 +60,15 @@ int menuDraw(); // 메뉴 선택지함수
 int skillmenuDraw(); // 스킬 선택지 함수
 int npc1draw();
 int yesnodraw();
+int blacksdraw();
+void conversationprint();
 //int itemDraw();//아이템 선택함수
 
 int select_num = 0; //전투상황 선택지 초기화
 
 //맵 관련함수
 
-int dengeon_level = 1;
+int dengeon_level = 3;
 
 int situation_num = 1; //시츄에이션 넘버
 
@@ -250,6 +268,7 @@ int main(void)
 	map_arr_loCation_level_5[12][12] = enTrance;
 
 
+
 	if (npc1_life == 1) {
 		map_arr_loCation_level_2[5][5] = npc_1;
 	}
@@ -401,7 +420,7 @@ int main(void)
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
-				printf("floor : 1 ", dengeon_level);
+				printf("floor : %d ", dengeon_level);
 
 				if (map_arr_loCation_level_1[8][8] == Player)
 				{
@@ -425,7 +444,7 @@ int main(void)
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
-				printf("floor : 1 ", dengeon_level);
+				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_2[8][8] == Player)
 				{
 					dengeon_level = 3;
@@ -448,7 +467,7 @@ int main(void)
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
-				printf("floor : 1 ", dengeon_level);
+				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_3[8][8] == Player)
 				{
 					dengeon_level = 4;
@@ -470,7 +489,7 @@ int main(void)
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
-				printf("floor : 1 ", dengeon_level);
+				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_4[12][12] == Player)
 				{
 					dengeon_level = 5;
@@ -493,7 +512,7 @@ int main(void)
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
-				printf("floor : 1 ", dengeon_level);
+				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_5[12][12] == Player)
 				{
 					dengeon_level = 9;
@@ -1305,14 +1324,27 @@ int main(void)
 
 		if (situation_num == 6)
 		{
-			printf("깡... 깡.. 깡..");
+			system("cls");
+			printf("깡... 깡.. 깡..\n\n");
 			Sleep(1000);
-			printf("철 두드리는 소리가 계속해서 울린다.");
+			printf("철 두드리는 소리가 계속해서 울린다.\n\n");
 			Sleep(1000);
-			printf("흰머리가 난 늙은 할아버지가 검을 두드리고 있다.");
+			printf("흰머리가 난 늙은 할아버지가 검을 두드리고 있다.\n\n");
+			Sleep(1000);
+			system("cls");
+			situation_num = 7;
+		}
 
+		if (situation_num == 7)
+		{
+			printf("\u2732");
+			Sleep(1500);
+			conversationprint();
+			Sleep(1500);
+			yesnodraw();
 
 		}
+
 
 		if (rage == 1)
 		{
@@ -1892,7 +1924,70 @@ int yesnodraw() {
 	}
 }
 
+void conversationprint()
+{
+	int x = 0;
+	int y = 18;
 
+	gotoxy(x, y - 5);
+	printf("%s", specialChar4());
+	gotoxy(x+48, y - 5);
+	printf("%s", specialChar7());
+	gotoxy(x , y);
+	printf("%s", specialChar5());
+	gotoxy(x + 48, y);
+	printf("%s", specialChar6());
+	
+
+	
+}
+int blacksdraw() {
+	int x = 3;
+	int y = 13;
+	gotoxy(x, y);
+	printf("그렇다.");
+	gotoxy(x, y + 1);
+	printf("신성한 회복 강화");
+	gotoxy(x, y + 2);
+	printf("용사의 분노 강화");
+	gotoxy(x, y + 3);
+	printf("돌아간다.");
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 7) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 10)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 7;
+			break;
+		}
+
+
+		}
+	}
+}
 
 void gotoxy(int x, int y)
 {
@@ -2019,4 +2114,21 @@ void monster1_move_system_1(char arr[][10],int y, int x) {
 			break;
 		}
 	}
+}
+
+void blacksiMage()
+{
+	printf("⣿⣿⣿⣿⣿⣿⡿⠛⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n");
+	printf("⣿⣛⣻⠁⠀⠀⠁⠀⠀⣿⣿⡿⠋⠉⠉⠙⣿⣿⣿⣿⣿⣿⣿⣿\n");
+	printf("⣿⣿⠏⠠⣀⣀⣇⣀⣀⣿⣿⠁⡀⢀⠀⣴⠛⣿⣿⣿⣿⣿⣿⣿\n");
+	printf("⣿⣿⠀⠀⠀⣸⣿⣿⣿⣿⣿⣦⡂⣠⣴⣿⡞⡿⠿⣿⣿⣿⣿⣿\n");
+	printf("⣿⣿⣄⡤⠂⠀⠩⠋⠉⡏⢿⣿⣿⣿⣿⣿⡇⡇⠀⠀⠙⢿⣿⣿\n");
+	printf("⣿⣿⣿⣷⣄⠀⠃⠀⢠⠀⢸⣿⣿⣿⣿⣿⠁⠇⠀⠀⡠⠒⢻⣿\n");
+	printf("⣿⣿⣿⣿⣿⣾⣄⠀⠸⠀⠸⡀⠈⠛⠉⢸⠀⠘⣄⠎⠀⠀⠀⣿\n");
+	printf("⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠈⠀⠀⠀⠁⠀⠀⢈⠦⠤⢄⢀⣿\n");
+	printf("⣿⠛⠛⠛⠛⠛⠛⠛⠓⠒⢺⣿⣷⣶⣶⠁⠀⠀⢱⣶⣶⣶⣾⣿\n");
+	printf("⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠰⠀⠢⣀⢀⡘⢀⡀⢴⣿⣿\n");
+	printf("⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠐⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿\n");
+	printf("⣿⣿⣿⣿⣧⣤⣤⣤⣤⣤⣧⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣼⣿⣿\n");
+
 }
