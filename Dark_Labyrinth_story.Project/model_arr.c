@@ -3,7 +3,10 @@
 #include <Windows.h>
 #include <time.h>
 #include <stdlib.h>
-#include <wchar.h>
+#include <io.h>
+#include <fcntl.h>
+
+
 // 맵을 구성하는 다차원 배열 함수를 만들자.
 // 좌표를 정의하는 좌표 배열과 , 실질적인 위치에 해당하는 위치 배열을 만들자.
 // 좌표배열은 int 로 위치 배열은 char 로 선언하자.
@@ -15,7 +18,7 @@
 #define RIGHT 3
 #define	SUBMIT 4 // 선택 (Enter 키)
 
-const char *specialChar()
+const char* specialChar()
 {
 	return "■";
 }
@@ -45,7 +48,6 @@ const char* specialChar7()
 }
 
 
-
 void gotoxy(int x, int y);
 
 
@@ -64,7 +66,7 @@ int blacksdraw();
 void conversationprint();
 //int itemDraw();//아이템 선택함수
 
-int select_num = 0; //전투상황 선택지 초기화
+int select_num = 1; //전투상황 선택지 초기화
 
 //맵 관련함수
 
@@ -88,6 +90,7 @@ char map_arr_loCation_level_3[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,
 char map_arr_loCation_level_4[15][15];
 char map_arr_loCation_level_5[15][15];
 
+
 void printQuestion_level_1(); // 맵 출력
 void printQuestion_level_2(); // 2층 출력
 void printQuestion_level_3();
@@ -103,13 +106,13 @@ int t_1 = 10; // 맵 가로 길이
 int g_1 = 10; // 맵 세로 길이
 int t_2 = 15;
 int g_2 = 15;
-void monster1_move_system_1(char arr[][10],int a, int b); // 몬스터 무브 내장 함수 1층 몬스터1 
+void monster1_move_system_1(char arr[][10], int a, int b); // 몬스터 무브 내장 함수 1층 몬스터1 
 
 
 
-void move_player_1(char arr[][10],int x, int y); //플레이어 좌표
-void move_player_2(char arr[][15],int x, int y);
-void bef_move_player_1(char arr[][10],int x, int y); //플레이어 이전 좌표 초기화
+void move_player_1(char arr[][10], int x, int y); //플레이어 좌표
+void move_player_2(char arr[][15], int x, int y);
+void bef_move_player_1(char arr[][10], int x, int y); //플레이어 이전 좌표 초기화
 void bef_move_player_2(char arr[][15], int x, int y);
 
 void move_monster_1(char arr[][10], int x, int y); // 몬스터좌표
@@ -127,8 +130,8 @@ int enTrance = 3;
 int black_s = 6;
 
 
-int x_npc=5;
-int y_npc=5;
+int x_npc = 5;
+int y_npc = 5;
 
 int x_black = 5;
 int y_black = 5;
@@ -139,6 +142,7 @@ int y_mon = 0;
 int monster1_life = 0; // 몬스터가 살아있는지 여부
 int npc1_life = 1;
 int blacks_life = 1;
+
 
 
 
@@ -157,7 +161,7 @@ int attack(int x, int y);  // 공격 함수
 int attacked_monster(int x, int y); //피격 함수
 
 
-char *item[20]; // 문자열을 배열에 넣기위해 * 넣음.
+char* item[20]; // 문자열을 배열에 넣기위해 * 넣음.
 
 
 //스킬함수
@@ -197,7 +201,7 @@ int main(void)
 	player.attack = 20;
 	player.crono = 5000;
 	player.max_life = 30;
-	player.life = player.max_life; 
+	player.life = player.max_life;
 	player.max_mana = 30;
 	player.mana = player.max_mana;
 
@@ -206,7 +210,7 @@ int main(void)
 	npc1.name = "신성한 녹색 조각상";
 
 	oBject blacks;
-	blacks.name = "대장장이";
+	blacks.name = "늙은 대장장이";
 
 	oBject pari; //자고새
 	pari.name = "자고새";
@@ -276,16 +280,16 @@ int main(void)
 	if (blacks_life == 1) {
 		map_arr_loCation_level_3[5][5] = black_s;
 	}
-		
 
 
-	creaTor_great_Wall_1(map_arr_loCation_level_1,t_1, g_1);
-	creaTor_great_Wall_1(map_arr_loCation_level_2,t_1, g_1);
-	creaTor_great_Wall_1(map_arr_loCation_level_3,t_1, g_1);
+
+	creaTor_great_Wall_1(map_arr_loCation_level_1, t_1, g_1);
+	creaTor_great_Wall_1(map_arr_loCation_level_2, t_1, g_1);
+	creaTor_great_Wall_1(map_arr_loCation_level_3, t_1, g_1);
 	creaTor_great_Wall_2(map_arr_loCation_level_4, t_2, g_2);
 	creaTor_great_Wall_2(map_arr_loCation_level_5, t_2, g_2);
 
-	
+
 
 
 
@@ -313,7 +317,7 @@ int main(void)
 		system("cls");
 
 
-		printf("\n\n      [Dark Labyrinth]\n");
+		printf("\n\n                 [Dark Labyrinth]\n");
 		switch (titleDraw())
 		{
 		case 0:
@@ -376,7 +380,7 @@ int main(void)
 			}
 
 
-			
+
 			game = 1;
 		}
 
@@ -385,9 +389,9 @@ int main(void)
 
 
 		} //sw_ed
-			
+
 	}
-	if (dengeon_level == 1) 
+	if (dengeon_level == 1)
 	{
 		while (map_arr_loCation_level_1[x_mon][y_mon] != 0) //  몬스터 소환 좌표 설정 0일때까지 and 캐릭터 옆이 아닐때까지.
 		{
@@ -429,8 +433,8 @@ int main(void)
 					y_p = 2;
 				}
 			}
-			
-			if (dengeon_level == 2) 
+
+			if (dengeon_level == 2)
 			{
 				printQuestion_level_2();
 				int qq = 33;
@@ -523,15 +527,15 @@ int main(void)
 
 
 
-			if (dengeon_level == 1) 
+			if (dengeon_level == 1)
 			{
-				move_player_1(map_arr_loCation_level_1,y_p, x_p); // 캐릭터 현 좌표 함수.
+				move_player_1(map_arr_loCation_level_1, y_p, x_p); // 캐릭터 현 좌표 함수.
 				move_monster_1(map_arr_loCation_level_1, y_mon, x_mon); // 몬스터 현 좌표.
 				if (kbhit())
 				{
 
 					key = _getch();
-					bef_move_player_1(map_arr_loCation_level_1,y_p, x_p); // 이전 플레이어의 위치에 있는 1을 지워줌. 
+					bef_move_player_1(map_arr_loCation_level_1, y_p, x_p); // 이전 플레이어의 위치에 있는 1을 지워줌. 
 					switch (key)
 					{
 					case 72:
@@ -577,7 +581,7 @@ int main(void)
 				else
 					bef_move_monster(y_mon, x_mon);
 			}
-			if(dengeon_level==2)
+			if (dengeon_level == 2)
 			{
 
 				move_player_1(map_arr_loCation_level_2, y_p, x_p); // 캐릭터 현 좌표 함수.
@@ -940,7 +944,7 @@ int main(void)
 							x_mon = 15;
 							bef_move_monster(y_mon, x_mon);
 							system("cls");
-							monster1_life=0;
+							monster1_life = 0;
 							situation_num = 1;
 							break;
 
@@ -1130,7 +1134,7 @@ int main(void)
 			printf("     <신성한 녹색 석상>\n");
 			printf("\n");
 			Sleep(1000);
-			printf("   연속 찌르기 Lv.%d\n   신성한 회복 Lv.%d\n   용사의 분노 Lv.%d\n",stab_lv,heal_lv,rage_lv);
+			printf("   연속 찌르기 Lv.%d\n   신성한 회복 Lv.%d\n   용사의 분노 Lv.%d\n", stab_lv, heal_lv, rage_lv);
 			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 			printf("   내 크로노 : %d", player.crono);
 			switch (npc1draw())
@@ -1141,7 +1145,7 @@ int main(void)
 				Sleep(1000);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 				Sleep(1500);
-				printf("%d크로노가 필요합니다.\n\n연속 찌르기를 강화하시겠습니까?\n",cost_stab);
+				printf("%d크로노가 필요합니다.\n\n연속 찌르기를 강화하시겠습니까?\n", cost_stab);
 				switch (yesnodraw())
 				{
 				case 0:
@@ -1189,7 +1193,7 @@ int main(void)
 				{
 					break;
 				}
-				}	
+				}
 				break;
 			}
 			case 1:
@@ -1337,12 +1341,27 @@ int main(void)
 
 		if (situation_num == 7)
 		{
-			printf("\u2732");
-			Sleep(1500);
-			conversationprint();
-			Sleep(1500);
-			yesnodraw();
 
+			int exMode = _setmode(_fileno(stdout), 0x00020000);
+			_setmode(_fileno(stdout), 0x00020000);
+			wprintf(L"             ⣿⣛⣻⠁⠀⠀⠁⠀⠀⣿⣿⡿⠋⠉⠉⠙⣿⣿⣿⣿⣿⣿⣿⣿\n");
+			wprintf(L"             ⣿⣿⠏⠠⣀⣀⣇⣀⣀⣿⣿⠁⡀⢀⠀⣴⠛⣿⣿⣿⣿⣿⣿⣿\n");
+			wprintf(L"             ⣿⣿⠀⠀⠀⣸⣿⣿⣿⣿⣿⣦⡂⣠⣴⣿⡞⡿⠿⣿⣿⣿⣿⣿\n");
+			wprintf(L"             ⣿⣿⣄⡤⠂⠀⠩⠋⠉⡏⢿⣿⣿⣿⣿⣿⡇⡇⠀⠀⠙⢿⣿⣿\n");
+			wprintf(L"             ⣿⣿⣿⣷⣄⠀⠃⠀⢠⠀⢸⣿⣿⣿⣿⣿⠁⠇⠀⠀⡠⠒⢻⣿\n");
+			wprintf(L"             ⣿⣿⣿⣿⣿⣾⣄⠀⠸⠀⠸⡀⠈⠛⠉⢸⠀⠘⣄⠎⠀⠀⠀⣿\n");
+			wprintf(L"             ⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠈⠀⠀⠀⠁⠀⠀⢈⠦⠤⢄⢀⣿\n");
+			wprintf(L"             ⣿⠛⠛⠛⠛⠛⠛⠛⠓⠒⢺⣿⣷⣶⣶⠁⠀⠀⢱⣶⣶⣶⣾⣿\n");
+			wprintf(L"             ⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠰⠀⠢⣀⢀⡘⢀⡀⢴⣿⣿\n");
+			wprintf(L"             ⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠐⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿\n");
+			wprintf(L"             ⣿⣿⣿⣿⣧⣤⣤⣤⣤⣤⣧⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣼⣿⣿\n");
+
+			fflush(stdout);
+			_setmode(_fileno(stdout), exMode);
+
+			Sleep(500);
+			conversationprint();
+			blacksdraw();
 		}
 
 
@@ -1365,7 +1384,7 @@ int main(void)
 }
 ////////////////////////////////////                             ///////////////////////////////////////////////////////                        ///////////////////////
 
-void move_player_1(char arr[][10],int x, int y)
+void move_player_1(char arr[][10], int x, int y)
 {
 	arr[x][y] = Player;
 }
@@ -1376,7 +1395,7 @@ void move_player_2(char arr[][15], int x, int y)
 }
 
 
-void bef_move_player_1(char arr[][10],int x, int y)
+void bef_move_player_1(char arr[][10], int x, int y)
 {
 	arr[x][y] = 0;
 }
@@ -1535,27 +1554,27 @@ void printQuestion_level_5()//맵 출력
 }
 
 
-void creaTor_great_Wall_1(char arr[][10],int a,int b) // 벽만들기
-{
-	for (int i = 0; i < a; i++)
-	{
-		arr[0][i] = 9; // 0,0 0,1 .... 0,i
-		arr[a-1][i] = 9; // 5,0, 5,1... 5,i
-	}
-	for (int j = 1; j < b; j++)
-	{
-		arr[j][a-1] = 9;
-		arr[j][0] = 9;
-	}
-}
-
-void creaTor_great_Wall_2(char arr[][15],int a, int b) // 벽만들기
+void creaTor_great_Wall_1(char arr[][10], int a, int b) // 벽만들기
 {
 	for (int i = 0; i < a; i++)
 	{
 		arr[0][i] = 9; // 0,0 0,1 .... 0,i
 		arr[a - 1][i] = 9; // 5,0, 5,1... 5,i
-	} 
+	}
+	for (int j = 1; j < b; j++)
+	{
+		arr[j][a - 1] = 9;
+		arr[j][0] = 9;
+	}
+}
+
+void creaTor_great_Wall_2(char arr[][15], int a, int b) // 벽만들기
+{
+	for (int i = 0; i < a; i++)
+	{
+		arr[0][i] = 9; // 0,0 0,1 .... 0,i
+		arr[a - 1][i] = 9; // 5,0, 5,1... 5,i
+	}
 	for (int j = 1; j < b; j++)
 	{
 		arr[j][a - 1] = 9;
@@ -1565,11 +1584,11 @@ void creaTor_great_Wall_2(char arr[][15],int a, int b) // 벽만들기
 
 
 
-void move_monster_1(char arr[][10],int x, int y) // 몬스터 위치 동기화
+void move_monster_1(char arr[][10], int x, int y) // 몬스터 위치 동기화
 {
 	arr[x][y] = monster1;
 }
- 
+
 void move_monster_2(char arr[][15], int x, int y) // 몬스터 위치 동기화
 {
 	arr[x][y] = monster1;
@@ -1584,7 +1603,7 @@ int keyControl() //enter = 13
 {
 	char key = _getch();
 
-	if (key == 72 )
+	if (key == 72)
 		return UP;
 	else if (key == 75)
 		return LEFT;
@@ -1597,8 +1616,8 @@ int keyControl() //enter = 13
 }
 
 int titleDraw() {
-	int x = 3;
-	int y = 5;
+	int x = 14;
+	int y = 13;
 	gotoxy(x, y);
 	printf("[Open your eyes..]");
 	gotoxy(x, y + 1);
@@ -1616,7 +1635,7 @@ int titleDraw() {
 		{
 		case UP:
 		{
-			if (y > 5) {
+			if (y > 13) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -1626,7 +1645,7 @@ int titleDraw() {
 		}
 		case DOWN:
 		{
-			if (y < 8)
+			if (y < 16)
 			{
 				gotoxy(x - 2, y);
 				printf(" ");
@@ -1637,7 +1656,7 @@ int titleDraw() {
 		}
 		case SUBMIT:
 		{
-			return y - 5;
+			return y - 13;
 			break;
 		}
 
@@ -1691,13 +1710,13 @@ int proLogueDraw() {
 	}
 }
 
-void status(char name,int cnt_life,int max_life,int cnt_mana,int max_mana,int crono) {
+void status(char name, int cnt_life, int max_life, int cnt_mana, int max_mana, int crono) {
 	int x = 30;
 	int y = 5;
 	gotoxy(x, y);
-	printf("%s",name);
+	printf("%s", name);
 	gotoxy(x, y + 1);
-	printf("LIFE ( %d / %d )",cnt_life,max_life);
+	printf("LIFE ( %d / %d )", cnt_life, max_life);
 	gotoxy(x, y + 2);
 	printf("MANA ( %d / %d )", cnt_mana, max_mana);
 	gotoxy(x, y + 3);
@@ -1707,7 +1726,7 @@ void status(char name,int cnt_life,int max_life,int cnt_mana,int max_mana,int cr
 int menuDraw() {
 	int x = 3;
 	int y = 5;
-	gotoxy(x , y);
+	gotoxy(x, y);
 	printf("공격");
 	gotoxy(x, y + 1);
 	printf("방어");
@@ -1715,7 +1734,7 @@ int menuDraw() {
 	printf("스킬");
 	gotoxy(x, y + 3);
 	printf("아이템");
-	while (1) 
+	while (1)
 	{
 		int n = keyControl();
 		switch (n)
@@ -1724,7 +1743,7 @@ int menuDraw() {
 		{
 			if (y > 5) {
 				gotoxy(x - 2, y);
-				printf(" "); 
+				printf(" ");
 				gotoxy(x - 2, --y);
 				printf(">");
 			}
@@ -1760,37 +1779,37 @@ int skillmenuDraw()
 	{
 		gotoxy(x, y);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-연속 찌르기(Lv.%d)-\n",stab_lv); //[70 % 의 공격력으로 2~3번 찌른다.\n]
+		printf("-연속 찌르기(Lv.%d)-\n", stab_lv); //[70 % 의 공격력으로 2~3번 찌른다.\n]
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
 	{
 		gotoxy(x, y);
-		printf("-연속 찌르기(Lv.%d)-\n",stab_lv); //[70/80/100 % 의 공격력으로 2~3번 찌른다.\n]
+		printf("-연속 찌르기(Lv.%d)-\n", stab_lv); //[70/80/100 % 의 공격력으로 2~3번 찌른다.\n]
 	}
 	if (turn < cnt_turn_heal + 3)
 	{
 		gotoxy(x, y + 1);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-신성한 회복(Lv.%d)-\n",heal_lv);//[공격력의 40/60/80 % 의 수치로 체력을 회복한다.]
+		printf("-신성한 회복(Lv.%d)-\n", heal_lv);//[공격력의 40/60/80 % 의 수치로 체력을 회복한다.]
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
 	{
 		gotoxy(x, y + 1);
-		printf("-신성한 회복(Lv.%d)-\n",heal_lv);//[공격력의 70 % 의 수치로 체력을 회복한다.]
+		printf("-신성한 회복(Lv.%d)-\n", heal_lv);//[공격력의 70 % 의 수치로 체력을 회복한다.]
 	}
 	if (rage == 1 || (rage == 0 && turn < cnt_turn_rage + 5)) // 현재 버프중이거나 쿨타임이 안돌았을떄.
 	{
 		gotoxy(x, y + 2);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-		printf("-용사의 분노(Lv.%d)-\n",rage_lv);
+		printf("-용사의 분노(Lv.%d)-\n", rage_lv);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else if (rage == 0) //[3턴간 공격력이 30 % 증가한다.]
 	{
 		gotoxy(x, y + 2);
-		printf("-용사의 분노(Lv.%d)-\n",rage_lv);
+		printf("-용사의 분노(Lv.%d)-\n", rage_lv);
 	}
 	gotoxy(x, y + 3);
 	printf("-돌아간다-");
@@ -1836,9 +1855,9 @@ int npc1draw() {
 	int y = 7;
 	gotoxy(x, y);
 	printf("연속 찌르기 강화");
-	gotoxy(x, y+1);
+	gotoxy(x, y + 1);
 	printf("신성한 회복 강화");
-	gotoxy(x, y+2);
+	gotoxy(x, y + 2);
 	printf("용사의 분노 강화");
 	gotoxy(x, y + 3);
 	printf("돌아간다.");
@@ -1931,27 +1950,47 @@ void conversationprint()
 
 	gotoxy(x, y - 5);
 	printf("%s", specialChar4());
-	gotoxy(x+48, y - 5);
+	gotoxy(x + 48, y - 5);
 	printf("%s", specialChar7());
-	gotoxy(x , y);
+	gotoxy(x, y);
 	printf("%s", specialChar5());
 	gotoxy(x + 48, y);
 	printf("%s", specialChar6());
-	
 
-	
+
+
 }
-int blacksdraw() {
-	int x = 3;
-	int y = 13;
+
+/*void conversationprint()
+{
+	int x = 0;
+	int y = 4;
+
 	gotoxy(x, y);
-	printf("그렇다.");
+	printf("%s", specialChar4());
+	gotoxy(x + 48, y - 5);
+	printf("%s", specialChar7());
+	gotoxy(x, y+7);
+	printf("%s", specialChar5());
+	gotoxy(x + 48, y+7);
+	printf("%s", specialChar6());
+
+
+
+}*/
+
+int blacksdraw() {
+	int x = 5;
+	int y = 14;
+	gotoxy(x - 2, y - 2);
+	printf("[ 늙은 대장장이 ]");
+	gotoxy(x, y);
+	printf("- 당신 대장장이군.");
+	_getch();
+	gotoxy(x, y);
+	printf("- 무엇을 팔고 있지?");
 	gotoxy(x, y + 1);
-	printf("신성한 회복 강화");
-	gotoxy(x, y + 2);
-	printf("용사의 분노 강화");
-	gotoxy(x, y + 3);
-	printf("돌아간다.");
+	printf("- 볼일 없다.");
 	while (1)
 	{
 		int n = keyControl();
@@ -1959,7 +1998,7 @@ int blacksdraw() {
 		{
 		case UP:
 		{
-			if (y > 7) {
+			if (y > 14) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -1969,7 +2008,7 @@ int blacksdraw() {
 		}
 		case DOWN:
 		{
-			if (y < 10)
+			if (y < 15)
 			{
 				gotoxy(x - 2, y);
 				printf(" ");
@@ -1980,7 +2019,7 @@ int blacksdraw() {
 		}
 		case SUBMIT:
 		{
-			return y - 7;
+			return y - 14;
 			break;
 		}
 
@@ -1995,11 +2034,11 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-int attack(int x,int y) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
+int attack(int x, int y) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
 {
 
 	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t =  i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력
+	int t = i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력
 	return t;
 }
 
@@ -2057,14 +2096,14 @@ int skill_holy_Heal(int x, int y) // 용사 체력,용사 공격력
 int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 {
 	int t;
-	if (rage_lv==1) {
+	if (rage_lv == 1) {
 		t = x * (0.2); // t(추가 공격력) = 공격력 * 0.3 이다.
 	}
-	else if (rage_lv==2) {
-		t = x * (0.3); 
-	}	
-	else if (rage_lv==3) {
-		t = x * (0.5); 
+	else if (rage_lv == 2) {
+		t = x * (0.3);
+	}
+	else if (rage_lv == 3) {
+		t = x * (0.5);
 	}
 	else if (rage_lv == 4) {
 		t = x * (0.8);
@@ -2075,7 +2114,7 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 	return t; // 공격력에 t를 추가한다.
 }
 
-void monster1_move_system_1(char arr[][10],int y, int x) {
+void monster1_move_system_1(char arr[][10], int y, int x) {
 	if (kbhit())
 	{
 		int dirM1 = rand() % 4;
@@ -2116,19 +2155,3 @@ void monster1_move_system_1(char arr[][10],int y, int x) {
 	}
 }
 
-void blacksiMage()
-{
-	printf("⣿⣿⣿⣿⣿⣿⡿⠛⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n");
-	printf("⣿⣛⣻⠁⠀⠀⠁⠀⠀⣿⣿⡿⠋⠉⠉⠙⣿⣿⣿⣿⣿⣿⣿⣿\n");
-	printf("⣿⣿⠏⠠⣀⣀⣇⣀⣀⣿⣿⠁⡀⢀⠀⣴⠛⣿⣿⣿⣿⣿⣿⣿\n");
-	printf("⣿⣿⠀⠀⠀⣸⣿⣿⣿⣿⣿⣦⡂⣠⣴⣿⡞⡿⠿⣿⣿⣿⣿⣿\n");
-	printf("⣿⣿⣄⡤⠂⠀⠩⠋⠉⡏⢿⣿⣿⣿⣿⣿⡇⡇⠀⠀⠙⢿⣿⣿\n");
-	printf("⣿⣿⣿⣷⣄⠀⠃⠀⢠⠀⢸⣿⣿⣿⣿⣿⠁⠇⠀⠀⡠⠒⢻⣿\n");
-	printf("⣿⣿⣿⣿⣿⣾⣄⠀⠸⠀⠸⡀⠈⠛⠉⢸⠀⠘⣄⠎⠀⠀⠀⣿\n");
-	printf("⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠈⠀⠀⠀⠁⠀⠀⢈⠦⠤⢄⢀⣿\n");
-	printf("⣿⠛⠛⠛⠛⠛⠛⠛⠓⠒⢺⣿⣷⣶⣶⠁⠀⠀⢱⣶⣶⣶⣾⣿\n");
-	printf("⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠰⠀⠢⣀⢀⡘⢀⡀⢴⣿⣿\n");
-	printf("⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠐⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿\n");
-	printf("⣿⣿⣿⣿⣧⣤⣤⣤⣤⣤⣧⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣼⣿⣿\n");
-
-}

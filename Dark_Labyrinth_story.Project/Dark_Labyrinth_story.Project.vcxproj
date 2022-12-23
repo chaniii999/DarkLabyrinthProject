@@ -140,8 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="model_arr.c" />
-    <ClCompile Include="view_map_arr.c" />
-    <ClCompile Include="참고용소스 (카드맞추기).c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="view_map_arr.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="model_arr.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="참고용소스 (카드맞추기).c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
