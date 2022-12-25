@@ -53,7 +53,7 @@ void gotoxy(int x, int y);
 
 // 초기 함수
 
-int game = 1; // 타이틀은 0 게임시작은 1
+int game = 0; // 타이틀은 0 게임시작은 1
 
 // 메뉴함수
 int titleDraw(); // 시작화면 함수.
@@ -70,7 +70,7 @@ int select_num = 1; //전투상황 선택지 초기화
 
 //맵 관련함수
 
-int dengeon_level = 3;
+int dengeon_level = 1;
 
 int situation_num = 1; //시츄에이션 넘버
 
@@ -316,8 +316,37 @@ int main(void)
 		Sleep(3000);
 		system("cls");
 
+		int exMode = _setmode(_fileno(stdout), 0x00020000);
+		_setmode(_fileno(stdout), 0x00020000);
 
-		printf("\n\n                 [Dark Labyrinth]\n");
+		wprintf(L"\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣀⣀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣶⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+		Sleep(300);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⡏⠙⢳⡄⣠⠤⢤⡀⢠⣤⣀⣀⠀⣿⣠⡤⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+		Sleep(250);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⢸⡇⢑⣿⣸⡇⠘⣿⣭⣹⠀⣿⣬⣔⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+		Sleep(220);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣧⡶⠟⠀⢾⣁⣼⣇⢠⣿⠈⠁⠀⣿⠆⢿⣀⡀⠀⠀\n");
+		Sleep(200);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠉⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+		Sleep(150);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⢀⣤⣠⣤⣤⣀⠀⠀⠀⠀⠀⢀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡄⠀⢠⣄⠀⠀⠀\n");
+		Sleep(100);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⢹⡝⠀⠈⣿⠀⣠⠤⣄⢀⠘⣿⠀⠀⠀⣀⠀⢀⣤⢠⣤⣀⣀⠄⣒⠁⣀⠀⠀⠀⢤⣾⡧⣤⠈⣿⢁⣀⠀⠀\n");
+		Sleep(80);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⣾⡗⢶⣾⢋⠀⢓⣛⣸⡇⢰⣷⡛⠳⡔⣽⠀⢸⡇⠀⣿⢫⣹⠂⢿⡀⣽⡾⠛⣷⠀⢸⠇⠁⠀⣿⡟⠙⡇⠀⠀\n");
+		Sleep(50);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⢾⡇⠀⢿⡽⠇⣿⣁⣽⣇⢸⡿⣤⣴⠇⠹⠧⠺⡇⢀⣧⠈⠁⠀⣼⡇⣿⡇⢰⣿⠀⢸⣜⣋⠗⣿⡅⢠⡇⠀\n");
+		Sleep(20);
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠀⠉⠀⠁⠀⠀⠀⠸⣙⣡⡇⠀⠁⠀⠀⠀⠉⠀⠈⠀⠈⠛⠀⠈⠈⠁⠀⠈⠀⠀⠛⠃⠀⠀\n");
+		wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+
+
+		fflush(stdout);
+		_setmode(_fileno(stdout), exMode);
+
+		Sleep(500);
+
+		//printf("\n\n                 [Dark Labyrinth]\n");
 		switch (titleDraw())
 		{
 		case 0:
@@ -382,12 +411,19 @@ int main(void)
 
 
 			game = 1;
+			break;
 		}
+		case 1:
+		{
+			break;
+		}
+		case 2:
+			exit(0);
 
 
 
 
-
+			break;
 		} //sw_ed
 
 	}
@@ -564,7 +600,7 @@ int main(void)
 
 				}
 
-				if (monster1_life == 1)
+				if (monster1_life == 1)   
 				{
 					monster1_move_system_1(map_arr_loCation_level_1, y_mon, x_mon);
 					if (x_p == x_mon && y_p == y_mon + 1 ||
@@ -1617,16 +1653,14 @@ int keyControl() //enter = 13
 
 int titleDraw() {
 	int x = 14;
-	int y = 13;
+	int y = 14;
 	gotoxy(x, y);
 	printf("[Open your eyes..]");
 	gotoxy(x, y + 1);
-	printf("[Load your memories..]");
-	gotoxy(x, y + 2);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 	printf("*chaniii999's GitHub*");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-	gotoxy(x, y + 3);
+	gotoxy(x, y + 2);
 	printf("[Exit]");
 	while (1)
 	{
@@ -1635,7 +1669,7 @@ int titleDraw() {
 		{
 		case UP:
 		{
-			if (y > 13) {
+			if (y > 14) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -1656,7 +1690,7 @@ int titleDraw() {
 		}
 		case SUBMIT:
 		{
-			return y - 13;
+			return y - 14;
 			break;
 		}
 
