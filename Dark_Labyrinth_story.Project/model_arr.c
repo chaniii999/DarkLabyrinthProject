@@ -6,6 +6,7 @@
 #include <io.h>
 #include <fcntl.h>
 
+#pragma warning(disable:4996)
 
 // 맵을 구성하는 다차원 배열 함수를 만들자.
 // 좌표를 정의하는 좌표 배열과 , 실질적인 위치에 해당하는 위치 배열을 만들자.
@@ -53,7 +54,7 @@ void gotoxy(int x, int y);
 
 // 초기 함수
 
-int game = 0; // 타이틀은 0 게임시작은 1
+int game = 1; // 타이틀은 0 게임시작은 1
 
 // 메뉴함수
 int titleDraw(); // 시작화면 함수.
@@ -64,13 +65,15 @@ int npc1draw();
 int yesnodraw();
 int blacksdraw();
 void conversationprint();
+void storeframe();
+int weapondraw();
 //int itemDraw();//아이템 선택함수
 
 int select_num = 1; //전투상황 선택지 초기화
 
 //맵 관련함수
 
-int dengeon_level = 1;
+int dengeon_level = 3;
 
 int situation_num = 1; //시츄에이션 넘버
 
@@ -257,14 +260,14 @@ int main(void)
 	int cnt_player_life = player.life;
 
 	iteM sword;
-	sword.name = "검은 검";
+	sword.name = "어두운 검";
 	sword.attack = 20;
 	sword.critical = 20;
 	sword.evasion = 5;
 	sword.cost = 400;
 
 	iteM spear;
-	spear.name = "붉은 창";
+	spear.name = "푸른 창";
 	spear.attack = 16;
 	spear.critical = 15;
 	spear.cost = 250;
@@ -1480,7 +1483,15 @@ int main(void)
 
 		if (situation_num == 8)
 		{
-			//storeframe();
+			system("cls");
+			storeframe();
+			Sleep(1000);
+			switch (weapondraw())
+			{
+			default:
+				break;
+			}
+
 			//itemlistdraw();
 		}
 
@@ -2060,6 +2071,117 @@ int yesnodraw() {
 	}
 }
 
+void storeframe() //num 8
+{
+	int x = 0;
+	int y = 1;
+
+	gotoxy(x+17, y);
+	printf("< 늙은 대장장이 >");
+	gotoxy(x, y + 1);
+	printf("%s", specialChar4());
+	gotoxy(x + 14, y + 1);
+	printf("%s", specialChar7());
+	gotoxy(x, y + 11);
+	printf("%s", specialChar5());
+	gotoxy(x + 14, y + 11);
+	printf("%s", specialChar6());
+	
+	gotoxy(x + 2, y + 1);
+	printf("무기/방어구");
+
+
+
+
+
+
+	gotoxy(x + 15, y+1);
+	printf("%s", specialChar4());
+	gotoxy(x + 48, y + 1);
+	printf("%s", specialChar7());
+	gotoxy(x + 15, y + 11);
+	printf("%s", specialChar5());
+	gotoxy(x + 48, y + 11);
+	printf("%s", specialChar6());
+
+	gotoxy(x, y + 12);
+	printf("%s", specialChar4());
+	gotoxy(x + 48, y +12);
+	printf("%s", specialChar7());
+	gotoxy(x, y+17);
+	printf("%s", specialChar5());
+	gotoxy(x + 48, y+17);
+	printf("%s", specialChar6());
+
+
+
+
+
+}
+
+int weapondraw()
+{
+	int x = 2;
+	int y = 3;
+
+	gotoxy(x, y);
+	printf("어두운 검");
+	gotoxy(x, y+1);
+	printf("붉은 가시 창");
+	gotoxy(x, y+2);
+	printf("양날도끼");
+	gotoxy(x, y+3);
+	printf("Caladfwich");
+	gotoxy(x, y+4);
+	printf("예리한 단검");
+	gotoxy(x, y+5);
+	printf("철갑옷");
+	gotoxy(x, y+6);
+	printf("백조의 갑옷");
+	gotoxy(x, y+7);
+	printf("아다만티움갑옷");
+	gotoxy(x, y+8);
+	printf("겁쟁이갑옷");
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 3) {
+				gotoxy(x - 1, y);
+				printf(" ");
+				gotoxy(x - 1, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 11)
+			{
+				gotoxy(x - 1, y);
+				printf(" ");
+				gotoxy(x - 1, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 3;
+			break;
+		}
+
+
+		}
+	}
+	
+
+}
+
+
 void conversationprint()
 {
 	int x = 0;
@@ -2078,23 +2200,6 @@ void conversationprint()
 
 }
 
-/*void conversationprint()
-{
-	int x = 0;
-	int y = 4;
-
-	gotoxy(x, y);
-	printf("%s", specialChar4());
-	gotoxy(x + 48, y - 5);
-	printf("%s", specialChar7());
-	gotoxy(x, y+7);
-	printf("%s", specialChar5());
-	gotoxy(x + 48, y+7);
-	printf("%s", specialChar6());
-
-
-
-}*/
 
 int blacksdraw() {
 	int x = 5;
