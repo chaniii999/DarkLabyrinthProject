@@ -19,6 +19,8 @@
 #define RIGHT 3
 #define	SUBMIT 4 // 선택 (Enter 키)
 
+void CursorView();
+
 const char* specialChar()
 {
 	return "■";
@@ -67,6 +69,7 @@ int blacksdraw();
 void conversationprint();
 void storeframe();
 int weapondraw();
+int buyornodraw();
 //int itemDraw();//아이템 선택함수
 
 int select_num = 1; //전투상황 선택지 초기화
@@ -84,7 +87,7 @@ int cost_stab = 50;
 int cost_rage = 150;
 int cost_heal = 100;
 
-
+swordon = 0;
 
 
 char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
@@ -196,6 +199,7 @@ typedef struct item
 	int critical;//치명타확률
 	int evasion; //회피력
 	int cost; //가격
+	int onoff; //보유중인지 아닌지
 }iteM;
 
 char player_name[20] = "ricaus";
@@ -208,6 +212,7 @@ int main(void)
 {
 	srand(time(NULL));
 	system("mode con cols=50 lines=19");
+	CursorView(); //커서안보임
 
 	oBject player; //플레이어 정의
 	player.name = player_name;
@@ -265,6 +270,7 @@ int main(void)
 	sword.critical = 20;
 	sword.evasion = 5;
 	sword.cost = 400;
+	sword.onoff = 0;
 
 	iteM spear;
 	spear.name = "푸른 창";
@@ -1483,11 +1489,76 @@ int main(void)
 
 		if (situation_num == 8)
 		{
+			int ix = 16; //이미지 ~48 max= 32
+			int iy = 2; // max 11
+			int qx = 2; //~48
+			int qy = 14; //~18
 			system("cls");
 			storeframe();
-			Sleep(1000);
 			switch (weapondraw())
 			{
+			case 0:
+			{
+			
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"   ⢀⣶⣀⠀\n");
+				gotoxy(ix, iy+1);
+				wprintf(L"   ⠀⠈⠛⠷⣤⣀⣤⢠⡀\n");
+				gotoxy(ix, iy+2);
+				wprintf(L"   ⠀⠀⠀⠀⢨⡿⠷⣼⣆⡀\n");
+				gotoxy(ix, iy+3);
+				wprintf(L"⠀   ⠀⠀⠠⠛⠓⠞⠛⢿⣿⣦⣄⠀\n");
+				gotoxy(ix, iy+4);
+				wprintf(L"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⢿⣿⣦⡄\n");
+				gotoxy(ix, iy+5);
+				wprintf(L"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣷⣤⡀\n");
+				gotoxy(ix, iy+6);
+				wprintf(L"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣷⣄⡀\n");
+				gotoxy(ix, iy+7);
+				wprintf(L"⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣶⣄\n");
+				gotoxy(ix, iy+8);
+				wprintf(L"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣿⣆\n");
+				gotoxy(ix, iy+9);
+				wprintf(L"⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠑\n");
+				
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf(" [ 어두운 검 ]  1000 Crono 보유한 Crono : %d\n", player.crono);
+				printf(" 긴 리치에 비해 무게는 가볍다.\n");
+				printf(" 바라보고 있으면 그 검은 도신에 \n 빨려들어갈 것 같다...");
+			
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= sword.cost)
+					{
+						swordon = 1;
+						player.crono -= sword.cost;
+						_getch();
+						break;
+						gotoxy(qx, qy);
+						printf("어두운 검을 구입했습니다.");
+					}
+					else
+					{
+						gotoxy(qx, qy);
+						printf("보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+
+				
+			}
 			default:
 				break;
 			}
@@ -2094,7 +2165,7 @@ void storeframe() //num 8
 
 
 
-
+	//이미지
 	gotoxy(x + 15, y+1);
 	printf("%s", specialChar4());
 	gotoxy(x + 48, y + 1);
@@ -2103,7 +2174,7 @@ void storeframe() //num 8
 	printf("%s", specialChar5());
 	gotoxy(x + 48, y + 11);
 	printf("%s", specialChar6());
-
+	//설명
 	gotoxy(x, y + 12);
 	printf("%s", specialChar4());
 	gotoxy(x + 48, y +12);
@@ -2181,6 +2252,50 @@ int weapondraw()
 
 }
 
+int buyornodraw() {
+	int x = 38;
+	int y = 16;
+	gotoxy(x, y);
+	printf("[산다]");
+	gotoxy(x, y + 1);
+	printf("[돌아간다.]");
+
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 16) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 17)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 16;
+			break;
+		}
+
+
+		}
+	}
+}
 
 void conversationprint()
 {
@@ -2377,3 +2492,11 @@ void monster1_move_system_1(char arr[][10], int y, int x) {
 	}
 }
 
+
+void CursorView()
+{
+	CONSOLE_CURSOR_INFO cursorInfo = { 0, };
+	cursorInfo.dwSize = 1; //커서 굵기 (1 ~ 100)
+	cursorInfo.bVisible = FALSE; //커서 Visible TRUE(보임) FALSE(숨김)
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+}
