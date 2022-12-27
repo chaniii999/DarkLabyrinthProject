@@ -161,7 +161,7 @@ int attack(int x, int y);  // 공격 함수
 int attacked_monster(int x, int y); //피격 함수
 
 
-char* item[20]; // 문자열을 배열에 넣기위해 * 넣음.
+char* itembox[20]; // 문자열을 배열에 넣기위해 * 넣음.
 
 
 //스킬함수
@@ -185,6 +185,16 @@ typedef struct objecT
 	int level;
 }oBject;
 
+typedef struct item
+{
+	char* name; //장비이름
+	int attack; //장비 공격력
+	int life; //장비 추가생명력
+	int critical;//치명타확률
+	int evasion; //회피력
+	int cost; //가격
+}iteM;
+
 char player_name[20] = "ricaus";
 
 
@@ -206,49 +216,37 @@ int main(void)
 	player.mana = player.max_mana;
 
 
-	oBject npc1;
+	oBject npc1; // 5
 	npc1.name = "신성한 녹색 조각상";
 
-	oBject blacks;
+	oBject blacks; //6
 	blacks.name = "늙은 대장장이";
 
-	oBject pari; //자고새
-	pari.name = "자고새";
-	pari.attack = 3;
-	pari.life = 15;
-	pari.crono = rand() % 10 + 10;
-
-	oBject bat; //박쥐
+	oBject bat; //박쥐 12
 	bat.name = "박쥐";
 	bat.attack = 3;
 	bat.life = 10;
 	bat.crono = rand() % 12 + 10;
 
-	oBject moth; // 
+	oBject moth; // 13
 	moth.name = "나방";
 	moth.attack = 2;
 	moth.life = 7;
 	moth.crono = rand() % 15 + 15;
 
-	oBject spider; // 
+	oBject spider; // 14
 	spider.name = "거미";
 	spider.attack = 4;
 	spider.life = 6;
 	spider.crono = rand() % 25 + 10;
 
-	oBject sping; // 
-	sping.name = "스핑크스";
-	sping.attack = 13;
-	sping.life = 80;
-	sping.crono = rand() % 100 + 150;
+	oBject kero; // 16
+	kero.name = "케르베로스";
+	kero.attack = 20;
+	kero.life = 60;
+	kero.crono = rand() % 100 + 250;
 
-	oBject kero; // 
-	sping.name = "케르베로스";
-	sping.attack = 20;
-	sping.life = 60;
-	sping.crono = rand() % 100 + 250;
-
-	oBject monster1; //몬스터 1 정의.
+	oBject monster1; // 17
 	monster1.name = "블랙-드래곤";
 	monster1.attack = 17;
 	monster1.life = 130;
@@ -257,6 +255,72 @@ int main(void)
 
 	int cnt_monster1_life = monster1.life;
 	int cnt_player_life = player.life;
+
+	iteM sword;
+	sword.name = "검은 검";
+	sword.attack = 20;
+	sword.critical = 20;
+	sword.evasion = 5;
+	sword.cost = 400;
+
+	iteM spear;
+	spear.name = "붉은 창";
+	spear.attack = 16;
+	spear.critical = 15;
+	spear.cost = 250;
+
+	iteM axe;
+	axe.name = "양날도끼";
+	axe.attack = 12;
+	axe.critical = 15;
+	axe.cost = 180;
+
+	iteM Excalibur;
+	Excalibur.name = "Caladfwich";
+	Excalibur.attack = 35;
+	Excalibur.critical = 40;
+	Excalibur.evasion = 15;
+	Excalibur.cost = 1000;
+
+	iteM daggar;
+	daggar.name = "예리한 단검";
+	daggar.attack = 10;
+	daggar.critical = 45;
+	daggar.evasion = 20;
+	daggar.cost = 270;
+
+	iteM iron;
+	iron.name = "철 갑옷";
+	iron.life = 25;
+	iron.evasion = 5;
+	iron.cost = 150;
+
+	iteM fast;
+	fast.name = "깃털 갑옷";
+	fast.life = 15;
+	fast.evasion = 40;
+	fast.cost = 350;
+
+	iteM adaman;
+	adaman.name = "아다만티움 갑옷";
+	adaman.life = 70;
+	adaman.evasion = 15;
+	adaman.cost = 700;
+
+	iteM coward;
+	coward.name = "겁쟁이 갑옷";
+	coward.life = 10;
+	coward.evasion = 50;
+	coward.cost = 100;
+
+
+	
+
+
+
+
+
+
 
 	int key = 0; // 플레이어 이동 변수 
 
@@ -1397,9 +1461,28 @@ int main(void)
 
 			Sleep(500);
 			conversationprint();
-			blacksdraw();
+			switch (blacksdraw())
+			{
+			case 0:
+			{
+				situation_num = 8; //상점ui
+				break;
+			}
+			case 1:
+			{
+				map_arr_loCation_level_3[5][5] = 0;
+				blacks_life= 0;
+				situation_num = 1;
+				break;
+			}
+			}
 		}
 
+		if (situation_num == 8)
+		{
+			//storeframe();
+			//itemlistdraw();
+		}
 
 		if (rage == 1)
 		{
