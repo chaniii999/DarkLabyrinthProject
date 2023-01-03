@@ -314,7 +314,7 @@ int main(void)
 	iron.cost = 150;
 
 	iteM fast;
-	fast.name = "깃털 갑옷";
+	fast.name = "백조의 갑옷";
 	fast.life = 15;
 	fast.evasion = 40;
 	fast.cost = 350;
@@ -1542,7 +1542,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf("[어두운 검 ]  %d Crono 보유한 Crono : %d\n",sword.cost, player.crono);
+				printf("[어두운 검]  %d Crono 보유한 Crono : %d\n",sword.cost, player.crono);
 				printf(" 긴 리치에 비해 무게는 가볍다.\n");
 				printf(" 바라보고 있으면 그 검은 도신에 \n 빨려들어갈 것 같다...");
 			
@@ -1610,7 +1610,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf("[ 검은 가시 창 ]  %d Crono 보유한 Crono : %d\n",spear.cost, player.crono);
+				printf("[검은 가시 창]  %d Crono 보유한 Crono : %d\n",spear.cost, player.crono);
 				printf(" 겉면에 가시가 나있다.\n");
 				printf(" 묵직하여 들고만 있어도 \n 운동이 되는 느낌이다.");
 				switch (buyornodraw())
@@ -1670,7 +1670,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf(" [ 예리한 단검 ]  %d Crono 보유한 Crono : %d\n",daggar.cost, player.crono);
+				printf("[예리한 단검]  %d Crono 보유한 Crono : %d\n",daggar.cost, player.crono);
 				printf(" 특이하게 생긴 단검이다.\n");
 				printf(" 살짝만 스쳐도 상처가 \n 날것같이 날카롭다.");
 				switch (buyornodraw())
@@ -1731,7 +1731,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf(" [ Caladfwish ]  %d Crono 보유한 Crono : %d\n",Excalibur.cost, player.crono);
+				printf("[Caladfwish]  %d Crono 보유한 Crono : %d\n",Excalibur.cost, player.crono);
 				printf(" 성스러운 기운이 느껴지는 검이다.\n");
 				switch (buyornodraw())
 				{
@@ -1791,7 +1791,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf(" [ 철갑옷 ]  %d Crono 보유한 Crono : %d\n", iron.cost, player.crono);
+				printf("[철갑옷]  %d Crono 보유한 Crono : %d\n", iron.cost, player.crono);
 				printf(" 철로 만들어진 무거운 갑옷이다.\n");
 				switch (buyornodraw())
 				{
@@ -1822,15 +1822,190 @@ int main(void)
 			}
 			case 5:
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀⡀⡤⣦⣀⣤⣴⣶⣀⡀⣀⣀⠀⠀⠀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⣵⣿⣿⣿⣿⣾⡧⡿⡿⣿⣿⣿⡴⣿⣾⣿⣆⡀⠀\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⣿⣿⣿⣷⡿⣿⣿⣷⣾⢟⣳⣖⣸⣕⣿⣿⣿⡾⠃\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣾⣺⣿⣿⣿⣿⣟⡿⣿⣿⡟⣿⠟⣯⣽⣿⡐⠀⠀\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡿⣿⡿⢿⣿⣿⡻⣽⣿⡷⣿⣿⣿⡟⣞⣿⣿⡇⠀⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⡇⠀⢱⣯⢳⣟⣏⡿⣽⡯⣳⢽⣿⣿⣿⡇⠀⠀⠀\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠰⢟⣟⣿⡇⠀⠀⣷⣿⣿⣿⣯⣿⣿⣿⣭⣿⣿⣿⠇\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠀⠀⠀⢘⣼⣿⣿⣿⣾⣿⣷⣿⣿⠉⠁⠀⠀⠀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢿⣿⢿⣿⣿⣿⠿⣿⢟⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠽⢿⡿⡷⣻⣿⣿⣿⡛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 10);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠿⠿⠋⠀⠀\n");
 
+
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf("[겁쟁이갑옷]  %d Crono 보유한 Crono : %d\n", coward.cost, player.crono);
+				printf(" 비겁한 겁쟁이라구!");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= coward.cost)
+					{
+						caladon = 1;
+						player.crono -= coward.cost;
+						system("cls");
+						printf("\n\n\n[겁쟁이갑옷]을 구입했습니다.");
+						_getch();
+
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+				break;
 			}
 			case 6:
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"⠀⠀⠀⠀⢀⣠⣤⣤⣤⣶⣦⣤⣀⣀⣠⣤⣴⣶⣤⣤⣤⣄⡀⠀⠀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⠀⠀⠀⣴⣿⣋⣿⣽⣿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀⠀⣼⣿⣿⠿⣾⣿⣿⣿⣿⠖⠘⣿⣿⣿⣿⣿⣿⢿⣿⠿⣿⣿⣦⠀\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"⠀⠀⠀⠉⠀⠀⣿⢹⣿⣿⣿⣶⣶⣿⣿⡿⢿⣿⣿⣜⡿⠀⠀⠉⠀⠀\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠙⢺⣿⣿⡟⢿⣿⣿⣿⣶⣿⣿⣿⡟⠋⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣾⣽⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠰⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠀\n");
+				gotoxy(ix, iy + 10);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀   ⠀⠀⠘⠛⠿⠿⠋⠀⠀⠀\n");
 
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf("[백조의 갑옷]  %d Crono 보유한 Crono : %d\n", fast.cost, player.crono);
+				printf(" 흰 깃털이 가득한 갑옷이다. 깃털처럼 가볍다.");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= fast.cost)
+					{
+						caladon = 1;
+						player.crono -= fast.cost;
+						system("cls");
+						printf("\n\n\n[백조의 갑옷]을 구입했습니다.");
+						_getch();
+
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+				break;
 			}
 			case 7:
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣴⣶⣶⣶⣆⣄⠀⠀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⠀⠀⠀⠀⠀⣀⣴⡶⣿⣸⣿⣿⣿⣿⠿⠃⠳⡽⡠⣦⣤⣄\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀⠀⠀⠀⣾⣿⣬⡧⣿⠙⠍⠙⠉⠝⢀⣀⠴⢜⡰⠁⠃⠀⢱⡄⠀\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"⠀⠀⠀⢸⣿⣾⣏⢰⣿⣿⠒⠲⠾⢷⣧⡧⠀⢮⠑⠀⠀⠈⠀⡇\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀⠀⠀⣿⡯⣷⡷⡆⢸⡇⠀⠂⠀⢈⣿⣴⡄⠀⣀⡔⣠⠤⠒⣶⠀⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀⠀⠈⣿⣼⣿⣿⣆⣼⠀⠀⠂⠀⠠⡕⢯⢿⠴⣿⣷⣿⣂⠉⢳⡂⠀⠀\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀⠀⠀⠿⣿⣿⢿⣿⣏⠀⢠⣀⠀⢄⣿⣷⣾⣯⠟⣿⣿⣿⣿⣿⠃⠀\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀⠀⠀⠀⠀⠉⠈⣿⣿⣀⢎⣾⣤⣶⣾⣿⣿⣿⠀⠹⠛⠋⠛⠁⠀⠀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⣸⣿⣿⣴⣿⡿⣿⢟⣁⡿⣾⢿⣷⠀⠀\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀⠀⠀⠀⠰⣿⢻⣿⣿⣷⣿⣿⢿⡅⣠⣎⣀⠄⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 10);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠙⠛⠿⠿⠿⠿⠽⠟⠛⠋⠁⠀⠀\n");
 
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf("[아다만티움갑옷]  %d Crono 보유한 Crono : %d\n", adaman.cost, player.crono);
+				printf(" 희귀한 금속으로 만들어진 갑옷이다.\n");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= fast.cost)
+					{
+						caladon = 1;
+						player.crono -= fast.cost;
+						system("cls");
+						printf("\n\n\n[백조의 갑옷]을 구입했습니다.");
+						_getch();
+
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+				break;
 			}
 
 
@@ -2766,20 +2941,20 @@ int weapondraw()
 	if (ironon == 1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-		printf("철 갑옷");
+		printf("철갑옷");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
-		printf("철 갑옷");
+		printf("철갑옷");
 	gotoxy(x, y+5);
 	if (cowardon == 1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-		printf("겁쟁이 갑옷");
+		printf("겁쟁이갑옷");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
-		printf("겁쟁이 갑옷");
+		printf("겁쟁이갑옷");
 	gotoxy(x, y+6);
 	if (backon == 1)
 	{
@@ -2793,11 +2968,11 @@ int weapondraw()
 	if (admanon == 1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-		printf("아다만티움 갑옷");
+		printf("아다만티움갑옷");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 	else
-		printf("아다만티움 갑옷");
+		printf("아다만티움갑옷");
 	while (1)
 	{
 		int n = keyControl();
