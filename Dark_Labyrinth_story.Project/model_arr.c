@@ -1542,7 +1542,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf(" [ 어두운 검 ]  1000 Crono 보유한 Crono : %d\n", player.crono);
+				printf("[어두운 검 ]  %d Crono 보유한 Crono : %d\n",sword.cost, player.crono);
 				printf(" 긴 리치에 비해 무게는 가볍다.\n");
 				printf(" 바라보고 있으면 그 검은 도신에 \n 빨려들어갈 것 같다...");
 			
@@ -1610,9 +1610,9 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf(" [ 검은 가시 창 ]  300 Crono 보유한 Crono : %d\n", player.crono);
+				printf("[ 검은 가시 창 ]  %d Crono 보유한 Crono : %d\n",spear.cost, player.crono);
 				printf(" 겉면에 가시가 나있다.\n");
-				printf(" 묵직하여 들고만 있어도 운동이 되는 느낌이다.");
+				printf(" 묵직하여 들고만 있어도 \n 운동이 되는 느낌이다.");
 				switch (buyornodraw())
 				{
 				case 0:
@@ -1670,9 +1670,9 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf(" [ 예리한 단검 ]  300 Crono 보유한 Crono : %d\n", player.crono);
+				printf(" [ 예리한 단검 ]  %d Crono 보유한 Crono : %d\n",daggar.cost, player.crono);
 				printf(" 특이하게 생긴 단검이다.\n");
-				printf(" 살짝만 스쳐도 상처가 날것같이 날카롭다.");
+				printf(" 살짝만 스쳐도 상처가 \n 날것같이 날카롭다.");
 				switch (buyornodraw())
 				{
 				case 0:
@@ -1699,13 +1699,126 @@ int main(void)
 					break;
 				}
 				break;
+			
 			case 3:
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"⣶⣦⣄⡀⠀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⣿⣿⣿⣿⣷⣦⣄⣀⠀\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀⠉⠛⠿⣿⣿⣿⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"⠀⠀⠀⠀⠀⠉⠻⠿⣿⣿⣿⣿⣿⣷⣤⣀⡀⠀⠀⠀⠀⠀⠀⣤⣤⡄\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⠿⣿⣿⣿⣿⣿⣷⣦⣄⡀⠀⠀⣷⢹⡇⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⢿⣿⡀⠶⣌⡙⢳⣦⡿⣸⠇⠀\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠲⢬⣽⣭⣟⡶⣿⣄⠀⠀⠀\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⣿⢹⡿⠿⣿⣷⣦⣄⡀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡶⢛⣵⠏⠀⠀⠀⠉⠛⠻⢿⣷⣤⣀⠀\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠀\n");
 
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf(" [ Caladfwish ]  %d Crono 보유한 Crono : %d\n",Excalibur.cost, player.crono);
+				printf(" 성스러운 기운이 느껴지는 검이다.\n");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= Excalibur.cost)
+					{
+						caladon = 1;
+						player.crono -= Excalibur.cost;
+						system("cls");
+						printf("\n\n\n[Caladfwish]을 구입했습니다.");
+						_getch();
+
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+				break;
 			}
 			case 4:
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"   ⠀   ⠀⠀⣶⢾⣟⣿⣦⣀⠀⣠⡞⣿⣶⣾⣿⣿⣿⠀⠀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⠀      ⠀⠈⣿⣯⣻⣷⣆⡀⠙⡭⢿⣿⣿⣿⣿⣿⣿⡄⠀⠀\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀      ⠀⠀⢸⣮⢿⣿⣿⢇⠴⠈⢽⣿⣿⣿⣿⣿⠟⠀⠀\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"      ⠀⠀⠀⢸⢵⣫⡿⡝⡣⣰⣮⣷⣿⢿⡿⠿⠋⠀\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀      ⠀⠀⠀⢨⣾⡝⢼⣝⣶⣷⣿⢯⡃⢀⡆⠄⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀      ⠀⠀⠀⠀⣭⣽⣿⡟⣞⣿⢿⢯⣷⣾⠀\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀⠀      ⠀⠀⢰⣿⣉⣯⢿⣿⣿⣯⣿⣽⣿⣷\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀⠀      ⠀⠀⢾⣿⣿⣿⣿⣽⣿⣿⣾⣿⡿⣿⣇⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀      ⠀⠀⠀⢿⣿⣿⣶⣿⣿⣿⣿⡿⠿⠃⠈⢿⠀⠀⠀\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀   ⠀   ⠀⠀⠙⠛⠛⠛⠉⠉⠀⠀⠀⠀⠀\n");
 
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf(" [ 철갑옷 ]  %d Crono 보유한 Crono : %d\n", iron.cost, player.crono);
+				printf(" 철로 만들어진 무거운 갑옷이다.\n");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= iron.cost)
+					{
+						caladon = 1;
+						player.crono -= iron.cost;
+						system("cls");
+						printf("\n\n\n[철갑옷]을 구입했습니다.");
+						_getch();
+
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+				break;
 			}
 			case 5:
 			{
