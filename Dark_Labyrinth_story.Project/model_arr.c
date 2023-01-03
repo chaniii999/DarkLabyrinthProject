@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <io.h>
 #include <fcntl.h>
+#include <conio.h>
 
 #pragma warning(disable:4996)
 
@@ -56,7 +57,7 @@ void gotoxy(int x, int y);
 
 // 초기 함수
 
-int game = 1; // 타이틀은 0 게임시작은 1
+int game = 0; // 타이틀은 0 게임시작은 1
 int root = 0;
 
 // 메뉴함수
@@ -78,7 +79,7 @@ int select_num = 1; //전투상황 선택지 초기화
 
 //맵 관련함수
 
-int dengeon_level = 3;
+int dengeon_level = 1;
 
 int situation_num = 1; //시츄에이션 넘버
 
@@ -377,11 +378,9 @@ int main(void)
 
 
 
-
-
-
 	while (game == 0)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
 		int exMode = _setmode(_fileno(stdout), 0x00020000);
 		_setmode(_fileno(stdout), 0x00020000);
 
@@ -409,10 +408,9 @@ int main(void)
 
 		fflush(stdout);
 		_setmode(_fileno(stdout), exMode);
-
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		Sleep(500);
 
-		//printf("\n\n                 [Dark Labyrinth]\n");
 		switch (titleDraw())
 		{
 		case 0:
@@ -779,18 +777,19 @@ int main(void)
 							map_arr_loCation_level_3[y_p + 1][x_p] == 3)
 							y_p++;
 						break;
+					case 122:
+					{
+						if(x_p == x_black && y_p == y_black + 1 ||
+							x_p == x_black + 1 && y_p == y_black ||
+							x_p == x_black - 1 && y_p == y_black ||
+							x_p == x_black && y_p == y_black - 1)
+							situation_num = 6;
+					}
 					default:
 						break;
 					}
 				}
-				if (x_p == x_black && y_p == y_black + 1 ||
-					x_p == x_black + 1 && y_p == y_black ||
-					x_p == x_black - 1 && y_p == y_black ||
-					x_p == x_black && y_p == y_black - 1)
-				{
-					situation_num = 6;
-					map_arr_loCation_level_3[5][5] = 0;
-				}
+
 			}
 			if (dengeon_level == 4)
 			{
@@ -1862,7 +1861,7 @@ int main(void)
 				{
 					if (player.crono >= coward.cost)
 					{
-						caladon = 1;
+						cowardon = 1;
 						player.crono -= coward.cost;
 						system("cls");
 						printf("\n\n\n[겁쟁이갑옷]을 구입했습니다.");
@@ -1924,7 +1923,7 @@ int main(void)
 				{
 					if (player.crono >= fast.cost)
 					{
-						caladon = 1;
+						backon = 1;
 						player.crono -= fast.cost;
 						system("cls");
 						printf("\n\n\n[백조의 갑옷]을 구입했습니다.");
@@ -1984,12 +1983,12 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= fast.cost)
+					if (player.crono >= adaman.cost)
 					{
-						caladon = 1;
-						player.crono -= fast.cost;
+						backon = 1;
+						player.crono -= adaman.cost;
 						system("cls");
-						printf("\n\n\n[백조의 갑옷]을 구입했습니다.");
+						printf("\n\n\n[아다만티움갑옷]을 구입했습니다.");
 						_getch();
 
 						break;
@@ -2973,6 +2972,8 @@ int weapondraw()
 	}
 	else
 		printf("아다만티움갑옷");
+	gotoxy(x, y + 8);
+	printf("-돌아간다");
 	while (1)
 	{
 		int n = keyControl();
@@ -2990,7 +2991,7 @@ int weapondraw()
 		}
 		case DOWN:
 		{
-			if (y < 11)
+			if (y < 12)
 			{
 				gotoxy(x - 1, y);
 				printf(" ");
