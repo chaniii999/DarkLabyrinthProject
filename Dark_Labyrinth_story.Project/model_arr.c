@@ -57,6 +57,7 @@ void gotoxy(int x, int y);
 // 초기 함수
 
 int game = 1; // 타이틀은 0 게임시작은 1
+int root = 0;
 
 // 메뉴함수
 int titleDraw(); // 시작화면 함수.
@@ -88,7 +89,14 @@ int cost_stab = 50;
 int cost_rage = 150;
 int cost_heal = 100;
 
-swordon = 0;
+int swordon = 0;
+int spearon = 0;
+int daggaron = 0;
+int caladon = 0;
+int ironon = 0;
+int cowardon = 0;
+int backon = 0;
+int admanon = 0;
 
 
 char map_arr_loCation_level_1[10][10] = { {0,0,0,0,0,0,0,0,0,0 },{0,0,0,0,0,0,0,0,0,0 } };// 위치함수 선언.
@@ -374,22 +382,6 @@ int main(void)
 
 	while (game == 0)
 	{
-		printf("\n\n\n.");
-		Sleep(300);
-		printf(".");
-		Sleep(300);
-		printf(".");
-		Sleep(300);
-		printf(".");
-		Sleep(300);
-		printf(".");
-		Sleep(300);
-		printf(".");
-		Sleep(300);
-		printf("Loading");
-		Sleep(3000);
-		system("cls");
-
 		int exMode = _setmode(_fileno(stdout), 0x00020000);
 		_setmode(_fileno(stdout), 0x00020000);
 
@@ -426,10 +418,10 @@ int main(void)
 		case 0:
 		{
 			system("cls");
-			printf("\n\n\n Welcome to my Labyrinth. . .");
+			printf("\n\n\n           Welcome to my Labyrinth. . .");
 			Sleep(2500);
 			system("cls");
-			printf("\n\n\n -프롤로그를 보시겠습니까?-");
+			printf("\n\n\n\n\n\n              프롤로그를 보시겠습니까?");
 			switch (proLogueDraw())
 			{
 			case 0:
@@ -437,13 +429,13 @@ int main(void)
 				system("cls");
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				Sleep(1500);
-				printf("오늘도 야근이다..\n");
+				printf("         아버지는 항상 말하셨다.\n");
 				Sleep(1500);
-				printf("지친 몸을 이끌고 집으로 향한다...\n");
+				printf("         자유의지는 인간만이 갖고있는 것이라고\n");
 				Sleep(1500);
-				printf("\"내일은  휴일이니까 푹 쉬자..\"\n");
+				printf("         자유가 곧 우리의 생명이라고\n");
 				Sleep(1500);
-				printf("\"어?.. 여긴?... \"\n");
+				printf("         나 또한 자유라는 단어가 좋다.\n");
 				Sleep(3000);
 				game = 1;
 			}
@@ -489,9 +481,29 @@ int main(void)
 		}
 		case 1:
 		{
-			break;
+			if (root >= 1)
+			{
+				system("cls");
+				situation_num == 7;
+			}
+			else
+			{
+				system("cls");
+			}
 		}
 		case 2:
+			if (root == 2)
+			{
+				system("cls");
+				situation_num == 9;
+			}
+			else
+			{
+				system("cls");
+				break;
+			}
+
+		case 3:
 			exit(0);
 
 
@@ -538,14 +550,15 @@ int main(void)
 
 				if (map_arr_loCation_level_1[8][8] == Player)
 				{
-					dengeon_level = 2;
-					x_p = 2;
-					y_p = 2;
+					system("cls");
+					situation_num = 12;
 				}
 			}
 
 			if (dengeon_level == 2)
 			{
+
+
 				printQuestion_level_2();
 				int qq = 33;
 				int pp = 3;
@@ -1541,15 +1554,83 @@ int main(void)
 					{
 						swordon = 1;
 						player.crono -= sword.cost;
+
+						system("cls");
+						printf("\n\n   어두운 검을 구입했습니다.");
 						_getch();
 						break;
-						gotoxy(qx, qy);
-						printf("어두운 검을 구입했습니다.");
 					}
 					else
 					{
-						gotoxy(qx, qy);
-						printf("보유한 크로노가 부족합니다.");
+						system("cls");
+						printf("\n\n   보유한 크로노가 부족합니다.");
+						_getch();
+						break;
+					}
+					break;
+				case 1:
+				{
+					system("cls");
+					break;
+				}
+				}
+				default:
+					break;
+				}
+
+				break;
+			}
+			case 1: //검은 가시 창
+			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"⠀⠤⠤⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⠀⠀⠈⠙⠲⣦⣀\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠈⠳⢤⢄⢠⣤⣄⠀⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣷⣄⡀⠀⠀\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠉⠋⠛⠛⠫⢮⡿⣿⣷⣖⠂⡁⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⢾⣻⣷⣶⡠⠄\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠘⡎⠙⡿⣯⣶⣦⡤⠀⢀⠀⠀⠀\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠀⠉⠛⠿⢾⣷⡂⠀⠀⠀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠈⠋⢟⢶⣖⡈⠁⠀\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠂⠀\n");
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf(" [ 검은 가시 창 ]  300 Crono 보유한 Crono : %d\n", player.crono);
+				printf(" 겉면에 가시가 나있다.\n");
+				printf(" 묵직하여 들고만 있어도 운동이 되는 느낌이다.");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= spear.cost)
+					{
+						spearon = 1;
+						player.crono -= spear.cost;
+						system("cls");
+						printf("\n\n\n[검은 가시 창]을 구입했습니다.");
+						_getch();
+						
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
 						Sleep(500);
 						_getch();
 					}
@@ -1557,9 +1638,96 @@ int main(void)
 				default:
 					break;
 				}
-
-				
+				break;
 			}
+			case 2:
+			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				gotoxy(ix, iy);
+				wprintf(L"⠀  ⠀⢤⣤⣤⣤⣀⡀\n");
+				gotoxy(ix, iy + 1);
+				wprintf(L"⠀  ⠀⠈⣿⣿⣿⣿⣿⣿⣦⣄⠀\n");
+				gotoxy(ix, iy + 2);
+				wprintf(L"⠀  ⠀⠀⠈⠉⠙⠿⣿⣿⣿⣿⣿⣦⣀⠀⠀⠀\n");
+				gotoxy(ix, iy + 3);
+				wprintf(L"⠀⠀  ⠀⠀⠀⠀⠀⠀⠙⠿⣿⣯⡛⠿⣷⣦⣀⠀⠀⠀⠀\n");
+				gotoxy(ix, iy + 4);
+				wprintf(L"⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣦⡀⠙⢛⣿⣷⡤⠀\n");
+				gotoxy(ix, iy + 5);
+				wprintf(L"⠀⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣆⠰⢿⣿⣇⡀⠀⠀\n");
+				gotoxy(ix, iy + 6);
+				wprintf(L"⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⠿⠿⢿⣿⣿⣶⣄⡀⠀⠀\n");
+				gotoxy(ix, iy + 7);
+				wprintf(L"⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⢿⣿⣶⣄⠀\n");
+				gotoxy(ix, iy + 8);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀⠀⠀⠀⠀⠙⣿⣿⡷⠄\n");
+				gotoxy(ix, iy + 9);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠓⠁\n");
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+
+				gotoxy(qx, qy);
+				printf(" [ 예리한 단검 ]  300 Crono 보유한 Crono : %d\n", player.crono);
+				printf(" 특이하게 생긴 단검이다.\n");
+				printf(" 살짝만 스쳐도 상처가 날것같이 날카롭다.");
+				switch (buyornodraw())
+				{
+				case 0:
+				{
+					if (player.crono >= daggar.cost)
+					{
+						daggaron = 1;
+						player.crono -= daggar.cost;
+						system("cls");
+						printf("\n\n\n[예리한 단검]을 구입했습니다.");
+						_getch();
+
+						break;
+					}
+					else
+					{
+						system("cls");
+						printf("\n\n보유한 크로노가 부족합니다.");
+						Sleep(500);
+						_getch();
+					}
+				}
+				default:
+					break;
+				}
+				break;
+			case 3:
+			{
+
+			}
+			case 4:
+			{
+
+			}
+			case 5:
+			{
+
+			}
+			case 6:
+			{
+
+			}
+			case 7:
+			{
+
+			}
+
+
+
+
+
+			}
+
+
+
 			default:
 				break;
 			}
@@ -1571,9 +1739,21 @@ int main(void)
 
 		if (situation_num == 12) // 찢어진 쪽지
 		{
+			printf("--------------------");
 			printf("\n\n기분 좋은 하루다.\n\n");;
-			printf("언젠가 나도 저 하늘을 나는 새처럼 되고싶다고 했다.\n");
-			printf("아빠는 나를 보며 기특해하셨다.\n");
+			_getch();
+			Sleep(500);
+			printf("언젠가 나도 저 하늘을 나는 새처럼 되고싶다고 했다.\n\n");
+			_getch();
+			Sleep(500);
+			printf("아빠는 나를 보며 기특해하셨다.\n\n");
+			_getch();
+			Sleep(500);
+			
+			dengeon_level = 2;
+			x_p = 2;
+			y_p = 2;
+			situation_num = 1;
 		}
 
 		if (situation_num == 14)
@@ -2043,10 +2223,27 @@ int titleDraw() {
 	gotoxy(x, y);
 	printf("[Open your eyes..]");
 	gotoxy(x, y + 1);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-	printf("*chaniii999's GitHub*");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	if (root >= 1) {
+		printf("[갈림길]");
+	}
+	else {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+		printf("[???]");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
 	gotoxy(x, y + 2);
+	if (root == 2)
+	{
+		printf("[그 다음길]");
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+		printf("[???]");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	gotoxy(x, y + 3);
+
 	printf("[Exit]");
 	while (1)
 	{
@@ -2065,7 +2262,7 @@ int titleDraw() {
 		}
 		case DOWN:
 		{
-			if (y < 16)
+			if (y < 17)
 			{
 				gotoxy(x - 2, y);
 				printf(" ");
@@ -2086,12 +2283,12 @@ int titleDraw() {
 }
 
 int proLogueDraw() {
-	int x = 3;
-	int y = 5;
+	int x = 19;
+	int y = 8;
 	gotoxy(x, y);
-	printf("-예-");
+	printf("-예");
 	gotoxy(x, y + 1);
-	printf("-아니오-");
+	printf("-아니오");
 
 	while (1)
 	{
@@ -2100,7 +2297,7 @@ int proLogueDraw() {
 		{
 		case UP:
 		{
-			if (y > 5) {
+			if (y > 8) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -2110,7 +2307,7 @@ int proLogueDraw() {
 		}
 		case DOWN:
 		{
-			if (y < 6)
+			if (y < 9)
 			{
 				gotoxy(x - 2, y);
 				printf(" ");
@@ -2121,7 +2318,7 @@ int proLogueDraw() {
 		}
 		case SUBMIT:
 		{
-			return y - 5;
+			return y - 8;
 			break;
 		}
 
@@ -2416,24 +2613,78 @@ int weapondraw()
 	int x = 2;
 	int y = 3;
 
-	gotoxy(x, y);
-	printf("어두운 검");
+	gotoxy(x, y);	
+	if (swordon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+		printf("어두운 검");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("어두운 검");
 	gotoxy(x, y+1);
-	printf("붉은 가시 창");
+	if (spearon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+		printf("붉은 가시창");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("붉은 가시창");
 	gotoxy(x, y+2);
-	printf("양날도끼");
+	if (daggaron == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+		printf("예리한 단검");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("예리한 단검");
 	gotoxy(x, y+3);
-	printf("Caladfwich");
+	if (caladon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+		printf("Caladfwich");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("Caladfwich");
 	gotoxy(x, y+4);
-	printf("예리한 단검");
+	if (ironon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+		printf("철 갑옷");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("철 갑옷");
 	gotoxy(x, y+5);
-	printf("철갑옷");
+	if (cowardon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+		printf("겁쟁이 갑옷");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("겁쟁이 갑옷");
 	gotoxy(x, y+6);
-	printf("백조의 갑옷");
+	if (backon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+		printf("백조의 갑옷");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("백조의 갑옷");
 	gotoxy(x, y+7);
-	printf("아다만티움갑옷");
-	gotoxy(x, y+8);
-	printf("겁쟁이갑옷");
+	if (admanon == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+		printf("아다만티움 갑옷");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else
+		printf("아다만티움 갑옷");
 	while (1)
 	{
 		int n = keyControl();
