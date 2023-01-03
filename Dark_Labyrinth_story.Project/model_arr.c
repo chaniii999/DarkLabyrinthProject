@@ -70,6 +70,7 @@ void conversationprint();
 void storeframe();
 int weapondraw();
 int buyornodraw();
+int doordraw();
 //int itemDraw();//아이템 선택함수
 
 int select_num = 1; //전투상황 선택지 초기화
@@ -1566,6 +1567,226 @@ int main(void)
 			//itemlistdraw();
 		}
 
+
+
+		if (situation_num == 12) // 찢어진 쪽지
+		{
+			printf("\n\n기분 좋은 하루다.\n\n");;
+			printf("언젠가 나도 저 하늘을 나는 새처럼 되고싶다고 했다.\n");
+			printf("아빠는 나를 보며 기특해하셨다.\n");
+		}
+
+		if (situation_num == 14)
+		{
+			printf("온 세상이 빨갰다.\n");
+			printf("아빠는 내 손을 잡고 어딘가로 뛰어가고 있었다.\n");
+			printf("순간 커다란 붉은 눈동자가 이쪽을 보았다.\n");
+			printf("무서웠다\n");
+			printf("하지만 어딘가 친근했다.\n");
+			printf("나는  어째선지 생기는 이 감정을 무시하며 달렸다.\n");
+			printf("난 이 날에 매캐한 냄새를 잊지 못했다.\n");
+		}
+
+		if(situation_num==15)
+		{
+			printf("어느날이었다.\n");
+			printf("할일을 끝내놓은 후 난 한가롭게 낮잠을 자고 있었다\n");
+			printf("바깥이 시끄러워졌다.\n");
+			printf("이내 아버지는 집에서 기다리라고 말씀하신 후 모르는 사람들과 함께 어딘가로 향하셨다\n");
+			printf("그 날 저녁 아버지는 돌아오지 않으셨다.\n");
+		}
+
+		if (situation_num == 16)
+		{
+			printf("다음날 나는 동네를 돌아다녔다.\n");
+			printf("하지만 아무도 아버지가 어디에 가셨는지 알지못했다\n");
+			printf("숨이 차게 달렸다.\n");
+			printf("더 이상 서있을 힘이 없다고 생각했을 때\n");
+			printf("로브를 입은 괴상한 차림에 청년이 다가왔다.");
+			printf("\"너희 아버지는 미궁에 갇혔단다.\"");
+			printf("\"그것을 너가 무찌른다면 그곳에서 나올수있게 도와주마...\"");
+		}
+
+		if (situation_num == 17)
+		{
+			printf("준비는 끝났다.\n");
+			printf("지난 몇십년동안 이 순간을 고대해왔다.\n\n");
+			printf("이 일이 끝나면 내 마음속에서 들끓는 증오도 평안을 되찾을까\n\n");
+			printf("인간은 자유를 원한다.\n\n");
+			printf("난 빼앗긴 자유를 원한다.\n\n");
+		}
+
+		if (situation_num == 171) //퍼즐
+		{
+			printf("석판이 보인다.");
+		}
+
+		if (situation_num == 172) //주검
+		{
+			printf("-노트에는 이렇게 써져있다.\n\n");
+			printf("자유는 가려지는 것이 아니다.\n\n");
+			printf("찾아라\n\n");
+			printf("떠나라\n\n");
+			printf("너의 의지를 실현시키는 것이야말로 자유다.\n\n");
+		}
+
+		if (situation_num == 173) //두갈래길
+		{
+			printf("가시가 엉켜져있는 형상을 한 거대한 문과 꺼림직해보이는 붉은 통로가 있다.\n\n");
+			printf("출구로 보이는 가시문의 열쇠구멍에서 빛이 새어나오고있다.\n\n");
+			printf("어디로 갈까?\n\n");
+			switch (doordraw())
+			{
+			case 0: //가시문
+			{
+				printf("-열쇠를 넣고 돌렸다.\n\n");
+				printf("지금껏 한번도 열리지않았던 문이 굉음을 내며 그 뒤를 보여주고 있었다.\n\n");
+				printf(". . . 난 자유다.\n\n");
+				printf("이 위험한 미궁을 답사한다는 것은 어리석은 일이었다.\n\n");
+				printf("아버지의 마지막 모습도 확인했다.\n\n");
+				printf("그리고 결국 난 살아남았다.\n\n");
+				printf("END - 거짓된 자유");
+			}
+			case 1: //붉은 통로
+			{
+				printf("붉은 길이 구불구불하게 나있다.");
+				printf("그때 맡았던 매캐한 냄새가 나는 것 같다.");
+				printf("하염없이 걸었다.");
+				printf("어디선가 비명소리가 들려오는 듯 했다.");
+				Sleep(1000);
+				printf("진실을 마주할 시간이다.");
+				situation_num = 8;
+			}
+			case 2: //돌아간다
+			{
+				situation_num = 1;
+				break;
+			}
+			default:
+				break;
+			}
+
+			
+		}
+
+		if (situation_num == 181)
+		{
+			printf("-니 죄를 묻겠다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("베르닉스와 함께 작당모의를 했다는게 사실이더냐\n\n");
+			Sleep(500);
+			_getch();
+			printf("-왕이시여 결단코 아닙니다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("저는 그저 자유를 꿈꾸는 도구를 만들었을뿐입니다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("-네 이놈 그게 이 나라에서 어떤 의미를 갖고있는지 알고있을터\n\n");
+			Sleep(500);
+			_getch();
+			printf("그럼에도 불구하고 너는 신성불가침의 영역에 그 불경한 손을 뻗겠다는것이냐\n\n");
+			Sleep(500);
+			_getch();
+			printf("-……저는 그러한 의도로 만들지않았습니다\n\n");
+			Sleep(500);
+			_getch();
+			printf("-네놈의 발상이 네놈의 발목을 잡는구나\n\n");
+			Sleep(500);
+			_getch();
+			printf("평생 너의 과오를 후회하며 발버둥쳐보아라\n\n");
+			Sleep(500);
+			_getch();
+			printf("그게 짊어져야할 업이다.\n\n");
+			Sleep(500);
+			_getch();
+
+		}
+
+		if (situation_num == 91)
+		{
+			printf("격한 싸움이 마무리되어갈 때 쯤\n\n");
+			Sleep(500);
+			_getch();
+			printf("그곳엔 피를 흝뜨리며 거칠게 숨을 몰아쉬고있는 연약한 생명체 밖에 없었다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("숨을 가다듬으며 물웅덩이에 비친 내 모습을 보았다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("그 눈동자다\n\n");
+			Sleep(500);
+			_getch();
+			printf("잊혀지지않았던 그 눈동자\n\n");
+			Sleep(500);
+			_getch();
+			printf("비로소 나는 깨달았다\n\n");
+			Sleep(500);
+			_getch();
+			printf("내 앞에 그는 아무 움직임이 없었다\n\n");
+			Sleep(500);
+			_getch();
+			printf("그저 그곳에 있을뿐이다\n\n");
+			Sleep(500);
+			_getch();
+			printf("\"넌 자유야\"\n\n");
+			Sleep(500);
+			_getch();
+			printf("그는 드디어 자유를 되찾았다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("나는 드디어 자유를 되찾았다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("END - 자유의 날개\n\n");
+			Sleep(500);
+			_getch();
+
+		}
+
+		if (situation_num == 92)
+		{
+			printf("격한 싸움이 마무리 되어갈 때 쯤\n\n");
+			Sleep(500);
+			_getch();
+			printf("끝없는 증오는 계속해서 나를 잠식해온다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("그것의 숨통을 끊기위해 나는 마지막 손짓을 끝냈다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("그 순간 그것의 눈동자에 비친 내 눈동자를 바라보았다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("그 눈동자다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("증오스러운 추악한 그 눈동자.\n\n");
+			Sleep(500);
+			_getch();
+			printf("나는 비로소 깨달았다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("내 앞에 그것은 아무 움직임이 없었다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("그저 그곳에 있을뿐이다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("\"넌 자유야\"\n\n");
+			Sleep(500);
+			_getch();
+			printf("컴컴한 미궁속에 나만이 남겨져있었다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("컴컴한 미궁속에 그것만이 남아있었다.\n\n");
+			Sleep(500);
+			_getch();
+			printf("END - 증오의 늪\n\n");
+		}
+
+
 		if (rage == 1)
 		{
 			if (turn == cnt_turn_rage + 3)
@@ -2357,6 +2578,53 @@ int blacksdraw() {
 		case SUBMIT:
 		{
 			return y - 14;
+			break;
+		}
+
+
+		}
+	}
+}
+
+int doordraw() {
+	int x = 30;
+	int y = 9;
+	gotoxy(x, y);
+	printf("[가시 문]");
+	gotoxy(x-1, y + 1);
+	printf("[붉은 통로]");
+	gotoxy(x-5, y + 2);
+	printf("아직 할 일이 남았다.");
+
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 9) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 11)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 9;
 			break;
 		}
 
