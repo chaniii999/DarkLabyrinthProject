@@ -60,7 +60,7 @@ void gotoxy(int x, int y);
 int game = 1; // 타이틀은 0 게임시작은 1
 int root = 0;
 
-int dengeon_level = 2;
+int dengeon_level = 1;
 int situation_num = 1; //시츄에이션 넘버
 
 
@@ -81,7 +81,23 @@ int doordraw();
 
 int select_num = 1; //전투상황 선택지 초기화
 
-//맵 관련함수
+//맵 오브젝트
+
+// level 1
+
+//map_arr_loCation_level_1[10][10]
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,7 +126,7 @@ char map_arr_loCation_level_4[12][12];
 char map_arr_loCation_level_5[12][8];
 char map_arr_loCation_level_6[13][7];
 char map_arr_loCation_level_7[15][15];
-char map_arr_loCation_level_8[13][5];
+char map_arr_loCation_level_8[15][11];
 
 //맵출력
 void printQuestion_level_1(); 
@@ -157,7 +173,7 @@ int t7 = 15;
 int g7 = 15; 
 
 int t8 = 15;
-int g8 = 10;
+int g8 = 11;
 
 
 void monster1_move_system_1(char arr[][10], int a, int b); // 몬스터 무브 내장 함수 1층 몬스터1 
@@ -203,11 +219,12 @@ void bef_move_monster(int x, int y); //몬스터 이전 좌표 초기화
 int y_p = 8; //플레이어 시작 위치
 int x_p = 5; //플레이어 시작 위치
 
-int x_npc = 5;
+int x_npc = 3;
 int y_npc = 5;
 
-int x_black = 5;
-int y_black = 5;
+int x_black = 6;
+int y_black = 1;
+
 
 int x_mon = 0; //몬스터 좌표값
 int y_mon = 0;
@@ -215,7 +232,8 @@ int y_mon = 0;
 int monster1_life = 0; // 몬스터가 살아있는지 여부
 
 
-
+int x_boss = 5;
+int y_boss = 3;
 
 //전투함수
 
@@ -275,7 +293,7 @@ int main(void)
 {
 	srand(time(NULL));
 	system("mode con cols=50 lines=19");
-	CursorView(); //커서안보임
+
 
 	oBject player; //플레이어 정의
 	player.name = player_name;
@@ -415,7 +433,7 @@ int main(void)
 
 	map_arr_loCation_level_3[1][6] = black_s; //대장장이
 
-	map_arr_loCation_level_6[4][6] = statue1; // 조각상
+	map_arr_loCation_level_6[5][3] = statue1; // 조각상
 	
 
 
@@ -427,6 +445,8 @@ int main(void)
 
 	while (game == 0)
 	{
+		CursorView();
+
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3);
 		int exMode = _setmode(_fileno(stdout), 0x00020000);
 		_setmode(_fileno(stdout), 0x00020000);
@@ -634,7 +654,7 @@ int main(void)
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
 				printf("floor : %d ", dengeon_level);
-				if (map_arr_loCation_level_3[3][10] == Player)
+				if (map_arr_loCation_level_3[3][11] == Player)
 				{
 					system("cls");
 					situation_num = 14;
@@ -658,9 +678,8 @@ int main(void)
 				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_4[1][10] == Player)
 				{
-					dengeon_level = 6;
-					x_p = 2;
-					y_p = 2;
+					system("cls");
+					situation_num = 15;
 				}
 			}
 
@@ -682,9 +701,9 @@ int main(void)
 				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_5[4][5] == Player)
 				{
-					dengeon_level = 6;
-					x_p = 2;
-					y_p = 2;
+					system("cls");
+					situation_num = 16;
+
 				}
 			}
 
@@ -706,9 +725,8 @@ int main(void)
 				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_6[1][3] == Player)
 				{
-					dengeon_level = 7;
-					x_p = 2;
-					y_p = 2;
+					system("cls");
+					situation_num = 17;
 				}
 			}
 			if (dengeon_level == 7)
@@ -729,9 +747,8 @@ int main(void)
 				printf("floor : %d ", dengeon_level);
 				if (map_arr_loCation_level_7[1][7] == Player)
 				{
-					dengeon_level = 7;
-					x_p = 2;
-					y_p = 2;
+					system("cls");
+					situation_num = 18;
 				}
 			}
 			if (dengeon_level == 8)
@@ -1047,6 +1064,46 @@ int main(void)
 					case 80:
 						if (map_arr_loCation_level_7[y_p + 1][x_p] == 0 ||
 							map_arr_loCation_level_7[y_p + 1][x_p] == 3)
+							y_p++;
+						break;
+					case 122:
+					{
+						break;
+					}
+					default:
+						break;
+					}
+				}
+			}
+			if (dengeon_level == 8)
+			{
+				move_player_8(y_p, x_p); // 캐릭터 현 좌표 함수.
+				//move_monster_1(map_arr_loCation_level_3, y_mon, x_mon); // 몬스터 현 좌표.
+				if (kbhit())
+				{
+
+					key = _getch();
+					bef_move_player_8(y_p, x_p); // 이전 플레이어의 위치에 있는 1을 지워줌. 
+					switch (key)
+					{
+					case 72:
+						if (map_arr_loCation_level_8[y_p - 1][x_p] == 0 ||
+							map_arr_loCation_level_8[y_p - 1][x_p] == 3) //가고자하는 자리가 0일때만 가능.
+							y_p--;
+						break;
+					case 75:
+						if (map_arr_loCation_level_8[y_p][x_p - 1] == 0 ||
+							map_arr_loCation_level_8[y_p][x_p - 1] == 3)
+							x_p--;
+						break;
+					case 77:
+						if (map_arr_loCation_level_8[y_p][x_p + 1] == 0 ||
+							map_arr_loCation_level_8[y_p][x_p + 1] == 3)
+							x_p++;
+						break;
+					case 80:
+						if (map_arr_loCation_level_8[y_p + 1][x_p] == 0 ||
+							map_arr_loCation_level_8[y_p + 1][x_p] == 3)
 							y_p++;
 						break;
 					case 122:
@@ -2269,12 +2326,26 @@ int main(void)
 		if (situation_num == 14)
 		{
 			printf("온 세상이 빨갰다.\n");
+			_getch();
+			Sleep(500);
 			printf("아빠는 내 손을 잡고 어딘가로 뛰어가고 있었다.\n");
+			_getch();
+			Sleep(500);
 			printf("순간 커다란 붉은 눈동자가 이쪽을 보았다.\n");
+			_getch();
+			Sleep(500);
 			printf("무서웠다\n");
+			_getch();
+			Sleep(500);
 			printf("하지만 어딘가 친근했다.\n");
+			_getch();
+			Sleep(500);
 			printf("나는  어째선지 생기는 이 감정을 무시하며 달렸다.\n");
+			_getch();
+			Sleep(500);
 			printf("난 이 날에 매캐한 냄새를 잊지 못했다.\n");
+			_getch();
+			Sleep(500);
 
 			dengeon_level = 4;
 			y_p = 9;
@@ -2285,10 +2356,20 @@ int main(void)
 		if(situation_num==15)
 		{
 			printf("어느날이었다.\n");
+			_getch();
+			Sleep(500);
 			printf("할일을 끝내놓은 후 난 한가롭게 낮잠을 자고 있었다\n");
+			_getch();
+			Sleep(500);
 			printf("바깥이 시끄러워졌다.\n");
-			printf("이내 아버지는 집에서 기다리라고 말씀하신 후 모르는 사람들과 함께 어딘가로 향하셨다\n");
+			_getch();
+			Sleep(500);
+			printf("이내 아버지는 집에서 기다리라고 말씀하신 후\n 모르는 사람들과 함께 어딘가로 향하셨다\n");
+			_getch();
+			Sleep(500);
 			printf("그 날 저녁 아버지는 돌아오지 않으셨다.\n");
+			_getch();
+			Sleep(500);
 
 			dengeon_level = 5;
 			y_p = 10;
@@ -2299,12 +2380,26 @@ int main(void)
 		if (situation_num == 16)
 		{
 			printf("다음날 나는 동네를 돌아다녔다.\n");
+			_getch();
+			Sleep(500);
 			printf("하지만 아무도 아버지가 어디에 가셨는지 알지못했다\n");
+			_getch();
+			Sleep(500);
 			printf("숨이 차게 달렸다.\n");
+			_getch();
+			Sleep(500);
 			printf("더 이상 서있을 힘이 없다고 생각했을 때\n");
+			_getch();
+			Sleep(500);
 			printf("로브를 입은 괴상한 차림에 청년이 다가왔다.");
+			_getch();
+			Sleep(500);
 			printf("\"너희 아버지는 미궁에 갇혔단다.\"");
+			_getch();
+			Sleep(500);
 			printf("\"그것을 너가 무찌른다면 그곳에서 나올수있게 도와주마...\"");
+			_getch();
+			Sleep(500);
 
 			dengeon_level = 6;
 			y_p = 11;
@@ -2315,10 +2410,17 @@ int main(void)
 		if (situation_num == 17)
 		{
 			printf("준비는 끝났다.\n");
+			_getch();
+			Sleep(500);
 			printf("지난 몇십년동안 이 순간을 고대해왔다.\n\n");
+			_getch();
+			Sleep(500);
 			printf("이 일이 끝나면 내 마음속에서 들끓는 증오도 평안을 되찾을까\n\n");
+			_getch();
+			Sleep(500);
 			printf("인간은 자유를 원한다.\n\n");
-			printf("빼앗긴 자유를 원한다.\n\n");
+			_getch();
+			Sleep(500);
 
 			dengeon_level = 7;
 			y_p = 13;
@@ -2379,7 +2481,7 @@ int main(void)
 			
 		}
 
-		if (situation_num == 181)
+		if (situation_num == 18)
 		{
 			printf("-니 죄를 묻겠다.\n\n");
 			Sleep(500);
@@ -2412,6 +2514,10 @@ int main(void)
 			Sleep(500);
 			_getch();
 
+			dengeon_level = 8;
+			x_p = 5;
+			y_p = 13;
+			situation_num = 1;
 		}
 
 		if (situation_num == 91)
@@ -2507,7 +2613,7 @@ int main(void)
 			}
 		}
 
-		Sleep(50);
+		Sleep(100);
 		system("cls");
 
 	}
@@ -2579,6 +2685,7 @@ void bef_move_player_8(int x, int y){
 
 void printQuestion_level_1()//맵 출력
 {
+	printf("\n\n\n");
 	for (int i = 0; i < 10; i++)
 	{
 		printf("     ");
@@ -2605,15 +2712,15 @@ void printQuestion_level_1()//맵 출력
 		}
 		printf("\n");
 	}
-	gotoxy(4,0);
-	printf(" %s", specialChar());
+
 }//
 
 void printQuestion_level_2()//맵 출력
 {
+	printf("\n");
 	for (int i = 0; i < 13; i++)
 	{
-		printf("     ");
+		printf("   ");
 		for (int j = 0; j < 13; j++)
 		{
 			if (map_arr_loCation_level_2[i][j] == 0) // 공백
@@ -2641,9 +2748,10 @@ void printQuestion_level_2()//맵 출력
 
 void printQuestion_level_3()//맵 출력
 {
+	printf("\n\n\n\n");
 	for (int i = 0; i < 7; i++)
 	{
-		printf("");
+		printf(" ");
 		for (int j = 0; j < 13; j++)
 		{
 			if (map_arr_loCation_level_3[i][j] == 0) // 공백
@@ -2672,8 +2780,10 @@ void printQuestion_level_3()//맵 출력
 
 void printQuestion_level_4()//맵 출력
 {
+	printf("\n\n");
 	for (int i = 0; i < 12; i++)
 	{
+		printf("   ");
 		for (int j = 0; j < 12; j++)
 		{
 			if (map_arr_loCation_level_4[i][j] == 0) // 공백
@@ -2701,8 +2811,10 @@ void printQuestion_level_4()//맵 출력
 
 void printQuestion_level_5()//맵 출력
 {
+	printf("\n\n");
 	for (int i = 0; i < 12; i++)
 	{
+		printf("         ");
 		for (int j = 0; j < 8; j++)
 		{
 			if (map_arr_loCation_level_5[i][j] == 0) // 공백
@@ -2732,7 +2844,7 @@ void printQuestion_level_6()//맵 출력
 {
 	for (int i = 0; i < 13; i++)
 	{
-		printf("            ");
+		printf("          ");
 		for (int j = 0; j < 7; j++)
 		{
 			if (map_arr_loCation_level_6[i][j] == 0) // 공백
@@ -2763,7 +2875,7 @@ void printQuestion_level_7()//맵 출력
 {
 	for (int i = 0; i < 15; i++)
 	{
-		printf("            ");
+		
 		for (int j = 0; j < 15; j++)
 		{
 			if (map_arr_loCation_level_7[i][j] == 0) // 공백
@@ -2794,8 +2906,8 @@ void printQuestion_level_8()//맵 출력
 {
 	for (int i = 0; i < 15; i++)
 	{
-		printf("            ");
-		for (int j = 0; j < 10; j++)
+		printf("      ");
+		for (int j = 0; j < 11; j++)
 		{
 			if (map_arr_loCation_level_8[i][j] == 0) // 공백
 			{
@@ -2923,14 +3035,31 @@ void creaTor_great_Wall_8(int y, int x) // 벽만들기
 {
 	for (int i = 0; i < x; i++)
 	{
-		map_arr_loCation_level_8[0][i] = 9; // 0,0 0,1 .... 0,i
-		map_arr_loCation_level_8[y - 1][i] = 9; // 5,0, 5,1... 5,i
-	}
-	for (int j = 1; j < y; j++)
+		map_arr_loCation_level_8[0][i] = 9;
+	}// 0,0 0,1 .... 0,i d 맨위에 막기
+	for (int i = 3; i < 8; i++)
 	{
-		map_arr_loCation_level_8[j][x - 1] = 9;
-		map_arr_loCation_level_8[j][0] = 9;
+		map_arr_loCation_level_8[y - 1][i] = 9; // 5,0, 5,1... 5,i 맨아래막기
 	}
+	for (int i = 1; i < 4; i++) //중간막기
+	{
+		map_arr_loCation_level_8[6][i] = 9;
+	}
+	for (int i = 7; i < 10; i++) //중간막기
+	{
+		map_arr_loCation_level_8[6][i] = 9;
+	}
+	for (int j = 1; j < y-8; j++)
+	{
+		map_arr_loCation_level_8[j][x - 1] = 9;  //왼쪽 막기
+		map_arr_loCation_level_8[j][0] = 9;      //오른쪽막기
+	}
+	for (int j = 6; j < 14; j++)
+	{
+		map_arr_loCation_level_8[j][7] = 9;  //왼쪽 막기
+		map_arr_loCation_level_8[j][3] = 9;      //오른쪽막기
+	}
+
 }//
 
 
