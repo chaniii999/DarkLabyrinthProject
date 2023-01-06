@@ -69,7 +69,6 @@ int titleDraw(); // 시작화면 함수.
 int proLogueDraw(); //프롤로그 선택함수.
 int menuDraw(); // 메뉴 선택지함수
 int skillmenuDraw(); // 스킬 선택지 함수
-int statuedraw();
 int yesnodraw();
 int blacksdraw();
 void conversationprint();
@@ -86,18 +85,6 @@ int select_num = 1; //전투상황 선택지 초기화
 // level 1
 
 //map_arr_loCation_level_1[10][10]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -176,7 +163,21 @@ int t8 = 15;
 int g8 = 11;
 
 
-void monster1_move_system_1(char arr[][10], int a, int b); // 몬스터 무브 내장 함수 1층 몬스터1 
+
+
+
+
+void monxy(int y, int x); // 몬스터 위치 좌표 고정
+
+void monmove_system(int y,int x); //랜덤이동
+
+void bfmonxy(int x, int y); //공용 좌표 지우개
+
+int monsterlife = 1;
+
+int monspawn;
+
+
 
 
 void move_player_1(int x, int y);
@@ -199,17 +200,10 @@ void bef_move_player_8(int x, int y);
 
 //고유값
 int Player = 1; //플레이어 
-int drago = 4; //몬스터1 
+int mon = 4; //몬스터1 
 int statue1 = 5; // 조각상 
 int enTrance = 3;
 int black_s = 6;
-
-
-
-void move_monster_1(char arr[][10],int name, int x, int y); // 몬스터좌표
-void move_monster_2(char arr[][15],int name, int x, int y);
-void bef_move_monster(int x, int y); //몬스터 이전 좌표 초기화
-
 
 
 
@@ -226,10 +220,8 @@ int x_black = 6;
 int y_black = 1;
 
 
-int x_mon = 0; //몬스터 좌표값
-int y_mon = 0;
-
-int monster1_life = 0; // 몬스터가 살아있는지 여부
+int x_mon = 2; //몬스터 좌표값
+int y_mon = 6;
 
 
 int x_boss = 5;
@@ -311,6 +303,12 @@ int main(void)
 	oBject blacks; //6
 	blacks.name = "늙은 대장장이";
 
+	oBject mon;
+	mon.name;
+	mon.attack;
+	mon.life;
+	mon.crono;
+
 	oBject bat; //박쥐 12
 	bat.name = "박쥐";
 	bat.attack = 3;
@@ -347,29 +345,21 @@ int main(void)
 
 	iteM sword;
 	sword.name = "어두운 검";
-	sword.attack = 20;
+	sword.attack = 40;
 	sword.critical = 20;
-	sword.evasion = 5;
-	sword.cost = 400;
-	sword.onoff = 0;
+	sword.cost = 500;
 
 	iteM spear;
 	spear.name = "푸른 창";
-	spear.attack = 16;
+	spear.attack = 30;
 	spear.critical = 15;
-	spear.cost = 250;
+	spear.cost = 300;
 
-	iteM axe;
-	axe.name = "양날도끼";
-	axe.attack = 12;
-	axe.critical = 15;
-	axe.cost = 180;
 
 	iteM Excalibur;
 	Excalibur.name = "Caladfwich";
-	Excalibur.attack = 35;
+	Excalibur.attack = 100;
 	Excalibur.critical = 40;
-	Excalibur.evasion = 15;
 	Excalibur.cost = 1000;
 
 	iteM daggar;
@@ -377,23 +367,23 @@ int main(void)
 	daggar.attack = 10;
 	daggar.critical = 45;
 	daggar.evasion = 20;
-	daggar.cost = 270;
+	daggar.cost = 200;
 
 	iteM iron;
 	iron.name = "철 갑옷";
-	iron.life = 25;
+	iron.life = 20;
 	iron.evasion = 5;
-	iron.cost = 150;
+	iron.cost = 200;
 
 	iteM fast;
 	fast.name = "백조의 갑옷";
-	fast.life = 15;
-	fast.evasion = 40;
-	fast.cost = 350;
+	fast.life = 30;
+	fast.evasion = 25;
+	fast.cost = 600;
 
 	iteM adaman;
 	adaman.name = "아다만티움 갑옷";
-	adaman.life = 70;
+	adaman.life = 60;
 	adaman.evasion = 15;
 	adaman.cost = 700;
 
@@ -430,6 +420,11 @@ int main(void)
 
 
 	//npc 배열정의
+
+	//1층
+	map_arr_loCation_level_1[6][2] =4;
+
+
 
 	map_arr_loCation_level_3[1][6] = black_s; //대장장이
 
@@ -592,7 +587,7 @@ int main(void)
 			{
 				creaTor_great_Wall_1(t1, g1);
 				printQuestion_level_1();//맵 표시
-				//status(player.name, player.life, player.max_life, player.mana, player.max_mana, player.crono);
+				
 
 				int qq = 33;
 				int pp = 3;
@@ -775,7 +770,6 @@ int main(void)
 			if (dengeon_level == 1)
 			{
 				move_player_1(y_p, x_p); // 캐릭터 현 좌표 함수.
-				move_monster_1(map_arr_loCation_level_1,drago, y_mon, x_mon); // 몬스터 현 좌표.
 				if (kbhit())
 				{
 
@@ -809,14 +803,17 @@ int main(void)
 
 				}
 
-				if (monster1_life == 1)   
+				if (monsterlife == 1)   
 				{
-					monster1_move_system_1(map_arr_loCation_level_1, y_mon, x_mon);
+					monxy(y_mon, x_mon); //좌표고정
+					monmove_system(y_mon, x_mon);
 					if (x_p == x_mon && y_p == y_mon + 1 ||
 						x_p == x_mon + 1 && y_p == y_mon ||
 						x_p == x_mon - 1 && y_p == y_mon ||
 						x_p == x_mon && y_p == y_mon - 1)
 					{
+						monspawn = rand() %3;
+
 						situation_num = 2;
 						Sleep(1000);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
@@ -824,7 +821,7 @@ int main(void)
 
 				}
 				else
-					bef_move_monster(y_mon, x_mon);
+					bfmonxy(y_mon, x_mon);
 			}
 			if (dengeon_level == 2)
 			{
@@ -1120,12 +1117,60 @@ int main(void)
 		}
 		if (situation_num == 2) // 전투시작연출
 		{
+			switch (monspawn)
+			{
+			case 0:
+			{
+				mon.name = bat.name;
+				mon.attack = bat.attack;
+				mon.life = bat.life;
+				mon.crono = bat.crono;
+			}
+			case 1:
+			{
+				mon.name = spider.name;
+				mon.attack = spider.attack;
+				mon.life = spider.life;
+				mon.crono = spider.crono;
+			}
+			case 2:
+			{
+				mon.name = moth.name;
+				mon.attack = moth.attack;
+				mon.life = moth.life;
+				mon.crono = moth.crono;
+			}
+			case 3:
+			{
+				mon.name = kero.name;
+				mon.attack = kero.attack;
+				mon.life = kero.life;
+				mon.crono = kero.crono;
+			}
+			case 4:
+			{
+				mon.name = bat.name;
+				mon.attack = bat.attack;
+				mon.life = bat.life;
+				mon.crono = bat.crono;
+			}
+			case 5:
+			{
+				mon.name = bat.name;
+				mon.attack = bat.attack;
+				mon.life = bat.life;
+				mon.crono = bat.crono;
+			}
+			default:
+				break;
+			}
+
+
 
 			Sleep(100);
-
 			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf(" %s가 나타났다!\n", monster1.name);
+			printf(" %s가 나타났다!\n", mon.name);
 			Sleep(100);
 			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
@@ -1160,7 +1205,7 @@ int main(void)
 		{
 
 			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-			printf(" %s의 체력: %d\n\n", monster1.name, monster1.life);
+			printf(" %s의 체력: %d\n\n", mon.name, mon.life);
 			printf(" 당신의 체력 :%d\n", player.life);
 			printf("ㅡㅡㅡㅡ현재 턴:%dㅡㅡㅡ\n", turn);
 			switch (menuDraw())//전투선택지
@@ -1169,17 +1214,17 @@ int main(void)
 			{
 				system("cls");
 				turn++;
-				cnt_monster1_life = monster1.life;
+				cnt_monster1_life = mon.life;
 				cnt_player_life = player.life;
-				monster1.life -= attack(monster1.life, player.attack);
-				player.life -= attack(player.life, monster1.attack);
+				mon.life -= attack(mon.life, player.attack);
+				player.life -= attack(player.life, mon.attack);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				Sleep(1000);
-				printf("% s는 % s에게\n 검을 힘차게 휘둘렀다!\n\n", player.name, monster1.name);
+				printf("% s는 % s에게\n 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
 				Sleep(1000);
-				printf("%s에게 %d의\n 데미지를 주었다.\n\n", monster1.name, cnt_monster1_life - monster1.life);  // 공격받기전 - 받은후 =데미지
+				printf("%s에게 %d의\n 데미지를 주었다.\n\n", mon.name, cnt_monster1_life - mon.life);  // 공격받기전 - 받은후 =데미지
 				Sleep(1500);
-				if (monster1.life <= 0)
+				if (mon.life <= 0)
 				{
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
@@ -1194,24 +1239,22 @@ int main(void)
 					system("cls");
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(1000);
-					printf("%s를 쓰러트렸다!\n", monster1.name);
+					printf("%s를 쓰러트렸다!\n", mon.name);
 					Sleep(1000);
-					printf("%d 크로노 를 얻었다!\n", monster1.crono);
-					player.crono += monster1.crono;
+					printf("%d 크로노 를 얻었다!\n", mon.crono);
+					player.crono += mon.crono;
 					Sleep(500);
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(2000);
-					y_mon = 15;
-					x_mon = 15;
-					bef_move_monster(y_mon, x_mon);
-					monster1_life = 0;
+					bfmonxy(y_mon, x_mon);
+					monsterlife = 0;
 					system("cls");
 					situation_num = 1;
 
 				}
-				else if (monster1.life > 0)
+				else if (mon.life > 0)
 				{
-					printf("%s는 %s에게\n 달려들었다!\n\n", monster1.name, player.name);
+					printf("%s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
 					Sleep(1000);
 					printf("%s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
 					Sleep(1500);
@@ -1252,10 +1295,10 @@ int main(void)
 				cnt_player_life = player.life;
 				system("cls");
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				player.life -= (attack(player.life, monster1.attack)) / 3;
+				player.life -= (attack(player.life, mon.attack)) / 3;
 				printf("%s는 방어태세에 들어갔다!\n", player.name);
 				Sleep(1000);
-				printf("%s는 %s에게\n 달려들었다!\n\n", monster1.name, player.name);
+				printf("%s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
 				Sleep(1500);
 				printf("%s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
 				Sleep(1000);
@@ -1294,7 +1337,7 @@ int main(void)
 			{
 				system("cls");
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				printf(" %s의 체력: %d\n\n", monster1.name, monster1.life);
+				printf(" %s의 체력: %d\n\n", mon.name, mon.life);
 				printf(" 당신의 체력 :%d\n", player.life);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				switch (skillmenuDraw())
@@ -1317,17 +1360,17 @@ int main(void)
 						cnt_turn_stab = turn;
 						system("cls");
 						cnt_player_life = player.life;
-						cnt_monster1_life = monster1.life;
-						monster1.life -= skill_several_stab(player.attack);
-						player.life -= attack(player.life, monster1.attack);
+						cnt_monster1_life = mon.life;
+						mon.life -= skill_several_stab(player.attack);
+						player.life -= attack(player.life, mon.attack);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
 						printf("%s는 연속 찌르기를 사용했다!\n", player.name);
 						Sleep(1000);
-						printf("%s는 %s에게 %d의 데미지를 주었다.\n", player.name, monster1.name, skill_several_stab(player.attack));
+						printf("%s는 %s에게 %d의 데미지를 주었다.\n", player.name, mon.name, skill_several_stab(player.attack));
 						Sleep(2000);
 
-						if (monster1.life <= 0)
+						if (mon.life <= 0)
 						{
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(300);
@@ -1342,25 +1385,25 @@ int main(void)
 							system("cls");
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1000);
-							printf("%s를 쓰러트렸다!\n", monster1.name);
+							printf("%s를 쓰러트렸다!\n", mon.name);
 							Sleep(1000);
-							printf("%d 크로노 를 얻었다!\n", monster1.crono);
-							player.crono += monster1.crono;
+							printf("%d 크로노 를 얻었다!\n", mon.crono);
+							player.crono += mon.crono;
 							Sleep(500);
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(2000);
 							y_mon = 15;
 							x_mon = 15;
-							bef_move_monster(y_mon, x_mon);
+							bfmonxy(y_mon, x_mon);
 							system("cls");
-							monster1_life = 0;
+							monsterlife = 0;
 							situation_num = 1;
 							break;
 
 						}
-						else if (monster1.life > 0)
+						else if (mon.life > 0)
 						{
-							printf("%s는 %s에게\n 달려들었다!\n\n", monster1.name, player.name);
+							printf("%s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
 							Sleep(1000);
 							printf("%s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
 							Sleep(1500);
@@ -3063,17 +3106,6 @@ void creaTor_great_Wall_8(int y, int x) // 벽만들기
 }//
 
 
-void move_monster_1(char arr[][10], int name, int x, int y) // 몬스터 위치 동기화
-{
-	arr[x][y] = name;
-}
-
-
-
-void bef_move_monster(int x, int y)
-{
-	map_arr_loCation_level_1[x][y] = 0;
-}
 
 int keyControl() //enter = 13
 {
@@ -3754,20 +3786,7 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-int attack(int x, int y) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
-{
 
-	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t = i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력
-	return t;
-}
-
-int attacked_monster(int x, int y)
-{
-	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t = i + y; //데미지= 랜덤난수 + 플레이어 공격력
-	return t;
-}
 
 int skill_several_stab(int a)
 {
@@ -3834,39 +3853,39 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 	return t; // 공격력에 t를 추가한다.
 }
 
-void monster1_move_system_1(char arr[][10], int y, int x) {
+void monmove_system(int y, int x) {
 	if (kbhit())
 	{
-		int dirM1 = rand() % 4;
-		switch (dirM1) // 몬스터 비전투패턴
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
 		{
 		case 0:
-			if (arr[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			if (map_arr_loCation_level_1[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
 			{
 				y_mon--;
-				bef_move_monster(y_mon + 1, x_mon);
+				bfmonxy(y_mon + 1, x_mon);
 			}
 
 			break;
 		case 1:
-			if (arr[y_mon][x_mon - 1] == 0)
+			if (map_arr_loCation_level_1[y_mon][x_mon - 1] == 0)
 			{
 				x_mon--;
-				bef_move_monster(y_mon, x_mon + 1);
+				bfmonxy(y_mon, x_mon + 1);
 			}
 			break;
 		case 2:
-			if (arr[y_mon][x_mon + 1] == 0)
+			if (map_arr_loCation_level_1[y_mon][x_mon + 1] == 0)
 			{
 				x_mon++;
-				bef_move_monster(y_mon, x_mon - 1);
+				bfmonxy(y_mon, x_mon - 1);
 			}
 			break;
 		case 3:
-			if (arr[y_mon + 1][x_mon] == 0)
+			if (map_arr_loCation_level_1[y_mon + 1][x_mon] == 0)
 			{
 				y_mon++;
-				bef_move_monster(y_mon - 1, x_mon);
+				bfmonxy(y_mon - 1, x_mon);
 			}
 			break;
 		default:
@@ -3875,6 +3894,33 @@ void monster1_move_system_1(char arr[][10], int y, int x) {
 	}
 }
 
+void monxy(int x, int y) // 몬스터 위치 동기화
+{
+	map_arr_loCation_level_1[x][y] = 4;
+}
+
+
+
+void bfmonxy(int x, int y)
+{
+	map_arr_loCation_level_1[x][y] = 0;
+}
+
+
+int attack(int x, int y) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
+{
+
+	int i = rand() % 5 - 1; //  9 10 11 12 13 
+	int t = i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력
+	return t;
+}
+
+int attacked_monster(int x, int y)
+{
+	int i = rand() % 5 - 1; //  9 10 11 12 13 
+	int t = i + y; //데미지= 랜덤난수 + 플레이어 공격력
+	return t;
+}
 
 void CursorView()
 {
