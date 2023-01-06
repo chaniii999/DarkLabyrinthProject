@@ -170,12 +170,24 @@ int g8 = 11;
 void monxy(int y, int x); // 몬스터 위치 좌표 고정
 
 void monmove_system(int y,int x); //랜덤이동
+void monmove_system2(int y,int x);
+void monmove_system3(int y, int x);
+void bfmonxy(int y, int x); //공용 좌표 지우개
 
-void bfmonxy(int x, int y); //공용 좌표 지우개
+int *monlife;
+
+int *x_m;
+int *y_m;
 
 int monsterlife = 1;
+int monsterlife2 = 1;
+int monsterlife3 = 1;
 
 int monspawn;
+int cntspawn;
+
+
+
 
 
 
@@ -222,6 +234,12 @@ int y_black = 1;
 
 int x_mon = 2; //몬스터 좌표값
 int y_mon = 6;
+
+int x_mon2 = 2;
+int y_mon2 = 2;
+
+int x_mon3 = 7;
+int y_mon3 = 7;
 
 
 int x_boss = 5;
@@ -394,10 +412,6 @@ int main(void)
 	coward.cost = 100;
 
 
-	
-
-
-
 
 
 
@@ -422,7 +436,6 @@ int main(void)
 	//npc 배열정의
 
 	//1층
-	map_arr_loCation_level_1[6][2] =4;
 
 
 
@@ -800,28 +813,83 @@ int main(void)
 					default:
 						break;
 					}
-
-				}
-
 				if (monsterlife == 1)   
 				{
-					monxy(y_mon, x_mon); //좌표고정
-					monmove_system(y_mon, x_mon);
+
+					monxy(y_mon, x_mon);
+					monmove_system(y_mon,x_mon);
+
 					if (x_p == x_mon && y_p == y_mon + 1 ||
 						x_p == x_mon + 1 && y_p == y_mon ||
 						x_p == x_mon - 1 && y_p == y_mon ||
 						x_p == x_mon && y_p == y_mon - 1)
 					{
+
+						monlife = &monsterlife;
+
 						monspawn = rand() %3;
+						cntspawn = monspawn;
 
 						situation_num = 2;
 						Sleep(1000);
+						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					}
 
 				}
 				else
 					bfmonxy(y_mon, x_mon);
+				}
+
+
+				if (monsterlife2 == 1)
+				{
+					monxy(y_mon2, x_mon2); //좌표고정
+					monmove_system2(y_mon2, x_mon2);
+					if (x_p == x_mon2 && y_p == y_mon2 + 1 ||
+						x_p == x_mon2 + 1 && y_p == y_mon2 ||
+						x_p == x_mon2 - 1 && y_p == y_mon2 ||
+						x_p == x_mon2 && y_p == y_mon2 - 1)
+					{
+						monspawn = rand() % 3;
+
+
+
+						monlife = &monsterlife2;
+						situation_num = 2;
+						Sleep(1000);
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					}
+
+				}
+				else
+					bfmonxy(y_mon2, x_mon2);
+
+				if (monsterlife3 == 1)
+				{
+					monxy(y_mon3, x_mon3); //좌표고정
+					monmove_system3(y_mon3, x_mon3);
+					if (x_p == x_mon3 && y_p == y_mon3 + 1 ||
+						x_p == x_mon3 + 1 && y_p == y_mon3 ||
+						x_p == x_mon3 - 1 && y_p == y_mon3 ||
+						x_p == x_mon3 && y_p == y_mon3 - 1)
+					{
+						monspawn = rand() % 3;
+
+
+
+						monlife = &monsterlife3;
+						situation_num = 2;
+						Sleep(1000);
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					}
+
+				}
+				else
+					bfmonxy(y_mon3, x_mon3);
+
 			}
 			if (dengeon_level == 2)
 			{
@@ -1035,7 +1103,6 @@ int main(void)
 			if (dengeon_level == 7)
 			{
 				move_player_7(y_p, x_p); // 캐릭터 현 좌표 함수.
-				//move_monster_1(map_arr_loCation_level_3, y_mon, x_mon); // 몬스터 현 좌표.
 				if (kbhit())
 				{
 
@@ -1075,7 +1142,6 @@ int main(void)
 			if (dengeon_level == 8)
 			{
 				move_player_8(y_p, x_p); // 캐릭터 현 좌표 함수.
-				//move_monster_1(map_arr_loCation_level_3, y_mon, x_mon); // 몬스터 현 좌표.
 				if (kbhit())
 				{
 
@@ -1117,7 +1183,7 @@ int main(void)
 		}
 		if (situation_num == 2) // 전투시작연출
 		{
-			switch (monspawn)
+			switch (cntspawn)
 			{
 			case 0:
 			{
@@ -1125,6 +1191,7 @@ int main(void)
 				mon.attack = bat.attack;
 				mon.life = bat.life;
 				mon.crono = bat.crono;
+				break;
 			}
 			case 1:
 			{
@@ -1132,6 +1199,7 @@ int main(void)
 				mon.attack = spider.attack;
 				mon.life = spider.life;
 				mon.crono = spider.crono;
+				break;
 			}
 			case 2:
 			{
@@ -1139,6 +1207,7 @@ int main(void)
 				mon.attack = moth.attack;
 				mon.life = moth.life;
 				mon.crono = moth.crono;
+				break;
 			}
 			case 3:
 			{
@@ -1146,6 +1215,7 @@ int main(void)
 				mon.attack = kero.attack;
 				mon.life = kero.life;
 				mon.crono = kero.crono;
+				break;
 			}
 			case 4:
 			{
@@ -1153,6 +1223,7 @@ int main(void)
 				mon.attack = bat.attack;
 				mon.life = bat.life;
 				mon.crono = bat.crono;
+				break;
 			}
 			case 5:
 			{
@@ -1160,6 +1231,7 @@ int main(void)
 				mon.attack = bat.attack;
 				mon.life = bat.life;
 				mon.crono = bat.crono;
+				break;
 			}
 			default:
 				break;
@@ -1246,8 +1318,8 @@ int main(void)
 					Sleep(500);
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(2000);
-					bfmonxy(y_mon, x_mon);
-					monsterlife = 0;
+					//bfmonxy(y_m,x_m);
+					*monlife = 0;
 					system("cls");
 					situation_num = 1;
 
@@ -1282,6 +1354,7 @@ int main(void)
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
 						_getch();
+						game = 0;
 						break;
 					}
 					system("cls");
@@ -1392,11 +1465,10 @@ int main(void)
 							Sleep(500);
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(2000);
-							y_mon = 15;
-							x_mon = 15;
-							bfmonxy(y_mon, x_mon);
+
+							*monlife = 0;
 							system("cls");
-							monsterlife = 0;
+
 							situation_num = 1;
 							break;
 
@@ -2755,7 +2827,6 @@ void printQuestion_level_1()//맵 출력
 		}
 		printf("\n");
 	}
-
 }//
 
 void printQuestion_level_2()//맵 출력
@@ -3863,9 +3934,8 @@ void monmove_system(int y, int x) {
 			if (map_arr_loCation_level_1[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
 			{
 				y_mon--;
-				bfmonxy(y_mon + 1, x_mon);
+				bfmonxy(y_mon+1, x_mon);
 			}
-
 			break;
 		case 1:
 			if (map_arr_loCation_level_1[y_mon][x_mon - 1] == 0)
@@ -3878,7 +3948,7 @@ void monmove_system(int y, int x) {
 			if (map_arr_loCation_level_1[y_mon][x_mon + 1] == 0)
 			{
 				x_mon++;
-				bfmonxy(y_mon, x_mon - 1);
+				bfmonxy(y_mon, x_mon-1);
 			}
 			break;
 		case 3:
@@ -3894,16 +3964,96 @@ void monmove_system(int y, int x) {
 	}
 }
 
-void monxy(int x, int y) // 몬스터 위치 동기화
+void monmove_system2(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_1[y_mon2 - 1][x_mon2] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon2--;
+				bfmonxy(y_mon2 + 1, x_mon2);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_1[y_mon2][x_mon2 - 1] == 0)
+			{
+				x_mon2--;
+				bfmonxy(y_mon2, x_mon2 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_1[y_mon2][x_mon2 + 1] == 0)
+			{
+				x_mon2++;
+				bfmonxy(y_mon2, x_mon2 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_1[y_mon2 + 1][x_mon2] == 0)
+			{
+				y_mon2++;
+				bfmonxy(y_mon2 - 1, x_mon2);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system3(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_1[y_mon3 - 1][x_mon3] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon3--;
+				bfmonxy(y_mon3 + 1, x_mon3);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_1[y_mon3][x_mon3 - 1] == 0)
+			{
+				x_mon3--;
+				bfmonxy(y_mon3, x_mon3 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_1[y_mon3][x_mon3 + 1] == 0)
+			{
+				x_mon3++;
+				bfmonxy(y_mon3, x_mon3 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_1[y_mon3 + 1][x_mon3] == 0)
+			{
+				y_mon3++;
+				bfmonxy(y_mon3 - 1, x_mon3);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monxy(int y, int x) // 몬스터 위치 동기화
 {
-	map_arr_loCation_level_1[x][y] = 4;
+	map_arr_loCation_level_1[y][x] = 4;
 }
 
 
 
-void bfmonxy(int x, int y)
+void bfmonxy(int y, int x)
 {
-	map_arr_loCation_level_1[x][y] = 0;
+	map_arr_loCation_level_1[y][x] = 0;
 }
 
 
