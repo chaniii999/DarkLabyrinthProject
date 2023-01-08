@@ -65,7 +65,7 @@ void gotoxy(int x, int y);
 int game = 1; // 타이틀은 0 게임시작은 1
 int root = 0;
 
-int dengeon_level = 1;
+int dengeon_level = 2;
 int situation_num = 1; //시츄에이션 넘버
 
 
@@ -83,7 +83,7 @@ int buyornodraw();
 int doordraw();
 int itemdraw();
 
-void monhpbar(int life);
+void monhpbar(int life, int maxlife);
 //int itemDraw();//아이템 선택함수
 
 int select_num = 1; //전투상황 선택지 초기화
@@ -367,36 +367,44 @@ int main(void)
 	mon.attack;
 	mon.life;
 	mon.crono;
+	mon.max_life;
+
 
 	oBject bat; //박쥐 12
 	bat.name = "박쥐";
 	bat.attack = 4;
 	bat.life = 20;
 	bat.crono = rand() % 12 + 10;
+	bat.max_life = 20;
 
 	oBject moth; // 13
 	moth.name = "나방";
 	moth.attack = 3;
 	moth.life = 20;
 	moth.crono = rand() % 15 + 15;
+	moth.max_life = 20;
 
 	oBject spider; // 14
 	spider.name = "거미";
 	spider.attack = 4;
 	spider.life = 20;
 	spider.crono = rand() % 25 + 10;
+	spider.max_life = 20;
+
 
 	oBject kero; // 16
 	kero.name = "케르베로스";
 	kero.attack = 20;
 	kero.life = 60;
 	kero.crono = rand() % 100 + 250;
+	kero.max_life = 60;
 
 	oBject monster1; // 17
 	monster1.name = "블랙-드래곤";
 	monster1.attack = 17;
 	monster1.life = 130;
 	monster1.crono = rand() % 150 + 360;
+	monster1.max_life = 130;
 
 
 	int cnt_monster_life;
@@ -1069,7 +1077,7 @@ int main(void)
 
 						if (cntspawn == 0)
 						{
-							monspawn = rand() % 3 + 1;
+							monspawn = rand() % 3 + 1; // 123
 							cntspawn = monspawn;
 						}
 						else
@@ -1351,6 +1359,7 @@ int main(void)
 				mon.attack = bat.attack;
 				mon.life = bat.life;
 				mon.crono = bat.crono;
+				mon.max_life = bat.max_life;
 				break;
 			}
 			case 1:
@@ -1359,6 +1368,7 @@ int main(void)
 				mon.attack = spider.attack;
 				mon.life = spider.life;
 				mon.crono = spider.crono;
+				mon.max_life = spider.max_life;
 				break;
 			}
 			case 2:
@@ -1367,6 +1377,7 @@ int main(void)
 				mon.attack = moth.attack;
 				mon.life = moth.life;
 				mon.crono = moth.crono;
+				mon.max_life = moth.max_life;
 				break;
 			}
 			case 3:
@@ -1375,6 +1386,7 @@ int main(void)
 				mon.attack = kero.attack;
 				mon.life = kero.life;
 				mon.crono = kero.crono;
+				mon.max_life = kero.max_life;
 				break;
 			}
 			case 4:
@@ -1435,6 +1447,44 @@ int main(void)
 		}
 		if (situation_num == 3) //대치중
 		{
+			switch (monspawn)
+			{
+			case 0:
+				{
+				break;
+				}
+			case 1:
+			{
+				break;
+			}
+			case 2://moth
+			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"        ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣤⡀⠀\n");
+				wprintf(L"         ⠀⠀⠀⡀⠀⠀⠀⠀⢸⣿⣷⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀\n");
+				wprintf(L"        ⠀⠀⠀⠀⠐⡀⠀⢠⣴⣿⣿⣶⣤⣤⡀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n");
+				wprintf(L"⠀         ⠀⠀⠀⠀⠑⢤⣿⢻⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀\n");
+				wprintf(L"⠀         ⠀⠀⠀⠀⠰⣿⣿⡿⣛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀\n");
+				wprintf(L"⠀         ⠀⠀⠀⠀⠀⢛⣿⡀⠉⢸⣿⣿⣿⣿⣿⣿⡿⠿⣿⣿⡿⠟⠉⠀⠀⠀⠀⠀\n");
+				wprintf(L"⠀         ⠀⠀⠀⠀⢀⣀⣲⣿⣛⣚⣿⣿⣿⣿⣿⣿⣏⠀⠀⠀⠀⠀⠀\n");
+				wprintf(L"⠀         ⠀⠀⠀⢐⣿⣿⣿⣿⣻⣿⣿⡿⣿⣿⣿⣿⣿⡀⠀⠀⠀\n");
+				wprintf(L"⠀         ⠀⠀⠠⠿⠻⣿⣿⣿⣿⡿⠟⢠⣿⣿⣿⣿⡟⠀⠀⠀\n");
+				wprintf(L"⠀         ⠀⠀⠀⠀⠀⠊⠉⠈⠁⠀⠰⠿⠿⠉⠛⠛⠀⠀\n");
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+				break;
+			}
+			case 3:
+			{
+				break;
+			}
+			default:
+				break;
+			}
+			
+	
 			gotoxy(0, 11);
 			printf("%s", specialChar4());
 			gotoxy(48, 11);
@@ -1445,11 +1495,11 @@ int main(void)
 			printf("%s", specialChar6());
 			gotoxy(13, 0);
 			printf("%s:", mon.name);
-			printf("%d", mon.life);
-			//monhpbar(mon.life);
-
+			monhpbar(mon.life, mon.max_life);
 			gotoxy(13, 11);
-			printf(" HP:%d\n", player.life);
+			printf("hp: %d", player.life);
+
+
 
 			//FRAME
 
@@ -4562,48 +4612,48 @@ void CursorView()
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
 
-void monhpbar(int life)
+void monhpbar(int life,int maxlife)
 {
 	gotoxy(18, 0);
 
-	if (life <= life*0.1)
+	if (life <= maxlife*0.1)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.2 && life > life*0.1)
+	else if (life <= maxlife * 0.2 && life > maxlife*0.1)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.3 && life > life * 0.2)
+	else if (life <= maxlife * 0.3 && life > maxlife * 0.2)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.4 && life > life * 0.3)
+	else if (life <= maxlife * 0.4 && life > maxlife * 0.3)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.5 && life > life * 0.4)
+	else if (life <= maxlife * 0.5 && life > maxlife * 0.4)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.6 && life > life * 0.5)
+	else if (life <= maxlife * 0.6 && life > maxlife * 0.5)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.7 && life > life * 0.6)
+	else if (life <= maxlife * 0.7 && life > maxlife * 0.6)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.8 && life > life * 0.7)
+	else if (life <= maxlife * 0.8 && life > maxlife * 0.7)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2());
 	}
-	else if (life <= life * 0.9 && life > life * 0.8)
+	else if (life <= maxlife * 0.9 && life > maxlife * 0.8)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2());
 	}
 	else if
-		(life > life *0.9)
+		(life > maxlife *0.9)
 	{
 		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar());
 	}
