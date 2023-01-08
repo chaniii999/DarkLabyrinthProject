@@ -51,6 +51,11 @@ const char* specialChar7()
 	return "┐";
 }
 
+const char* specialChar8()
+{
+	return "◈";
+}
+
 
 void gotoxy(int x, int y);
 
@@ -76,6 +81,9 @@ void storeframe();
 int weapondraw();
 int buyornodraw();
 int doordraw();
+int itemdraw();
+
+void monhpbar(int life);
 //int itemDraw();//아이템 선택함수
 
 int select_num = 1; //전투상황 선택지 초기화
@@ -104,6 +112,13 @@ int ironon = 0;
 int cowardon = 0;
 int backon = 0;
 int admanon = 0;
+
+//아이템
+int potion1 = 0;
+int potion2 = 0;
+int potion3 = 0;
+int skillpotion = 0;
+
 
 //맵배열
 char map_arr_loCation_level_1[10][10];
@@ -168,11 +183,19 @@ int g8 = 11;
 
 
 void monxy(int y, int x); // 몬스터 위치 좌표 고정
+void monxy2(int y, int x);
+
+
 
 void monmove_system(int y,int x); //랜덤이동
 void monmove_system2(int y,int x);
 void monmove_system3(int y, int x);
+
+void monmove_system_2(int y, int x);
+
 void bfmonxy(int y, int x); //공용 좌표 지우개
+void bfmonxy2(int y, int x);
+
 
 int *monlife;
 
@@ -216,6 +239,7 @@ int mon = 4; //몬스터1
 int statue1 = 5; // 조각상 
 int enTrance = 3;
 int black_s = 6;
+int tem = 2; //체력물약
 
 
 
@@ -244,6 +268,23 @@ int y_mon3 = 7;
 
 int x_boss = 5;
 int y_boss = 3;
+
+int x_tem = 5;
+int y_tem = 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //전투함수
 
@@ -307,8 +348,8 @@ int main(void)
 
 	oBject player; //플레이어 정의
 	player.name = player_name;
-	player.attack = 20;
-	player.crono = 5000;
+	player.attack = 13;
+	player.crono = 1000;
 	player.max_life = 30;
 	player.life = player.max_life;
 	player.max_mana = 30;
@@ -329,20 +370,20 @@ int main(void)
 
 	oBject bat; //박쥐 12
 	bat.name = "박쥐";
-	bat.attack = 3;
-	bat.life = 10;
+	bat.attack = 4;
+	bat.life = 20;
 	bat.crono = rand() % 12 + 10;
 
 	oBject moth; // 13
 	moth.name = "나방";
-	moth.attack = 2;
-	moth.life = 7;
+	moth.attack = 3;
+	moth.life = 20;
 	moth.crono = rand() % 15 + 15;
 
 	oBject spider; // 14
 	spider.name = "거미";
 	spider.attack = 4;
-	spider.life = 6;
+	spider.life = 20;
 	spider.crono = rand() % 25 + 10;
 
 	oBject kero; // 16
@@ -358,7 +399,7 @@ int main(void)
 	monster1.crono = rand() % 150 + 360;
 
 
-	int cnt_monster1_life = monster1.life;
+	int cnt_monster_life;
 	int cnt_player_life = player.life;
 
 	iteM sword;
@@ -417,6 +458,50 @@ int main(void)
 
 
 	int key = 0; // 플레이어 이동 변수 
+
+
+
+	//내부벽
+
+	map_arr_loCation_level_1[1][4] = 9;
+	map_arr_loCation_level_1[2][4] = 9;
+	map_arr_loCation_level_1[2][5] = 9;
+	map_arr_loCation_level_1[2][6] = 9;
+	map_arr_loCation_level_1[2][7] = 9;
+	map_arr_loCation_level_1[3][7] = 9;
+	map_arr_loCation_level_1[4][3] = 9;
+	map_arr_loCation_level_1[4][7] = 9;
+	map_arr_loCation_level_1[5][7] = 9;
+	map_arr_loCation_level_1[5][3] = 9;
+	map_arr_loCation_level_1[6][3] = 9;
+	map_arr_loCation_level_1[7][3] = 9;
+	map_arr_loCation_level_1[7][4] = 9;
+	map_arr_loCation_level_1[7][5] = 9;
+	map_arr_loCation_level_1[7][6] = 9;
+	map_arr_loCation_level_1[8][6] = 9;
+
+	map_arr_loCation_level_1[5][5] = 2;
+
+
+	//2층
+	map_arr_loCation_level_2[6][1] = 9;
+	map_arr_loCation_level_2[6][11] = 9;
+	map_arr_loCation_level_2[7][1] = 9;
+	map_arr_loCation_level_2[7][2] = 9;
+	map_arr_loCation_level_2[7][10] = 9;
+	map_arr_loCation_level_2[7][11] = 9;
+	map_arr_loCation_level_2[8][2] = 9;
+	map_arr_loCation_level_2[8][3] = 9;
+	map_arr_loCation_level_2[8][9] = 9;
+	map_arr_loCation_level_2[8][10] = 9;
+	map_arr_loCation_level_2[9][3] = 9;
+	map_arr_loCation_level_2[9][4] = 9;
+	map_arr_loCation_level_2[9][8] = 9;
+	map_arr_loCation_level_2[9][9] = 9;
+
+	map_arr_loCation_level_2[8][1] = 2;
+	map_arr_loCation_level_2[8][11] = 2;
+
 
 
 
@@ -619,6 +704,11 @@ int main(void)
 				{
 					system("cls");
 					situation_num = 12;
+					x_mon = 6;
+					y_mon = 7;
+					monsterlife = 1;
+					monsterlife2 = 1;
+					monsterlife3 = 1;
 				}
 			}
 
@@ -810,9 +900,30 @@ int main(void)
 							map_arr_loCation_level_1[y_p + 1][x_p] == 3)
 							y_p++;
 						break;
+					case 122:
+					{
+
+						if (x_p == x_tem && y_p == y_tem + 1 ||
+							x_p == x_tem + 1 && y_p == y_tem ||
+							x_p == x_tem - 1 && y_p == y_tem ||
+							x_p == x_tem && y_p == y_tem - 1)
+						{
+							map_arr_loCation_level_1[5][5] = 0;
+							system("cls");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							Sleep(1000);
+							printf("   체력 물약을 획득했다!\n");
+							Sleep(1000);
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							Sleep(1000);
+							potion1++;
+						}
+						break;
+					}
 					default:
 						break;
 					}
+				}
 				if (monsterlife == 1)   
 				{
 
@@ -827,19 +938,30 @@ int main(void)
 
 						monlife = &monsterlife;
 
-						monspawn = rand() %3;
-						cntspawn = monspawn;
+						if (cntspawn == 0)
+						{
+							monspawn = rand() % 3;
+							cntspawn = monspawn;
+						}
+						else
+						{
+							while (monspawn || cntspawn)
+							{
+								monspawn = rand() % 3;
+								cntspawn = monspawn;
+							}
+						}
 
 						situation_num = 2;
 						Sleep(1000);
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					}
 
 				}
 				else
 					bfmonxy(y_mon, x_mon);
-				}
+				
 
 
 				if (monsterlife2 == 1)
@@ -859,7 +981,7 @@ int main(void)
 						situation_num = 2;
 						Sleep(1000);
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					}
 
 				}
@@ -883,7 +1005,7 @@ int main(void)
 						situation_num = 2;
 						Sleep(1000);
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					}
 
 				}
@@ -929,7 +1051,45 @@ int main(void)
 					default:
 						break;
 					}
+
 				}
+				if (monsterlife == 1)
+				{
+
+					monxy2(y_mon, x_mon);
+					monmove_system_2(y_mon, x_mon);
+
+					if (x_p == x_mon && y_p == y_mon + 1 ||
+						x_p == x_mon + 1 && y_p == y_mon ||
+						x_p == x_mon - 1 && y_p == y_mon ||
+						x_p == x_mon && y_p == y_mon - 1)
+					{
+
+						monlife = &monsterlife;
+
+						if (cntspawn == 0)
+						{
+							monspawn = rand() % 3 + 1;
+							cntspawn = monspawn;
+						}
+						else
+						{
+							while (monspawn || cntspawn)
+							{
+								monspawn = rand() % 3 + 1;
+								cntspawn = monspawn;
+							}
+						}
+
+						situation_num = 2;
+						Sleep(1000);
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					}
+
+				}
+				else
+					bfmonxy2(y_mon, x_mon);
 
 			}
 			if (dengeon_level == 3)
@@ -1183,7 +1343,7 @@ int main(void)
 		}
 		if (situation_num == 2) // 전투시작연출
 		{
-			switch (cntspawn)
+			switch (monspawn)
 			{
 			case 0:
 			{
@@ -1240,31 +1400,31 @@ int main(void)
 
 
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf(" %s가 나타났다!\n", mon.name);
+			printf("                 %s가 나타났다!\n", mon.name);
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(800);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(100);
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 			Sleep(500);
 			system("cls");
 			situation_num = 3;
@@ -1275,50 +1435,62 @@ int main(void)
 		}
 		if (situation_num == 3) //대치중
 		{
+			gotoxy(0, 11);
+			printf("%s", specialChar4());
+			gotoxy(48, 11);
+			printf("%s", specialChar7());
+			gotoxy(0, 17);
+			printf("%s", specialChar5());
+			gotoxy(48, 17);
+			printf("%s", specialChar6());
+			gotoxy(13, 0);
+			printf("%s:", mon.name);
+			printf("%d", mon.life);
+			//monhpbar(mon.life);
 
-			printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-			printf(" %s의 체력: %d\n\n", mon.name, mon.life);
-			printf(" 당신의 체력 :%d\n", player.life);
-			printf("ㅡㅡㅡㅡ현재 턴:%dㅡㅡㅡ\n", turn);
+			gotoxy(13, 11);
+			printf(" HP:%d\n", player.life);
+
+			//FRAME
+
 			switch (menuDraw())//전투선택지
 			{
 			case 0: //공격
 			{
 				system("cls");
 				turn++;
-				cnt_monster1_life = mon.life;
+				cnt_monster_life = mon.life;
 				cnt_player_life = player.life;
 				mon.life -= attack(mon.life, player.attack);
 				player.life -= attack(player.life, mon.attack);
-				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				Sleep(1000);
-				printf("% s는 % s에게\n 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
+				printf("   % s는 % s에게\ 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
 				Sleep(1000);
-				printf("%s에게 %d의\n 데미지를 주었다.\n\n", mon.name, cnt_monster1_life - mon.life);  // 공격받기전 - 받은후 =데미지
+				printf("   %s에게 %d의\ 데미지를 주었다.\n\n", mon.name, cnt_monster_life - mon.life);  // 공격받기전 - 받은후 =데미지
 				Sleep(1500);
 				if (mon.life <= 0)
 				{
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
 					system("cls");
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("\n\n\nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(1000);
-					printf("%s를 쓰러트렸다!\n", mon.name);
+					printf("   %s를 쓰러트렸다!\n\n", mon.name);
 					Sleep(1000);
-					printf("%d 크로노 를 얻었다!\n", mon.crono);
+					printf("   %d 크로노 를 얻었다!\n", mon.crono);
 					player.crono += mon.crono;
 					Sleep(500);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(2000);
-					//bfmonxy(y_m,x_m);
 					*monlife = 0;
 					system("cls");
 					situation_num = 1;
@@ -1326,32 +1498,32 @@ int main(void)
 				}
 				else if (mon.life > 0)
 				{
-					printf("%s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
+					printf("   %s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
 					Sleep(1000);
-					printf("%s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
+					printf("   %s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
 					Sleep(1500);
 					if (player.life <= 0)
 					{
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("용사는 힘을 다하였다...");
+						printf("     ricaus는 힘을 다하였다...\n");
 						Sleep(1000);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(300);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(300);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(300);
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("		   GAME OVER\n");
+						printf("		                    GAME OVER\n");
 						Sleep(1000);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
 						_getch();
 						game = 0;
@@ -1367,36 +1539,36 @@ int main(void)
 				turn++;
 				cnt_player_life = player.life;
 				system("cls");
-				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				player.life -= (attack(player.life, mon.attack)) / 3;
-				printf("%s는 방어태세에 들어갔다!\n", player.name);
+				printf("   %s는 방어태세에 들어갔다!\n\n", player.name);
 				Sleep(1000);
-				printf("%s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
+				printf("   %s는 %s에게 달려들었다!\n\n", mon.name, player.name);
 				Sleep(1500);
-				printf("%s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
+				printf("   %s는 %d의 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
 				Sleep(1000);
 				if (player.life <= 0)
 				{
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(500);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(500);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(500);
-					printf("%s는 힘을 다하였다...", player.name);
+					printf("   %s는 힘을 다하였다...\n", player.name);
 					Sleep(1000);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(300);
 					system("cls");
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(500);
-					printf("		   GAME OVER\n");
+					printf("		                    GAME OVER\n");
 					Sleep(1000);
-					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 					Sleep(500);
 					_getch();
 					break;
@@ -1409,10 +1581,10 @@ int main(void)
 			case 2: //스킬
 			{
 				system("cls");
-				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				printf(" %s의 체력: %d\n\n", mon.name, mon.life);
-				printf(" 당신의 체력 :%d\n", player.life);
-				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				printf("   %s의 체력: %d\n\n", mon.name, mon.life);
+				printf("   당신의 체력 :%d\n", player.life);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				switch (skillmenuDraw())
 				{
 				case 0: //연속찌르기
@@ -1420,10 +1592,10 @@ int main(void)
 					if (turn < cnt_turn_stab + 3)
 					{
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
-						printf("아직 사용할 수 없습니다.\n");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("   아직 사용할 수 없습니다.\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
@@ -1433,37 +1605,37 @@ int main(void)
 						cnt_turn_stab = turn;
 						system("cls");
 						cnt_player_life = player.life;
-						cnt_monster1_life = mon.life;
+						cnt_monster_life = mon.life;
 						mon.life -= skill_several_stab(player.attack);
 						player.life -= attack(player.life, mon.attack);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
-						printf("%s는 연속 찌르기를 사용했다!\n", player.name);
+						printf("   %s는 연속 찌르기를 사용했다!\n\n", player.name);
 						Sleep(1000);
-						printf("%s는 %s에게 %d의 데미지를 주었다.\n", player.name, mon.name, skill_several_stab(player.attack));
+						printf("   %s는 %s에게 %d의 데미지를 주었다.\n\n", player.name, mon.name, skill_several_stab(player.attack));
 						Sleep(2000);
 
 						if (mon.life <= 0)
 						{
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(300);
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(300);
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(300);
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(300);
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(300);
 							system("cls");
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1000);
-							printf("%s를 쓰러트렸다!\n", mon.name);
+							printf("   %s를 쓰러트렸다!\n\n", mon.name);
 							Sleep(1000);
-							printf("%d 크로노 를 얻었다!\n", mon.crono);
+							printf("   %d 크로노 를 얻었다!\n\n", mon.crono);
 							player.crono += mon.crono;
 							Sleep(500);
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(2000);
 
 							*monlife = 0;
@@ -1475,32 +1647,32 @@ int main(void)
 						}
 						else if (mon.life > 0)
 						{
-							printf("%s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
+							printf("   %s는 %s에게 달려들었다!\n\n", mon.name, player.name);
 							Sleep(1000);
-							printf("%s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
+							printf("   %s는 %d의 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
 							Sleep(1500);
 							if (player.life <= 0)
 							{
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(500);
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(500);
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(500);
-								printf("용사는 힘을 다하였다...\n");
+								printf("   ricaus는 힘을 다하였다...\n");
 								Sleep(1000);
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(300);
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(300);
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(300);
 								system("cls");
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(500);
 								printf("		   GAME OVER\n");
 								Sleep(1000);
-								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+								printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 								Sleep(500);
 								_getch();
 								break;
@@ -1519,10 +1691,10 @@ int main(void)
 					if (turn < cnt_turn_heal + 3)
 					{
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
-						printf("아직 사용할 수 없습니다.\n");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("   아직 사용할 수 없습니다.\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
@@ -1537,22 +1709,22 @@ int main(void)
 						{
 							player.life = player.max_life;
 
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1500);
-							printf("신께 기도를 드립니다...\n\n");
+							printf("   신께 기도를 드립니다...\n\n");
 							Sleep(1500);
-							printf("용사는 %d의 체력을 회복했다!\n", player.max_life - cnt_player_life);
+							printf("   ricaus는 %d의 체력을 회복했다!\n", player.max_life - cnt_player_life);
 						}
 						else
 						{
-							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1500);
-							printf("신께 기도를 드립니다...\n\n");
+							printf("   신께 기도를 드립니다...\n\n");
 							Sleep(1500);
-							printf("용사는 %d의 체력을 회복했다!\n", skill_holy_Heal(player.life, player.attack));
+							printf("   ricaus는 %d의 체력을 회복했다!\n", skill_holy_Heal(player.life, player.attack));
 						}
 						Sleep(500);
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(2000);
 						system("cls");
 						break;
@@ -1563,20 +1735,20 @@ int main(void)
 					if (rage == 0 && turn < cnt_turn_rage + 5)
 					{
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");;
 						Sleep(1000);
-						printf("아직 사용할 수 없습니다.\n");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("   아직 사용할 수 없습니다.\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
 					else if (rage == 1)
 					{
 						system("cls");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
-						printf("아직 사용할 수 없습니다.\n");
-						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						printf("   아직 사용할 수 없습니다.\n");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
 						situation_num = 3;
 					}
@@ -1589,12 +1761,12 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
-						printf("용사는 울부짖었다.\n\n현재 턴%d  저장된 턴%d\n", turn, cnt_turn_rage);
+						printf("   ricaus는 울부짖었다.\n\n");
 						Sleep(1500);
-						printf(" \"우 오 오 오 ! ! !\"\n\n");
+						printf("   \"우 오 오 오 ! ! !\"\n\n");
 						player.attack += skill_rage(player.attack);
 						Sleep(1500);
-						printf("용사의 공격력이 일시적으로 증가했다!\n%d %d\n", player.attack, cnt_attack);
+						printf("   용사의 공격력이 일시적으로 증가했다!\n\n");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(2000);
 						system("cls");
@@ -1616,12 +1788,139 @@ int main(void)
 			} //case 2
 			case 3: // 아이템
 			{
-				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				printf("사용할 아이템을 선택하세요. \n");
-				/*for (int i = 0, i < item[10], i++)
+				system("cls");
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				printf("   %s의 체력: %d\n\n", mon.name, mon.life);
+				printf("   당신의 체력 :%d\n", player.life);
+				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+				printf("   사용할 아이템을 선택하세요. \n");
+				switch (itemdraw())
 				{
-					printf("[%s] x %d",item_name,item_count)
-				}*/
+				case 0:
+				{
+					if (potion1 >= 1)
+					{
+						potion1--;
+						player.life += 10;
+						if (player.life > player.max_life)
+							player.life = player.max_life;
+						
+
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("체력을 10 회복했다!\n");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					else
+					{
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("포션이 부족합니다.");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					break;
+				}
+				case 1:
+				{
+					if (potion2 >= 1)
+					{
+						potion2--;
+						player.life += 20;
+						if (player.life > player.max_life)
+							player.life = player.max_life;
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("체력을 20 회복했다!\n");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					else
+					{
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("포션이 부족합니다.\n");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+
+					break;
+				}
+				case 2:
+				{
+					if (potion3 >= 1)
+					{
+						potion3--;
+						if (player.life > player.max_life * 0.5)
+						{
+							player.life = player.max_life;
+						}
+						else
+							player.life += player.max_life * 0.5;
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("체력을 %d 회복했다!\n",player.max_life*0.5);
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					else
+					{
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("포션이 부족합니다.");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					break;
+				}
+				case 3:
+				{
+					if (skillpotion >= 1)
+					{
+						skillpotion--;
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						turn = 0;
+						cnt_turn_stab = -3;
+						cnt_turn_rage = -5;
+						cnt_turn_heal = -3;
+						printf("모든 스킬의 쿨타임이 초기화됐다!\n");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					else
+					{
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(500);
+						printf("포션이 부족합니다.\n");
+						Sleep(500);
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+						Sleep(1000);
+					}
+					break;
+				}
+				default:
+					break;
+				}
+				//itemdraw();
+
+
 				break;
 			}
 
@@ -2818,9 +3117,17 @@ void printQuestion_level_1()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_1[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_1[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_1[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_1[i][j]);
@@ -2849,15 +3156,24 @@ void printQuestion_level_2()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_2[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_2[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_2[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_2[i][j]);
 		}
 		printf("\n");
 	}
+	printf("monsterlife : %d", monsterlife);
 }//
 
 void printQuestion_level_3()//맵 출력
@@ -2880,16 +3196,23 @@ void printQuestion_level_3()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_3[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_3[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_3[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_3[i][j]);
 		}
 		printf("\n");
 	}
-	printf("\n\nx_p = %d / y_p = %d", x_p, y_p);
 }//
 
 void printQuestion_level_4()//맵 출력
@@ -2912,9 +3235,17 @@ void printQuestion_level_4()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_4[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_4[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_4[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_4[i][j]);
@@ -2943,9 +3274,17 @@ void printQuestion_level_5()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_5[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_5[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_5[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_5[i][j]);
@@ -2973,16 +3312,23 @@ void printQuestion_level_6()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_6[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_6[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_6[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_6[i][j]);
 		}
 		printf("\n");
 	}
-	printf("\n\nx_p = %d / y_p = %d", x_p, y_p);
 }//
 
 void printQuestion_level_7()//맵 출력
@@ -3004,16 +3350,23 @@ void printQuestion_level_7()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_7[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_7[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_7[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_7[i][j]);
 		}
 		printf("\n");
 	}
-	printf("\n\nx_p = %d / y_p = %d", x_p, y_p);
 }//
 
 void printQuestion_level_8()//맵 출력
@@ -3035,16 +3388,23 @@ void printQuestion_level_8()//맵 출력
 			{
 				printf("%s", specialChar2());
 			}
+			else if (map_arr_loCation_level_8[i][j] == 2)
+			{
+				printf(" ?");
+			}
 			else if (map_arr_loCation_level_8[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_8[i][j] = 4)
+			{
+				printf("%s", specialChar8());
 			}
 			else
 				printf(" %d", map_arr_loCation_level_8[i][j]);
 		}
 		printf("\n");
 	}
-	printf("\n\nx_p = %d / y_p = %d", x_p, y_p);
 }//
 
 void creaTor_great_Wall_1(int y, int x) // 벽만들기
@@ -3307,7 +3667,7 @@ int proLogueDraw() {
 
 int menuDraw() {
 	int x = 3;
-	int y = 5;
+	int y = 12;
 	gotoxy(x, y);
 	printf("공격");
 	gotoxy(x, y + 1);
@@ -3323,7 +3683,7 @@ int menuDraw() {
 		{
 		case UP:
 		{
-			if (y > 5) {
+			if (y > 12) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -3333,7 +3693,7 @@ int menuDraw() {
 		}
 		case DOWN:
 		{
-			if (y < 8)
+			if (y < 15)
 			{
 				gotoxy(x - 2, y);
 				printf(" ");
@@ -3344,7 +3704,7 @@ int menuDraw() {
 		}
 		case SUBMIT:
 		{
-			return y - 5;
+			return y - 12;
 			break;
 		}
 
@@ -3424,6 +3784,56 @@ int skillmenuDraw()
 		case SUBMIT:
 		{
 			return y - 5;
+			break;
+		}
+
+
+		}
+	}
+}
+
+int itemdraw() {
+	int x = 3;
+	int y = 12;
+	gotoxy(x, y);
+	printf("체력 물약 x %d",potion1); // 10
+	gotoxy(x, y + 1);
+	printf("큰 체력 물약 x %d",potion2); //20
+	gotoxy(x, y + 2);
+	printf("엘릭서 x %d",potion3); //체력 다 채워줌
+	gotoxy(x, y + 3);
+	printf("쿨타임초기화포션 x %d",skillpotion); // 
+	gotoxy(x, y + 4);
+	printf("돌아간다.");
+	while (1)
+	{
+		int n = keyControl();
+		switch (n)
+		{
+		case UP:
+		{
+			if (y > 12) {
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, --y);
+				printf(">");
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (y < 16)
+			{
+				gotoxy(x - 2, y);
+				printf(" ");
+				gotoxy(x - 2, ++y);
+				printf(">");
+			}
+			break;
+		}
+		case SUBMIT:
+		{
+			return y - 12;
 			break;
 		}
 
@@ -3964,6 +4374,46 @@ void monmove_system(int y, int x) {
 	}
 }
 
+void monmove_system_2(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_2[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon--;
+				bfmonxy2(y_mon + 1, x_mon);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_2[y_mon][x_mon - 1] == 0)
+			{
+				x_mon--;
+				bfmonxy2(y_mon, x_mon + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_2[y_mon][x_mon + 1] == 0)
+			{
+				x_mon++;
+				bfmonxy2(y_mon, x_mon - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_2[y_mon + 1][x_mon] == 0)
+			{
+				y_mon++;
+				bfmonxy2(y_mon - 1, x_mon);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void monmove_system2(int y, int x) {
 	if (kbhit())
 	{
@@ -4049,6 +4499,10 @@ void monxy(int y, int x) // 몬스터 위치 동기화
 	map_arr_loCation_level_1[y][x] = 4;
 }
 
+void monxy2(int y, int x) // 몬스터 위치 동기화
+{
+	map_arr_loCation_level_2[y][x] = 4;
+}
 
 
 void bfmonxy(int y, int x)
@@ -4056,12 +4510,40 @@ void bfmonxy(int y, int x)
 	map_arr_loCation_level_1[y][x] = 0;
 }
 
+void bfmonxy2(int y, int x)
+{
+	map_arr_loCation_level_2[y][x] = 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int attack(int x, int y) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
 {
 
 	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t = i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력
+	int t = i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력g
 	return t;
 }
 
@@ -4078,4 +4560,51 @@ void CursorView()
 	cursorInfo.dwSize = 1; //커서 굵기 (1 ~ 100)
 	cursorInfo.bVisible = FALSE; //커서 Visible TRUE(보임) FALSE(숨김)
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+}
+
+void monhpbar(int life)
+{
+	gotoxy(18, 0);
+
+	if (life <= life*0.1)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.2 && life > life*0.1)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.3 && life > life * 0.2)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.4 && life > life * 0.3)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.5 && life > life * 0.4)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.6 && life > life * 0.5)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.7 && life > life * 0.6)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.8 && life > life * 0.7)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2(), specialChar2());
+	}
+	else if (life <= life * 0.9 && life > life * 0.8)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar2());
+	}
+	else if
+		(life > life *0.9)
+	{
+		printf("%s%s%s%s%s%s%s%s%s%s", specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar(), specialChar());
+	}
 }
