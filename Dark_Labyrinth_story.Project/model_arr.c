@@ -56,6 +56,13 @@ const char* specialChar8()
 	return "◈";
 }
 
+const char* specialChar9()
+{
+	return "★";
+}
+
+
+
 
 void gotoxy(int x, int y);
 
@@ -65,7 +72,7 @@ void gotoxy(int x, int y);
 int game = 1; // 타이틀은 0 게임시작은 1
 int root = 0;
 
-int dengeon_level = 2;
+int dengeon_level = 1;
 int situation_num = 1; //시츄에이션 넘버
 
 
@@ -235,12 +242,13 @@ void bef_move_player_8(int x, int y);
 
 //고유값
 int Player = 1; //플레이어 
+int tem = 2; //체력물약
+int enTrance = 3;
 int mon = 4; //몬스터1 
 int statue1 = 5; // 조각상 
-int enTrance = 3;
 int black_s = 6;
-int tem = 2; //체력물약
 
+int star = 7;
 
 
 
@@ -302,9 +310,9 @@ int cnt_turn_stab = -3;
 int cnt_turn_rage = -5;
 int cnt_turn_heal = -3;
 
-int attack(int x, int y);  // 공격 함수
+int attack(int x, int y,int k);  // 공격 함수
 
-int attacked_monster(int x, int y); //피격 함수
+int attacked_monster(int x, int y,int k); //피격 함수
 
 
 
@@ -315,12 +323,9 @@ typedef struct objecT
 	int attack;// 공격력
 	int life;  // 생명력
 	int max_life;// 최대 생명력
-	int mana;
-	int max_mana;
-	char* item[20];// 아이템칸. 만약 첫칸에 아이템이있다면? for문 사용하여 i++ 해서 재시도하여 장착
 	int crono; //화폐
-	int exp; // 경험치
-	int level;
+	int evasion; // 경험치
+	int critical;
 }oBject;
 
 typedef struct item
@@ -349,11 +354,12 @@ int main(void)
 	oBject player; //플레이어 정의
 	player.name = player_name;
 	player.attack = 13;
-	player.crono = 1000;
+	player.crono = 300;
 	player.max_life = 30;
 	player.life = player.max_life;
-	player.max_mana = 30;
-	player.mana = player.max_mana;
+	player.critical = 15;
+	player.evasion = 10;
+
 
 
 	oBject statue; // 5
@@ -370,45 +376,68 @@ int main(void)
 	mon.max_life;
 
 
-	oBject bat; //박쥐 12
+	oBject bat; //박쥐 0
 	bat.name = "박쥐";
 	bat.attack = 4;
 	bat.life = 20;
-	bat.crono = rand() % 12 + 10;
+	bat.crono = rand() % 70 + 300;
 	bat.max_life = 20;
 
-	oBject moth; // 13
+	oBject moth; // 1
 	moth.name = "나방";
 	moth.attack = 3;
 	moth.life = 20;
-	moth.crono = rand() % 15 + 15;
+	moth.crono = rand() % 30 + 300;
 	moth.max_life = 20;
 
-	oBject spider; // 14
+	oBject spider; // 2
 	spider.name = "거미";
 	spider.attack = 4;
 	spider.life = 20;
-	spider.crono = rand() % 25 + 10;
+	spider.crono = rand() % 25 + 300;
 	spider.max_life = 20;
 
 
-	oBject kero; // 16
+	oBject kero; // 3       2층 마지막
 	kero.name = "케르베로스";
-	kero.attack = 20;
+	kero.attack = 13;
 	kero.life = 60;
 	kero.crono = rand() % 100 + 250;
 	kero.max_life = 60;
 
-	oBject monster1; // 17
+	oBject kenta; // 4        4층 마지막
+	kenta.name = "켄타로우스";  
+	kenta.attack = 20;
+	kenta.life = 90;
+	kenta.crono = rand() % 100 + 400;
+		
+
+	oBject monster1; //       5 층 마지막
 	monster1.name = "블랙-드래곤";
-	monster1.attack = 17;
-	monster1.life = 130;
-	monster1.crono = rand() % 150 + 360;
+	monster1.attack = 25;
+	monster1.life = 150;
+	monster1.crono = rand() % 150 + 700;
 	monster1.max_life = 130;
+
+	oBject mino;  //7
+	mino.name = "억압받은 자";
+	mino.attack = 30;
+	mino.life = 1000;
+	mino.crono = rand() % 2000;
+	mino.max_life = 400;
+		
+
+
+
 
 
 	int cnt_monster_life;
 	int cnt_player_life = player.life;
+
+
+
+	///////////////////////////////////////////
+
 
 	iteM sword;
 	sword.name = "어두운 검";
@@ -433,7 +462,7 @@ int main(void)
 	daggar.name = "예리한 단검";
 	daggar.attack = 10;
 	daggar.critical = 45;
-	daggar.evasion = 20;
+	daggar.evasion = 10;
 	daggar.cost = 200;
 
 	iteM iron;
@@ -445,7 +474,7 @@ int main(void)
 	iteM fast;
 	fast.name = "백조의 갑옷";
 	fast.life = 30;
-	fast.evasion = 25;
+	fast.evasion = 15;
 	fast.cost = 600;
 
 	iteM adaman;
@@ -456,7 +485,7 @@ int main(void)
 
 	iteM coward;
 	coward.name = "겁쟁이 갑옷";
-	coward.life = 10;
+	coward.life = 0;
 	coward.evasion = 50;
 	coward.cost = 100;
 
@@ -491,8 +520,23 @@ int main(void)
 	map_arr_loCation_level_1[5][5] = 2;
 
 
-	//2층
+	//2층	
+	map_arr_loCation_level_2[2][5] = 9;
+	map_arr_loCation_level_2[2][6] = 9;
+	map_arr_loCation_level_2[2][7] = 9;
+	map_arr_loCation_level_2[3][4] = 9;
+	map_arr_loCation_level_2[3][8] = 9;
+	map_arr_loCation_level_2[4][9] = 9;
+	map_arr_loCation_level_2[4][3] = 9;
+	map_arr_loCation_level_2[4][6] = 9;
+	map_arr_loCation_level_2[5][6] = 9;
+	map_arr_loCation_level_2[5][10] = 9;
 	map_arr_loCation_level_2[6][1] = 9;
+	map_arr_loCation_level_2[6][5] = 9;
+	map_arr_loCation_level_2[6][6] = 9;
+	map_arr_loCation_level_2[6][7] = 9;
+	map_arr_loCation_level_2[7][6] = 9;
+	map_arr_loCation_level_2[8][6] = 9;
 	map_arr_loCation_level_2[6][11] = 9;
 	map_arr_loCation_level_2[7][1] = 9;
 	map_arr_loCation_level_2[7][2] = 9;
@@ -511,6 +555,77 @@ int main(void)
 	map_arr_loCation_level_2[8][11] = 2;
 
 
+	//3층
+
+	map_arr_loCation_level_3[2][2] = 9;
+	map_arr_loCation_level_3[4][2] = 9;
+	map_arr_loCation_level_3[2][4] = 9;
+	map_arr_loCation_level_3[4][4] = 9;
+	map_arr_loCation_level_3[2][8] = 9;
+	map_arr_loCation_level_3[4][8] = 9;
+	map_arr_loCation_level_3[2][10] = 9;
+	map_arr_loCation_level_3[4][10] = 9;
+
+
+
+	//4층
+	map_arr_loCation_level_4[3][1] = 9;
+	map_arr_loCation_level_4[1][3] = 9;
+	map_arr_loCation_level_4[4][2] = 9;
+	map_arr_loCation_level_4[2][4] = 9;
+	map_arr_loCation_level_4[5][3] = 9;
+	map_arr_loCation_level_4[3][6] = 9;
+	map_arr_loCation_level_4[1][8] = 9;
+	map_arr_loCation_level_4[3][10] = 9;
+	map_arr_loCation_level_4[2][7] = 9;
+	map_arr_loCation_level_4[4][9] = 9;
+	map_arr_loCation_level_4[8][10] = 9;
+	map_arr_loCation_level_4[10][8] = 9;
+	map_arr_loCation_level_4[7][9] = 9;
+	map_arr_loCation_level_4[9][7] = 9;
+	map_arr_loCation_level_4[10][3] = 9;
+	map_arr_loCation_level_4[8][1] = 9;
+	map_arr_loCation_level_4[9][4] = 9;
+	map_arr_loCation_level_4[7][2] = 9;
+	map_arr_loCation_level_4[5][6] = 9;
+	map_arr_loCation_level_4[6][5] = 9;
+	map_arr_loCation_level_4[6][8] = 9;
+	map_arr_loCation_level_4[8][5] = 9;
+
+	//5층
+
+	map_arr_loCation_level_5[10][2] = 9;
+	map_arr_loCation_level_5[9][2] = 9;
+	map_arr_loCation_level_5[8][2] = 9;
+	map_arr_loCation_level_5[7][2] = 9;
+	map_arr_loCation_level_5[6][2] = 9;
+	map_arr_loCation_level_5[5][2] = 9;
+	map_arr_loCation_level_5[4][2] = 9;
+	map_arr_loCation_level_5[3][2] = 9;
+	map_arr_loCation_level_5[2][2] = 9;
+	map_arr_loCation_level_5[2][4] = 9;
+	map_arr_loCation_level_5[3][5] = 9;
+	map_arr_loCation_level_5[3][4] = 9;
+	map_arr_loCation_level_5[3][6] = 9;
+	map_arr_loCation_level_5[4][4] = 9;
+	map_arr_loCation_level_5[5][4] = 9;
+	map_arr_loCation_level_5[6][4] = 9;
+	map_arr_loCation_level_5[7][4] = 9;
+	map_arr_loCation_level_5[8][4] = 9;
+	map_arr_loCation_level_5[9][4] = 9;
+
+
+
+	//7층
+
+	map_arr_loCation_level_7[1][1] = 7;
+
+
+
+
+
+
+
 
 
 
@@ -526,10 +641,15 @@ int main(void)
 
 
 
+
+
+
+
+
 	//npc 배열정의
 
 	//1층
-
+	
 
 
 	map_arr_loCation_level_3[1][6] = black_s; //대장장이
@@ -701,8 +821,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -730,8 +848,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -754,8 +870,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -776,8 +890,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -799,8 +911,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -823,8 +933,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -845,8 +953,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -867,8 +973,6 @@ int main(void)
 				printf("%s", player.name);
 				gotoxy(qq, pp + 1);
 				printf("LIFE ( %d / %d )", player.life, player.max_life);
-				gotoxy(qq, pp + 2);
-				printf("MANA ( %d / %d )", player.mana, player.max_mana);
 				gotoxy(qq, pp + 3);
 				printf("CRONO : %d", player.crono);
 				gotoxy(qq, pp + 5);
@@ -1391,18 +1495,18 @@ int main(void)
 			}
 			case 4:
 			{
-				mon.name = bat.name;
-				mon.attack = bat.attack;
-				mon.life = bat.life;
-				mon.crono = bat.crono;
+				mon.name = kenta.name;
+				mon.attack = kenta.attack;
+				mon.life = kenta.life;
+				mon.crono = kenta.crono;
 				break;
 			}
 			case 5:
 			{
-				mon.name = bat.name;
-				mon.attack = bat.attack;
-				mon.life = bat.life;
-				mon.crono = bat.crono;
+				mon.name = monster1.name;
+				mon.attack = monster1.attack;
+				mon.life = monster1.life;
+				mon.crono = monster1.crono;
 				break;
 			}
 			default:
@@ -1449,11 +1553,11 @@ int main(void)
 		{
 			switch (monspawn)
 			{
-			case 0:
+			case 0:  //spider
 				{
 				break;
 				}
-			case 1:
+			case 1: //bat
 			{
 				break;
 			}
@@ -1476,10 +1580,19 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 				break;
 			}
-			case 3:
+			case 3: //kero
 			{
 				break;
 			}
+			case 4: //kenta
+			{
+
+			}
+			case 5: //drago
+			{
+
+			}
+			case 6: //
 			default:
 				break;
 			}
@@ -1511,8 +1624,7 @@ int main(void)
 				turn++;
 				cnt_monster_life = mon.life;
 				cnt_player_life = player.life;
-				mon.life -= attack(mon.life, player.attack);
-				player.life -= attack(player.life, mon.attack);
+				mon.life -= attack(mon.life, player.attack,player.critical);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				Sleep(1000);
 				printf("   % s는 % s에게\ 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
@@ -1536,7 +1648,7 @@ int main(void)
 					Sleep(1000);
 					printf("   %s를 쓰러트렸다!\n\n", mon.name);
 					Sleep(1000);
-					printf("   %d 크로노 를 얻었다!\n", mon.crono);
+					printf("   %d 크로노 를 얻었다!\n\n", mon.crono);
 					player.crono += mon.crono;
 					Sleep(500);
 					printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
@@ -1550,7 +1662,12 @@ int main(void)
 				{
 					printf("   %s는 %s에게\n 달려들었다!\n\n", mon.name, player.name);
 					Sleep(1000);
-					printf("   %s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
+					player.life -= attacked_monster(player.life, mon.attack, player.evasion);
+
+					Sleep(1000);
+					if (cnt_player_life - player.life > 0)
+						printf("   %s는 %d의\n 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
+
 					Sleep(1500);
 					if (player.life <= 0)
 					{
@@ -1560,7 +1677,7 @@ int main(void)
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("     ricaus는 힘을 다하였다...\n");
+						printf("     ricaus는 힘을 다하였다...\n\n");
 						Sleep(1000);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(300);
@@ -1590,12 +1707,12 @@ int main(void)
 				cnt_player_life = player.life;
 				system("cls");
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				player.life -= (attack(player.life, mon.attack)) / 3;
+				player.life -= 3*(attacked_monster(player.life, mon.attack,player.evasion)) / 5;
 				printf("   %s는 방어태세에 들어갔다!\n\n", player.name);
 				Sleep(1000);
 				printf("   %s는 %s에게 달려들었다!\n\n", mon.name, player.name);
 				Sleep(1500);
-				printf("   %s는 %d의 데미지를 받었다.\n\n", player.name, cnt_player_life - player.life);
+				printf("   %s는 %d의 데미지를 받았다.\n\n", player.name, cnt_player_life - player.life);
 				Sleep(1000);
 				if (player.life <= 0)
 				{
@@ -1657,7 +1774,7 @@ int main(void)
 						cnt_player_life = player.life;
 						cnt_monster_life = mon.life;
 						mon.life -= skill_several_stab(player.attack);
-						player.life -= attack(player.life, mon.attack);
+						player.life -= attack(player.life, mon.attack,20);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
 						printf("   %s는 연속 찌르기를 사용했다!\n\n", player.name);
@@ -1753,9 +1870,9 @@ int main(void)
 						turn++;
 						cnt_turn_heal = turn;
 						cnt_player_life = player.life;
-						system("cls");
+						system("cls");//
 						player.life += skill_holy_Heal(player.life, player.attack); //힐 시전
-						if (player.life > cnt_player_life) // 시전 후 최대생명력보다 높아지게된다면
+						if (player.life > player.max_life) // 시전 후 최대생명력보다 높아지게된다면
 						{
 							player.life = player.max_life;
 
@@ -1771,7 +1888,7 @@ int main(void)
 							Sleep(1500);
 							printf("   신께 기도를 드립니다...\n\n");
 							Sleep(1500);
-							printf("   ricaus는 %d의 체력을 회복했다!\n", skill_holy_Heal(player.life, player.attack));
+							printf("   ricaus는 %d의 체력을 회복했다!\n", player.life - cnt_player_life);
 						}
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
@@ -2289,11 +2406,19 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= sword.cost)
+					if (swordon == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
+					}
+					else if (player.crono >= sword.cost)
 					{
 						swordon = 1;
 						player.crono -= sword.cost;
-
+						player.attack += sword.attack;
+						player.critical += sword.critical;
 						system("cls");
 						printf("\n\n   어두운 검을 구입했습니다.");
 						_getch();
@@ -2356,10 +2481,19 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= spear.cost)
+					if (spearon == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
+					}
+					else if (player.crono >= spear.cost)
 					{
 						spearon = 1;
 						player.crono -= spear.cost;
+						player.attack += spear.attack;
+						player.critical += spear.critical;
 						system("cls");
 						printf("\n\n\n[검은 가시 창]을 구입했습니다.");
 						_getch();
@@ -2416,10 +2550,20 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= daggar.cost)
+					if (daggaron == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
+					}
+					else if (player.crono >= daggar.cost)
 					{
 						daggaron = 1;
 						player.crono -= daggar.cost;
+						player.attack += daggar.attack;
+						player.critical += daggar.critical;
+						player.evasion += daggar.evasion;
 						system("cls");
 						printf("\n\n\n[예리한 단검]을 구입했습니다.");
 						_getch();
@@ -2480,11 +2624,20 @@ int main(void)
 					{
 						caladon = 1;
 						player.crono -= Excalibur.cost;
+						player.attack += Excalibur.attack;
+						player.critical += Excalibur.critical;
 						system("cls");
 						printf("\n\n\n[Caladfwish]을 구입했습니다.");
 						_getch();
 
 						break;
+					}
+					else if (caladon == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
 					}
 					else
 					{
@@ -2536,15 +2689,25 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= iron.cost)
+					if (ironon == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
+					}
+					else if (player.crono >= iron.cost)
 					{
 						ironon = 1;
 						player.crono -= iron.cost;
+						player.life += iron.life;
+						player.max_life += iron.life;
+						if (player.life > player.max_life)
+							player.life = player.max_life;
+						player.evasion += iron.evasion;
 						system("cls");
 						printf("\n\n\n[철갑옷]을 구입했습니다.");
 						_getch();
-
-						break;
 					}
 					else
 					{
@@ -2553,6 +2716,7 @@ int main(void)
 						Sleep(500);
 						_getch();
 					}
+					break;
 				}
 				default:
 					break;
@@ -2598,16 +2762,27 @@ int main(void)
 				switch (buyornodraw())
 				{
 				case 0:
+
 				{
-					if (player.crono >= coward.cost)
+					if (cowardon == 1)
+					{
+					system("cls");
+					printf("\n\n이미 보유한 아이템입니다..");
+					Sleep(500);
+					_getch();
+					}
+					else if (player.crono >= coward.cost)
 					{
 						cowardon = 1;
 						player.crono -= coward.cost;
+						player.life += coward.life;
+						player.max_life += coward.life;
+						player.evasion += coward.evasion;
+						if (player.life > player.max_life)
+							player.life = player.max_life;
 						system("cls");
 						printf("\n\n\n[겁쟁이갑옷]을 구입했습니다.");
 						_getch();
-
-						break;
 					}
 					else
 					{
@@ -2616,6 +2791,7 @@ int main(void)
 						Sleep(500);
 						_getch();
 					}
+					break;
 				}
 				default:
 					break;
@@ -2661,7 +2837,15 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= fast.cost)
+
+					if (backon == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
+					}
+					else if (player.crono >= fast.cost)
 					{
 						backon = 1;
 						player.crono -= fast.cost;
@@ -2723,7 +2907,14 @@ int main(void)
 				{
 				case 0:
 				{
-					if (player.crono >= adaman.cost)
+					if (admanon == 1)
+					{
+						system("cls");
+						printf("\n\n이미 보유한 아이템입니다..");
+						Sleep(500);
+						_getch();
+					}
+					else if (player.crono >= adaman.cost)
 					{
 						admanon = 1;
 						player.crono -= adaman.cost;
@@ -2837,7 +3028,7 @@ int main(void)
 
 			dengeon_level = 5;
 			y_p = 10;
-			x_p = 2;
+			x_p = 1;
 			situation_num = 1;
 		}
 
@@ -3065,6 +3256,8 @@ int main(void)
 			_getch();
 			printf("END - 증오의 늪\n\n");
 		}
+
+	
 
 
 		if (rage == 1)
@@ -3407,6 +3600,10 @@ void printQuestion_level_7()//맵 출력
 			else if (map_arr_loCation_level_7[i][j] == 1)
 			{
 				printf("%s", specialChar3());
+			}
+			else if (map_arr_loCation_level_7[i][j] = 7)
+			{
+				printf("%s", specialChar9());
 			}
 			else if (map_arr_loCation_level_7[i][j] = 4)
 			{
@@ -4324,19 +4521,19 @@ int skill_several_stab(int a)
 	int temp = rand() % 2 + 2; //난수
 	int dem;
 	if (stab_lv == 1) {
-		dem = temp * (a * 0.8);
+		dem = temp * (a * 0.9);
 	}
 	else if (stab_lv == 2) {
-		dem = temp * (a * 1);
+		dem = temp * (a * 1.1);
 	}
 	else if (stab_lv == 3) {
-		dem = temp * (a * 1.2);
+		dem = temp * (a * 1.4);
 	}
 	else if (stab_lv == 4) {
-		dem = temp * (a * 1.5);
+		dem = temp * (a * 1.7);
 	}
 	else if (stab_lv == 5) {
-		dem = temp * (a * 2.2);
+		dem = temp * (a * 2.4);
 	}
 	return dem;
 }
@@ -4351,15 +4548,14 @@ int skill_holy_Heal(int x, int y) // 용사 체력,용사 공격력
 		t = y * (0.6);
 	}
 	else if (heal_lv == 3) {
-		t = y * (0.8);
+		t = y * (0.9);
 	}
 	else if (heal_lv == 4) {
-		t = y * (1);
-	}
-	else if (heal_lv == 5) {
 		t = y * (1.3);
 	}
-	x += t;
+	else if (heal_lv == 5) {
+		t = y * (1.8);
+	}
 	return t;
 }
 
@@ -4376,10 +4572,10 @@ int skill_rage(int x)// 3턴 동안 용사 공격력 쿨타임 6
 		t = x * (0.5);
 	}
 	else if (rage_lv == 4) {
-		t = x * (0.8);
+		t = x * (0.7);
 	}
 	else if (rage_lv == 5) {
-		t = x * (1.2);
+		t = x * (1);
 	}
 	return t; // 공격력에 t를 추가한다.
 }
@@ -4589,18 +4785,31 @@ void bfmonxy2(int y, int x)
 
 
 
-int attack(int x, int y) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
+int attack(int x, int y,int k) // x = 몬스터 라이프 , y = 내 공격력/  몬스터에게 가한 피해량.
 {
+	int a = rand() % 100 + 1;
 
-	int i = rand() % 5 - 1; //  9 10 11 12 13 
+	int i = rand() % 5 - 1; //  9 10 11 12 13  
 	int t = i + y; // 데미지 = 랜덤난수 + 플 레이어 공격력g
+	if (a + k >= 100)
+	{
+		printf("\n\n      <<<<<< 크리티컬!!! >>>>>> \n\n\n");
+		Sleep(1000);
+		t += 0.3*t;
+	}
 	return t;
 }
 
-int attacked_monster(int x, int y)
+int attacked_monster(int x, int y,int k)
 {
+	int a = rand() % 100 + 1;
 	int i = rand() % 5 - 1; //  9 10 11 12 13 
-	int t = i + y; //데미지= 랜덤난수 + 플레이어 공격력
+	int t = i + y; //데미지= 랜덤난수 + 몬스터 공격력
+	if (a + k >= 100)
+	{
+		t = 0;
+		printf("   <<<<<<ricaus는 피했다!!!>>>>>>\n\n");
+	}
 	return t;
 }
 
