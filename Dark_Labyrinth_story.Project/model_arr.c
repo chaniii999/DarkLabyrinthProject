@@ -1555,10 +1555,41 @@ int main(void)
 			{
 			case 0:  //spider
 				{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣤⡴⠶⠾⠿⠿⠿⠿⠶⠶⣦\n");
+				wprintf(L"⠀⠀⠀   ⠀⠀⠀⠀⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠤⣤⠀⠀⠀⣰⣿⣿⠢⢄⠀⠀⠀⠀⠀⠀⢀⠔\n");
+				wprintf(L"  ⠀    ⠀⠀⠀⢀⣀⣀⣤⣤⣴⣦⠀⠀⠀⠀⢠⠈⠐⢄⣠⣤⣴⣏⠀⠈⢧⠀⢠⡿⠁⠸⡀⠀⠀⠠⢀⠀⠀⡰⠁⠀\n");
+				wprintf(L"     ⢀⣠⣴⡾⠿⠛⠋⠉⡉⠿⡿⣷⣄⠀⠀⣼⠀⢰⣿⣿⣿⣿⢿⣷⡄⠈⡠⠋⠀⠀⠀⣇⠀⠀⠀⠀⠑⢤⡇⠀⠀\n");
+				wprintf(L"     ⠟⠋⠀⠀⠀⠀⠀⡔⠁⠀⡇⠈⠙⠷⣄⣹⠀⢸⣧⣾⣿⡿⠞⣿⣿⣤⠁⠀⠀⠀⠀⠘⠀⠀⣠⠔⠒⠉⠁⠀⠀\n");
+				wprintf(L"     ⠒⠢⠀⠀⠀⢀⠞⠀⠀⠀⢇⠀⠀⠀⠀⠛⣶⣿⣷⣄⣀⣠⣴⣿⣿⣿⣶⡆⠤⠤⡀⠀⡇⡔⠁\n");
+				wprintf(L"⠀     ⠀⠀⠰⣠⠏⠀⠀⠀⠀⢸⡀⠀⠀⣠⢤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠑⠟⠀\n");
+				wprintf(L"⠀     ⠀⠀⠀⠉⠉⠉⠉⠒⢤⡈⡇⡠⠊⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀\n");
+				wprintf(L"⠀⠀     ⠀⠀⠀⠀⠀⠀ ⠀⠀⠘⠟⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀\n");
+				wprintf(L"⠀  ⠀⠀   ⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣿⣿⣿⣿⢿⡏⠀\n");
+				wprintf(L"⠀  ⠀⠀   ⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠣⠀⠀⠀⠁⠀⠀⠀\n");
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
 				break;
 				}
 			case 1: //bat
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⣠⣴⣶⣦⣄\n");
+				wprintf(L"⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⣰⣧⠀⣀⣠⣾⣿⣿⣿⣿⣿⣧\n");
+				wprintf(L"⠀⠀   ⠀⠀⠀⠀⠀⠀⣠⣤⣾⠋⠙⢷⣾⠋⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⢀⣠⡶⣦⡀⠀\n");
+				wprintf(L"⠀   ⠀⠀⠀⠀⠀⣠⣾⣋⣏⣙⠻⠶⣤⣙⣿⡿⠉⣿⠟⠻⣿⣿⣿⣿⣿⣧⣴⠞⢋⣡⣤⢾⣿⣦⣀⠀⠀\n");
+				wprintf(L"⠀   ⠀⠀⠀⠰⠿⢟⣽⠏⠉⠙⠛⠳⠾⣿⣿⣔⣠⣿⡀⠀⢹⣿⣿⣿⣿⣿⣷⣿⣯⣭⡀⠀⠙⣿⣟⠁⠀\n");
+				wprintf(L"⠀   ⠀⠀⠀⣠⣴⣿⠃⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣟⠋⠉⠁⠀⠘⣿⣄⠀⠈⠻⣷⣤⡀\n");
+				wprintf(L"⠀   ⠀⠀⠸⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠁⠈⣿⡀⠀⠀⠀  ⠀⠘⣿⣦⡀⠀⠀⠉⠀⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀  ⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀⣿⣷⠀⠀⠀   ⠀⠀⠘⢿⣿⣄⠀⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀     ⠀⠀⠀    ⠀⠀⠀⢻⣿⣇⠀⠀   ⠀⠀⠀⠀⠉⠉⠀⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀     ⠀⠀⠀    ⠀⠀⠀⠀⠻⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
 				break;
 			}
 			case 2://moth
@@ -1608,7 +1639,7 @@ int main(void)
 			printf("%s", specialChar6());
 			gotoxy(13, 0);
 			printf("%s:", mon.name);
-			gotoxy(18, 0);
+			gotoxy(18, 0);  
 			monhpbar(mon.life, mon.max_life);
 
 			gotoxy(14, 11);
