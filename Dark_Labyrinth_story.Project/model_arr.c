@@ -1608,9 +1608,15 @@ int main(void)
 			printf("%s", specialChar6());
 			gotoxy(13, 0);
 			printf("%s:", mon.name);
+			gotoxy(18, 0);
 			monhpbar(mon.life, mon.max_life);
-			gotoxy(13, 11);
-			printf("hp: %d", player.life);
+
+			gotoxy(14, 11);
+			printf("hp:");
+			monhpbar(player.life, player.max_life);
+			printf("  %d/%d", player.life, player.max_life);
+	
+
 
 
 
@@ -4823,7 +4829,6 @@ void CursorView()
 
 void monhpbar(int life,int maxlife)
 {
-	gotoxy(18, 0);
 
 	if (life <= maxlife*0.1)
 	{
