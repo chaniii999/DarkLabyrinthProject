@@ -6,6 +6,9 @@
 #include <io.h>
 #include <fcntl.h>
 #include <conio.h>
+#pragma comment (lib, "winmm.lib")
+#include <mmsystem.h>;
+
 
 #pragma warning(disable:4996)
 
@@ -72,8 +75,11 @@ void gotoxy(int x, int y);
 int game = 1; // 타이틀은 0 게임시작은 1
 int root = 0;
 
-int dengeon_level = 1;
+int dengeon_level = 2;
 int situation_num = 1; //시츄에이션 넘버
+
+int cho = 0;
+
 
 
 // 메뉴함수
@@ -189,8 +195,7 @@ int g8 = 11;
 
 
 
-void monxy(int y, int x); // 몬스터 위치 좌표 고정
-void monxy2(int y, int x);
+
 
 
 
@@ -198,10 +203,34 @@ void monmove_system(int y,int x); //랜덤이동
 void monmove_system2(int y,int x);
 void monmove_system3(int y, int x);
 
-void monmove_system_2(int y, int x);
+void monmove_system_2_1(int y, int x);
+void monmove_system_2_2(int y, int x);
+void monmove_system_2_3(int y, int x);
+
+void monmove_system_4_1(int y, int x);
+void monmove_system_4_2(int y, int x);
+void monmove_system_4_3(int y, int x);
+
+void monmove_system_5_1(int y, int x);
+void monmove_system_5_2(int y, int x);
+void monmove_system_5_3(int y, int x);
+
+void monmove_system_7_1(int y, int x);
+void monmove_system_7_2(int y, int x);
+void monmove_system_7_3(int y, int x);
+
+
+void monxy(int y, int x); // 몬스터 위치 좌표 고정
+void monxy2(int y, int x);
+void monxy4(int y, int x);
+void monxy5(int y, int x);
+void monxy7(int y, int x);
 
 void bfmonxy(int y, int x); //공용 좌표 지우개
 void bfmonxy2(int y, int x);
+void bfmonxy4(int y, int x);
+void bfmonxy5(int y, int x);
+void bfmonxy7(int y, int x);
 
 
 int *monlife;
@@ -350,6 +379,8 @@ int main(void)
 	srand(time(NULL));
 	system("mode con cols=50 lines=19");
 
+
+	//PlaySound(TEXT("C:\\darkrabyrinth\\bgm.wav"), NULL, SND_ASYNC | SND_LOOP);
 
 	oBject player; //플레이어 정의
 	player.name = player_name;
@@ -658,7 +689,7 @@ int main(void)
 	
 
 
-
+	
 
 
 
@@ -800,7 +831,67 @@ int main(void)
 
 	}
 
-
+	if (dengeon_level == 2)
+	{
+		x_p = 6;
+		y_p = 11;
+		x_mon = 10; //kero
+		y_mon = 3;
+		x_mon2 = 7;
+		y_mon2 = 5;
+		x_mon3 = 1;
+		y_mon3 = 1;
+	}
+	else if (dengeon_level == 3)
+	{
+		x_p = 1;
+		y_p = 3;
+	}
+	else if (dengeon_level == 4)
+	{
+		x_p = 10;
+		y_p = 10;
+		x_mon = 1;
+		y_mon = 1;
+		x_mon2 = 1;
+		y_mon2 = 1;
+	}
+	else if (dengeon_level == 5)
+	{
+		x_p = 6;
+		y_p = 11;
+		x_mon = 1;
+		y_mon = 1;
+		x_mon2 = 1;
+		y_mon2 = 1;
+	}
+	else if (dengeon_level == 6)
+	{
+		x_p = 6;
+		y_p = 11;
+		x_mon = 1;
+		y_mon = 1;
+		x_mon2 = 1;
+		y_mon2 = 1;
+	}
+	else if (dengeon_level == 7)
+	{
+		x_p = 6;
+		y_p = 11;
+		x_mon = 1;
+		y_mon = 1;
+		x_mon2 = 1;
+		y_mon2 = 1;
+	}
+	else if (dengeon_level == 8)
+	{
+		x_p = 6;
+		y_p = 11;
+		x_mon = 1;
+		y_mon = 1;
+		x_mon2 = 1;
+		y_mon2 = 1;
+	}
 
 
 	while (game == 1)//게임진행중 // 화면 지속.
@@ -830,8 +921,6 @@ int main(void)
 				{
 					system("cls");
 					situation_num = 12;
-					x_mon = 6;
-					y_mon = 7;
 					monsterlife = 1;
 					monsterlife2 = 1;
 					monsterlife3 = 1;
@@ -840,6 +929,7 @@ int main(void)
 
 			if (dengeon_level == 2)
 			{
+				
 				creaTor_great_Wall_2(t2, g2);
 				printQuestion_level_2();
 				int qq = 33;
@@ -1158,7 +1248,31 @@ int main(void)
 						break;
 					case 122:
 					{
-
+						if (y_p == 9 && x_p == 1)
+						{
+							map_arr_loCation_level_2[8][1] = 0;
+							system("cls");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							Sleep(1000);
+							printf("  큰 체력 물약을 획득했다!\n");
+							Sleep(1000);
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							Sleep(1000);
+							potion2++;
+						}
+						if (y_p ==9 && x_p == 11)
+						{
+							map_arr_loCation_level_2[8][11] = 0;
+							system("cls");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							Sleep(1000);
+							printf("  힘의 물약을 획득했다!\n");
+							Sleep(1000);
+							printf("   힘이 3 상승했다!");
+							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+							Sleep(1000);
+							player.attack += 3;
+						}
 					}
 					default:
 						break;
@@ -1169,7 +1283,7 @@ int main(void)
 				{
 
 					monxy2(y_mon, x_mon);
-					monmove_system_2(y_mon, x_mon);
+					monmove_system_2_1(y_mon, x_mon);
 
 					if (x_p == x_mon && y_p == y_mon + 1 ||
 						x_p == x_mon + 1 && y_p == y_mon ||
@@ -1181,7 +1295,7 @@ int main(void)
 
 						if (cntspawn == 0)
 						{
-							monspawn = rand() % 3 + 1; // 123
+							monspawn = rand() % 1 +3; // 123
 							cntspawn = monspawn;
 						}
 						else
@@ -1202,6 +1316,54 @@ int main(void)
 				}
 				else
 					bfmonxy2(y_mon, x_mon);
+
+				if (monsterlife2 == 1)
+				{
+					monxy2(y_mon2, x_mon2); //좌표고정
+					monmove_system_2_2(y_mon2, x_mon2);
+					if (x_p == x_mon2 && y_p == y_mon2 + 1 ||
+						x_p == x_mon2 + 1 && y_p == y_mon2 ||
+						x_p == x_mon2 - 1 && y_p == y_mon2 ||
+						x_p == x_mon2 && y_p == y_mon2 - 1)
+					{
+						monspawn = rand() % 3;
+
+
+
+						monlife = &monsterlife2;
+						situation_num = 2;
+						Sleep(1000);
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					}
+
+				}
+				else
+					bfmonxy2(y_mon2, x_mon2);
+
+				if (monsterlife3 == 1)
+				{
+					monxy2(y_mon3, x_mon3); //좌표고정
+					monmove_system_2_3(y_mon3, x_mon3);
+					if (x_p == x_mon3 && y_p == y_mon3 + 1 ||
+						x_p == x_mon3 + 1 && y_p == y_mon3 ||
+						x_p == x_mon3 - 1 && y_p == y_mon3 ||
+						x_p == x_mon3 && y_p == y_mon3 - 1)
+					{
+						monspawn = rand() % 3;
+
+
+
+						monlife = &monsterlife3;
+						situation_num = 2;
+						Sleep(1000);
+						system("cls");
+						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+					}
+
+				}
+				else
+					bfmonxy2(y_mon3, x_mon3);
 
 			}
 			if (dengeon_level == 3)
@@ -1509,6 +1671,13 @@ int main(void)
 				mon.crono = monster1.crono;
 				break;
 			}
+			case 6:
+			{
+				mon.name = mino.name;
+				mon.attack = mino.attack;
+				mon.life = mino.life;
+				mon.crono = mino.crono;
+			}
 			default:
 				break;
 			}
@@ -1572,26 +1741,26 @@ int main(void)
 				fflush(stdout);
 				_setmode(_fileno(stdout), exMode);
 				break;
-				}
+				}//
 			case 1: //bat
 			{
 				int exMode = _setmode(_fileno(stdout), 0x00020000);
 				_setmode(_fileno(stdout), 0x00020000);
-				wprintf(L"⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⣠⣴⣶⣦⣄\n");
+				wprintf(L"\n⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⣠⣴⣶⣦⣄\n");
 				wprintf(L"⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⣰⣧⠀⣀⣠⣾⣿⣿⣿⣿⣿⣧\n");
 				wprintf(L"⠀⠀   ⠀⠀⠀⠀⠀⠀⣠⣤⣾⠋⠙⢷⣾⠋⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⢀⣠⡶⣦⡀⠀\n");
 				wprintf(L"⠀   ⠀⠀⠀⠀⠀⣠⣾⣋⣏⣙⠻⠶⣤⣙⣿⡿⠉⣿⠟⠻⣿⣿⣿⣿⣿⣧⣴⠞⢋⣡⣤⢾⣿⣦⣀⠀⠀\n");
 				wprintf(L"⠀   ⠀⠀⠀⠰⠿⢟⣽⠏⠉⠙⠛⠳⠾⣿⣿⣔⣠⣿⡀⠀⢹⣿⣿⣿⣿⣿⣷⣿⣯⣭⡀⠀⠙⣿⣟⠁⠀\n");
 				wprintf(L"⠀   ⠀⠀⠀⣠⣴⣿⠃⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣟⠋⠉⠁⠀⠘⣿⣄⠀⠈⠻⣷⣤⡀\n");
-				wprintf(L"⠀   ⠀⠀⠸⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠁⠈⣿⡀⠀⠀⠀  ⠀⠘⣿⣦⡀⠀⠀⠉⠀⠀⠀\n");
-				wprintf(L"⠀⠀⠀⠀⠀⠀⠀  ⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀⣿⣷⠀⠀⠀   ⠀⠀⠘⢿⣿⣄⠀⠀⠀\n");
-				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀     ⠀⠀⠀    ⠀⠀⠀⢻⣿⣇⠀⠀   ⠀⠀⠀⠀⠉⠉⠀⠀⠀\n");
+				wprintf(L"⠀   ⠀⠀⠸⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠁⠈⣿⡀⠀⠀⠀⠀⠘⣿⣦⡀⠀⠀⠉⠀⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀  ⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀⣿⣷⠀⠀⠀ ⠀⠀⠘⢿⣿⣄⠀⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀     ⠀⠀⠀    ⠀⠀⠀⢻⣿⣇⠀⠀⠀⠀⠀⠀⠉⠉⠀⠀⠀\n");
 				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀     ⠀⠀⠀    ⠀⠀⠀⠀⠻⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
 
 				fflush(stdout);
 				_setmode(_fileno(stdout), exMode);
 				break;
-			}
+			}//
 			case 2://moth
 			{
 				int exMode = _setmode(_fileno(stdout), 0x00020000);
@@ -1613,17 +1782,81 @@ int main(void)
 			}
 			case 3: //kero
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"\n     ⠀⠀     ⠀⠀⠀⠀⠀⠀⠀⢀⣾⠋⠀⠀⠀⠀⠀⠀⣉⣿⣿⣿⣶⣦⣀⣀⠀\n");
+				wprintf(L"⠀⠀     ⠀⠀⠀     ⠀⠀⠀⢀⣬⣾⣷⣄⡀⠀⠀⣀⡘⣟⣿⣿⣽⣿⣟⠟⡟⠀\n");
+				wprintf(L"⠀     ⠀⠀⠀⠀⠀     ⠀⣠⣿⣿⣿⣻⣯⣿⡷⣾⣿⣶⣊⣿⣿⣿⣿⣏⠉⠁\n");
+				wprintf(L"          ⠀⠀⠀⠀⠀⠀⣸⣿⣿⡿⢝⣿⣿⣿⣿⡿⡃⣴⣿⣕⢭⣜⣿⣿⣷⣶⣄⠀\n");
+				wprintf(L"⠀⠀     ⠀     ⠀⠀⢠⣿⡿⠋⠉⠿⣿⣿⣿⣿⣣⣷⢟⠦⡾⣿⣧⣿⣿⣿⣿⣿⣶⣤⠀⠀\n");
+				wprintf(L"⠀⠀     ⠀     ⠀⣰⡿⠟⠁⠀⠀⠀⠙⣏⣿⣿⣿⣿⣷⠿⠿⢿⠝⠉⠙⠻⣾⡋⠉⠁⠀\n");
+				wprintf(L"⠀⠀     ⠀     ⣰⡟⠀⠀⠀⠀⠀⠀⠈⢹⣽⣏⠙⠓⢿⢷⣾⣸⡄⠀⠀⠀⠀⠁⠀\n");
+				wprintf(L"⠀          ⠀⣴⢿⡃⠀⠀⠀⠀⠀⠀⠀⠈⢿⣟⣶⡀⠀⠉⠈⠻⣿⡄⠀⠀\n");
+				wprintf(L"⠀          ⠈⠙⠚⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣅⣀⣀⠀⠀⠹⣷⣤⢤⡀\n");
+				wprintf(L"⠀⠀⠀      ⠀     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠣⠼⠧⠛⠁⠀⠀⠉⠓⠚⠁⠀\n");
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
 				break;
 			}
 			case 4: //kenta
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⢒⢢⣤⠆⠀\n");
+				wprintf(L"   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠽⣿⣿⣏⡀⠀\n");
+				wprintf(L"⠀⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠔⣀⣵⣿⣷⣿⣿⣆\n");
+				wprintf(L"⠀    ⠀⠀⠀⠀⠀ ⠀⠀⠀⠐⡄⠆⣾⡟⢛⠻⣿⣿⡆⠀\n");
+				wprintf(L"⠀    ⠈⠒⡀⠄⡀⠀⠀⠀⢀⡣⣄⠀⣿⣿⣿⣿⣷⣿⣳⠠⠀\n");
+				wprintf(L"⠀⠀    ⠀⠈⠈⢔⠡⢂⠄⡀⢁⢻⢄⡿⢻⡛⣻⣿⣿⠈⠀⠀\n");
+				wprintf(L"⠀⠀    ⠀⠀⠀⠀⠀⠂⠪⣋⠤⣉⢠⢤⣬⡭⡟⠻⠓⠁⣀⡀\n");
+				wprintf(L"⠀⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠡⠀⡔⢼⢉⣀⠆⣾⣶⣶⣷⣿\n");
+				wprintf(L"⠀⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡝⠮⣄⣴⣿⣿⣿⣿⡿⠛\n");
+				wprintf(L"⠀⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⢻⣷⣾⣿⢻⣧⠀\n");
+				wprintf(L"⠀⠀    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣾⣿⣿⣬⣿⣿⣴⣽⡦\n");
 
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
 			}
 			case 5: //drago
 			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"⠀⠄⣀⠀⠀⠀⠀⠀⠀⢀⣠⢆⣠⠖⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⡤⠖⠂\n");
+				wprintf(L"⠀⠀⠈⠛⠦⣤⡀⠀⣴⣿⣿⣿⣇⢀⠀⠀⠀⠀⢠⣴⣾⣿⡟⡃\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠘⣿⣾⣿⣟⣿⡿⣿⠁⠀⠀⠀⢠⣿⣿⣿⠿⠇⠑⠠⠀⢀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠠⠿⢿⣿⣷⣄⢺⣾⣷⣤⣠⣼⣿⣿⣿⠀⠀⠀⢀⣤⡶⣞\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠈⢋⣹⣿⣿⣿⣿⣿⡉⠙⠁⠀⠀⣠⣾⠏⠁⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠐⠚⠛⠛⣾⣿⣿⣿⣿⣶⣶⣶⣿⠟⠁⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⣹⣿⣿⣿⣿⣿⣿⡿⠋⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⢠⣀⡀⣠⣾⡿⠋⢘⣷⡟⠉⠁\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠘⠻⣿⡿⠋⠁⢲⣿⣿⡇⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠈⠻⠀\n");
 
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
 			}
-			case 6: //
+			case 6://mino
+			{
+				int exMode = _setmode(_fileno(stdout), 0x00020000);
+				_setmode(_fileno(stdout), 0x00020000);
+				wprintf(L"⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀⠀⠀⢀⠤⠂⠀⠀⠀⠀⠀⠀⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠠⢺⣿⠃⠀⠀⠀⣼⠁⠀⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⡠⠀\n");
+				wprintf(L"⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠛⢶⢶⣄⣤⣠⠏⠀⠀⠀⠀⢠⡴⠀⠀⢠\n");
+				wprintf(L"⠀⠀⠀⠀⠀⢠⣿⣿⠀⠀⢀⣠⣤⡌⠿⣿⣇⡀⠀⠀⠀⠀⠀⠆⠁⠀⠀⣻\n");
+				wprintf(L"⠀⠀⠀⠀⠀⠘⣿⣿⣷⣓⣿⣿⣿⣿⣷⣿⣿⣿⣄⠀⠀⠀⠀⠀⠀⠀⠠⣿\n");
+				wprintf(L"⠠⠀⠀⠀⠀⠀⣿⡿⣿⣿⠟⣙⢹⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⢠⢻\n");
+				wprintf(L"⡆⠀⠀⠀⠀⠀⣹⡇⠈⠉⠀⣿⣿⣿⣿⣿⣷⢻⣿⣦⣀⠀⠀⠀⠀⠀⢸⣽\n");
+				wprintf(L"⡇⡆⣤⣤⠤⣴⢿⣷⣀⢖⡾⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣾⣄⣤⠀⠀⣿⣿\n");
+				wprintf(L"⣧⢨⡿⢿⡿⢻⣿⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣷⡍⠛⠟⠟⠃⠀⣤⣿⣿\n");
+				wprintf(L"⣿⣷⣀⠬⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⢸⣿⣿⣿\n");
+				wprintf(L"⣿⣿⣿⣷⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣿⣿⣿⡾⠶⣆⠇⣸⣿⣿⣿\n");
+
+
+				fflush(stdout);
+				_setmode(_fileno(stdout), exMode);
+				break;
+			}
 			default:
 				break;
 			}
@@ -1637,7 +1870,13 @@ int main(void)
 			printf("%s", specialChar5());
 			gotoxy(48, 17);
 			printf("%s", specialChar6());
-			gotoxy(13, 0);
+
+			if (monspawn == 3)
+			{
+				gotoxy(6, 0);
+			}
+			else
+				gotoxy(13, 0);
 			printf("%s:", mon.name);
 			gotoxy(18, 0);  
 			monhpbar(mon.life, mon.max_life);
@@ -1664,9 +1903,9 @@ int main(void)
 				mon.life -= attack(mon.life, player.attack,player.critical);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				Sleep(1000);
-				printf("   % s는 % s에게\ 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
+				printf("   % s는 % s에게 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
 				Sleep(1000);
-				printf("   %s에게 %d의\ 데미지를 주었다.\n\n", mon.name, cnt_monster_life - mon.life);  // 공격받기전 - 받은후 =데미지
+				printf("   %s에게 %d의 데미지를 주었다.\n\n", mon.name, cnt_monster_life - mon.life);  // 공격받기전 - 받은후 =데미지
 				Sleep(1500);
 				if (mon.life <= 0)
 				{
@@ -2013,7 +2252,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("체력을 10 회복했다!\n");
+						printf("   체력을 10 회복했다!\n");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2023,7 +2262,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("포션이 부족합니다.");
+						printf("   포션이 부족합니다.");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2041,7 +2280,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("체력을 20 회복했다!\n");
+						printf("   체력을 20 회복했다!\n");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2051,7 +2290,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("포션이 부족합니다.\n");
+						printf("   포션이 부족합니다.\n");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2073,7 +2312,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("체력을 %d 회복했다!\n",player.max_life*0.5);
+						printf("   체력을 %d 회복했다!\n",player.max_life*0.5);
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2083,7 +2322,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("포션이 부족합니다.");
+						printf("   포션이 부족합니다.");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2102,7 +2341,7 @@ int main(void)
 						cnt_turn_stab = -3;
 						cnt_turn_rage = -5;
 						cnt_turn_heal = -3;
-						printf("모든 스킬의 쿨타임이 초기화됐다!\n");
+						printf("   모든 스킬의 쿨타임이 초기화됐다!\n");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2112,7 +2351,7 @@ int main(void)
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(500);
-						printf("포션이 부족합니다.\n");
+						printf("   포션이 부족합니다.\n");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
@@ -2886,6 +3125,11 @@ int main(void)
 					{
 						backon = 1;
 						player.crono -= fast.cost;
+						player.life += fast.life;
+						player.max_life += fast.life;
+						player.evasion += fast.evasion;
+						if (player.life > player.max_life)
+							player.life = player.max_life;
 						system("cls");
 						printf("\n\n\n[백조의 갑옷]을 구입했습니다.");
 						_getch();
@@ -2955,6 +3199,11 @@ int main(void)
 					{
 						admanon = 1;
 						player.crono -= adaman.cost;
+						player.life += adaman.life;
+						player.max_life += adaman.life;
+						player.evasion += adaman.evasion;
+						if (player.life > player.max_life)
+							player.life = player.max_life;
 						system("cls");
 						printf("\n\n\n[아다만티움갑옷]을 구입했습니다.");
 						_getch();
@@ -3453,7 +3702,7 @@ void printQuestion_level_2()//맵 출력
 		}
 		printf("\n");
 	}
-	printf("monsterlife : %d", monsterlife);
+	printf("monsterlife2 : %d", monsterlife2);
 }//
 
 void printQuestion_level_3()//맵 출력
@@ -4657,46 +4906,6 @@ void monmove_system(int y, int x) {
 	}
 }
 
-void monmove_system_2(int y, int x) {
-	if (kbhit())
-	{
-		int mkey = rand() % 4;
-		switch (mkey) // 몬스터 비전투패턴
-		{
-		case 0:
-			if (map_arr_loCation_level_2[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
-			{
-				y_mon--;
-				bfmonxy2(y_mon + 1, x_mon);
-			}
-			break;
-		case 1:
-			if (map_arr_loCation_level_2[y_mon][x_mon - 1] == 0)
-			{
-				x_mon--;
-				bfmonxy2(y_mon, x_mon + 1);
-			}
-			break;
-		case 2:
-			if (map_arr_loCation_level_2[y_mon][x_mon + 1] == 0)
-			{
-				x_mon++;
-				bfmonxy2(y_mon, x_mon - 1);
-			}
-			break;
-		case 3:
-			if (map_arr_loCation_level_2[y_mon + 1][x_mon] == 0)
-			{
-				y_mon++;
-				bfmonxy2(y_mon - 1, x_mon);
-			}
-			break;
-		default:
-			break;
-		}
-	}
-}
-
 void monmove_system2(int y, int x) {
 	if (kbhit())
 	{
@@ -4777,46 +4986,532 @@ void monmove_system3(int y, int x) {
 	}
 }
 
+
+void monmove_system_2_1(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_2[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon--;
+				bfmonxy2(y_mon + 1, x_mon);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_2[y_mon][x_mon - 1] == 0)
+			{
+				x_mon--;
+				bfmonxy2(y_mon, x_mon + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_2[y_mon][x_mon + 1] == 0)
+			{
+				x_mon++;
+				bfmonxy2(y_mon, x_mon - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_2[y_mon + 1][x_mon] == 0)
+			{
+				y_mon++;
+				bfmonxy2(y_mon - 1, x_mon);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_2_2(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_2[y_mon2 - 1][x_mon2] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon2--;
+				bfmonxy2(y_mon2 + 1, x_mon2);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_2[y_mon2][x_mon2 - 1] == 0)
+			{
+				x_mon2--;
+				bfmonxy2(y_mon2, x_mon2 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_2[y_mon2][x_mon2 + 1] == 0)
+			{
+				x_mon2++;
+				bfmonxy2(y_mon2, x_mon2 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_2[y_mon2 + 1][x_mon2] == 0)
+			{
+				y_mon2++;
+				bfmonxy2(y_mon2 - 1, x_mon2);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_2_3(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_2[y_mon3 - 1][x_mon3] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon3--;
+				bfmonxy2(y_mon3 + 1, x_mon3);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_2[y_mon3][x_mon3 - 1] == 0)
+			{
+				x_mon3--;
+				bfmonxy2(y_mon3, x_mon3 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_2[y_mon3][x_mon3+ 1] == 0)
+			{
+				x_mon3++;
+				bfmonxy2(y_mon3, x_mon3 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_2[y_mon3 + 1][x_mon3] == 0)
+			{
+				y_mon3++;
+				bfmonxy2(y_mon3 - 1, x_mon3);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_4_1(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_4[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon--;
+				bfmonxy4(y_mon + 1, x_mon);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_4[y_mon][x_mon - 1] == 0)
+			{
+				x_mon--;
+				bfmonxy4(y_mon, x_mon + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_4[y_mon][x_mon + 1] == 0)
+			{
+				x_mon++;
+				bfmonxy4(y_mon, x_mon - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_4[y_mon + 1][x_mon] == 0)
+			{
+				y_mon++;
+				bfmonxy4(y_mon - 1, x_mon);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_4_2(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_4[y_mon2 - 1][x_mon2] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon2--;
+				bfmonxy4(y_mon2 + 1, x_mon2);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_4[y_mon2][x_mon2 - 1] == 0)
+			{
+				x_mon2--;
+				bfmonxy4(y_mon2, x_mon2 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_4[y_mon2][x_mon2 + 1] == 0)
+			{
+				x_mon2++;
+				bfmonxy4(y_mon2, x_mon2 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_4[y_mon2 + 1][x_mon2] == 0)
+			{
+				y_mon2++;
+				bfmonxy4(y_mon2 - 1, x_mon2);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_4_3(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_4[y_mon3 - 1][x_mon3] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon3--;
+				bfmonxy4(y_mon3 + 1, x_mon3);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_4[y_mon3][x_mon3 - 1] == 0)
+			{
+				x_mon3--;
+				bfmonxy4(y_mon3, x_mon3 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_4[y_mon3][x_mon3 + 1] == 0)
+			{
+				x_mon3++;
+				bfmonxy4(y_mon3, x_mon3 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_4[y_mon3 + 1][x_mon3] == 0)
+			{
+				y_mon3++;
+				bfmonxy4(y_mon3 - 1, x_mon3);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_5_1(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_5[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon--;
+				bfmonxy5(y_mon + 1, x_mon);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_5[y_mon][x_mon - 1] == 0)
+			{
+				x_mon--;
+				bfmonxy5(y_mon, x_mon + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_5[y_mon][x_mon + 1] == 0)
+			{
+				x_mon++;
+				bfmonxy5(y_mon, x_mon - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_5[y_mon + 1][x_mon] == 0)
+			{
+				y_mon++;
+				bfmonxy5(y_mon - 1, x_mon);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_5_2(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_5[y_mon2 - 1][x_mon2] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon2--;
+				bfmonxy5(y_mon2 + 1, x_mon2);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_5[y_mon2][x_mon2 - 1] == 0)
+			{
+				x_mon2--;
+				bfmonxy5(y_mon2, x_mon2 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_5[y_mon2][x_mon2 + 1] == 0)
+			{
+				x_mon2++;
+				bfmonxy5(y_mon2, x_mon2 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_5[y_mon2 + 1][x_mon2] == 0)
+			{
+				y_mon2++;
+				bfmonxy5(y_mon2 - 1, x_mon2);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_5_3(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_5[y_mon3 - 1][x_mon3] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon3--;
+				bfmonxy5(y_mon3 + 1, x_mon3);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_5[y_mon3][x_mon3 - 1] == 0)
+			{
+				x_mon3--;
+				bfmonxy5(y_mon3, x_mon3 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_5[y_mon3][x_mon3 + 1] == 0)
+			{
+				x_mon3++;
+				bfmonxy5(y_mon3, x_mon3 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_5[y_mon3 + 1][x_mon3] == 0)
+			{
+				y_mon3++;
+				bfmonxy5(y_mon3 - 1, x_mon3);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_7_1(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_7[y_mon - 1][x_mon] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon--;
+				bfmonxy7(y_mon + 1, x_mon);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_7[y_mon][x_mon - 1] == 0)
+			{
+				x_mon--;
+				bfmonxy7(y_mon, x_mon + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_7[y_mon][x_mon + 1] == 0)
+			{
+				x_mon++;
+				bfmonxy7(y_mon, x_mon - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_7[y_mon + 1][x_mon] == 0)
+			{
+				y_mon++;
+				bfmonxy7(y_mon - 1, x_mon);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_7_2(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_7[y_mon2 - 1][x_mon2] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon2--;
+				bfmonxy7(y_mon2 + 1, x_mon2);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_7[y_mon2][x_mon2 - 1] == 0)
+			{
+				x_mon2--;
+				bfmonxy7(y_mon2, x_mon2 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_7[y_mon2][x_mon2 + 1] == 0)
+			{
+				x_mon2++;
+				bfmonxy7(y_mon2, x_mon2 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_7[y_mon2 + 1][x_mon2] == 0)
+			{
+				y_mon2++;
+				bfmonxy7(y_mon2 - 1, x_mon2);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void monmove_system_7_3(int y, int x) {
+	if (kbhit())
+	{
+		int mkey = rand() % 4;
+		switch (mkey) // 몬스터 비전투패턴
+		{
+		case 0:
+			if (map_arr_loCation_level_7[y_mon3 - 1][x_mon3] == 0) //가고자하는 자리가 0일때만 가능.
+			{
+				y_mon3--;
+				bfmonxy7(y_mon3 + 1, x_mon3);
+			}
+			break;
+		case 1:
+			if (map_arr_loCation_level_7[y_mon3][x_mon3 - 1] == 0)
+			{
+				x_mon3--;
+				bfmonxy7(y_mon3, x_mon3 + 1);
+			}
+			break;
+		case 2:
+			if (map_arr_loCation_level_7[y_mon3][x_mon3 + 1] == 0)
+			{
+				x_mon3++;
+				bfmonxy7(y_mon3, x_mon3 - 1);
+			}
+			break;
+		case 3:
+			if (map_arr_loCation_level_7[y_mon3 + 1][x_mon3] == 0)
+			{
+				y_mon3++;
+				bfmonxy7(y_mon3 - 1, x_mon3);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+
 void monxy(int y, int x) // 몬스터 위치 동기화
 {
 	map_arr_loCation_level_1[y][x] = 4;
 }
-
 void monxy2(int y, int x) // 몬스터 위치 동기화
 {
 	map_arr_loCation_level_2[y][x] = 4;
 }
+void monxy4(int y, int x) // 몬스터 위치 동기화
+{
+	map_arr_loCation_level_4[y][x] = 4;
+}
+void monxy5(int y, int x) // 몬스터 위치 동기화
+{
+	map_arr_loCation_level_5[y][x] = 4;
+}
+void monxy7(int y, int x) // 몬스터 위치 동기화
+{
+	map_arr_loCation_level_7[y][x] = 4;
+}
+
+
 
 
 void bfmonxy(int y, int x)
 {
 	map_arr_loCation_level_1[y][x] = 0;
 }
-
 void bfmonxy2(int y, int x)
 {
 	map_arr_loCation_level_2[y][x] = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void bfmonxy4(int y, int x)
+{
+	map_arr_loCation_level_4[y][x] = 0;
+}
+void bfmonxy5(int y, int x)
+{
+	map_arr_loCation_level_5[y][x] = 0;
+}
+void bfmonxy7(int y, int x)
+{
+	map_arr_loCation_level_7[y][x] = 0;
+}
 
 
 
