@@ -24,10 +24,10 @@
 
 // 초기 함수
 
-int game = 0; // 타이틀은 0 게임시작은 1
+int game = 1; // 타이틀은 0 게임시작은 1
 int root = 0;
 
-int dengeon_level =	2; //2부터  시
+int dengeon_level =	7; //2부터  시
 int situation_num = 1;
 
 int phaze = 0; //mino
@@ -107,7 +107,7 @@ void monhpbar(int life, int maxlife);
 
 int select_num = 1; //전투상황 선택지 초기화
 
-//맵 오브젝트
+//맵 오브젝
 
 // level 1
 
@@ -386,12 +386,12 @@ int main(void)
 
 	oBject player; //플레이어 정의
 	player.name = player_name;
-	player.attack = 18;
+	player.attack = 21;
 	player.crono = 1000;
 	player.max_life = 100;
 	player.life = player.max_life;
 	player.critical = 25;
-	player.evasion = 20;
+	player.evasion = 30;
 
 
 
@@ -419,14 +419,14 @@ int main(void)
 	oBject moth; // 1
 	moth.name = "나방";
 	moth.attack = 6;
-	moth.life = 19;
+	moth.life = 23;
 	moth.crono = rand() % 50 + 170;
 	moth.max_life = 20;
 
 	oBject spider; // 2
 	spider.name = "거미";
 	spider.attack = 8;
-	spider.life = 20;
+	spider.life = 22;
 	spider.crono = rand() % 25 + 170;
 	spider.max_life = 20;
 
@@ -447,22 +447,22 @@ int main(void)
 
 	oBject monster1; //       5 층 마지막
 	monster1.name = "블랙 해츨링";
-	monster1.attack = 20;
-	monster1.life = 1000;
+	monster1.attack = 28;
+	monster1.life = 900;
 	monster1.crono = rand() % 150 + 700;
-	monster1.max_life = 1000;
+	monster1.max_life = 900;
 
 	oBject mino;  //7
 	mino.name = "억압받은 자";
-	mino.attack = 27;
-	mino.life = 3333;
-	mino.max_life = 3333;
+	mino.attack = 33;
+	mino.life = 1400;
+	mino.max_life = 1400;
 
 	oBject mi2;  //7
 	mi2.name = "Asterios";
-	mi2.attack = 35;
-	mi2.life = 1111;
-	mi2.max_life = 1111;
+	mi2.attack = 37;
+	mi2.life = 1000;
+	mi2.max_life = 1000;
 		
 
 
@@ -479,51 +479,51 @@ int main(void)
 
 	iteM sword;
 	sword.name = "어두운 검";
-	sword.attack = 45;
-	sword.critical = 20;
+	sword.attack = 55;
+	sword.critical = 25;
 	sword.cost = 700;
 
 	iteM spear;
 	spear.name = "푸른 창";
-	spear.attack = 30;
-	spear.critical = 15;
+	spear.attack = 40;
+	spear.critical = 20;
 	spear.cost = 500;
 
 
 	iteM Excalibur;
 	Excalibur.name = "Caladfwich";
-	Excalibur.attack = 70;
-	Excalibur.critical = 15;
+	Excalibur.attack = 80;
+	Excalibur.critical = 25;
 	Excalibur.cost = 1000;
 
 	iteM daggar;
 	daggar.name = "예리한 단검";
-	daggar.attack = 14;
-	daggar.critical = 40;
+	daggar.attack = 30;
+	daggar.critical = 35;
 	daggar.evasion = 20;
 	daggar.cost = 400;
 
 	iteM iron;
 	iron.name = "철 갑옷";
-	iron.life = 45;
-	iron.evasion = 10;
+	iron.life = 70;
+	iron.evasion = 20;
 	iron.cost = 500;
 
 	iteM fast;
 	fast.name = "백조의 갑옷";
-	fast.life = 60;
-	fast.evasion = 15;
+	fast.life = 90;
+	fast.evasion = 20;
 	fast.cost = 700;
 
 	iteM adaman;
 	adaman.name = "아다만티움 갑옷";
-	adaman.life = 100;
-	adaman.evasion = 15;
+	adaman.life = 120;
+	adaman.evasion = 20;
 	adaman.cost = 1000;
 
 	iteM coward;
 	coward.name = "겁쟁이 갑옷";
-	coward.life = 30;
+	coward.life = 50;
 	coward.evasion = 40;
 	coward.cost = 400;
 
@@ -821,7 +821,7 @@ int main(void)
 				Sleep(1500);
 				printf("         아직 할 일이 있다.\n\n");
 				Sleep(1500);
-				printf("         ...그저 나아 갈 뿐이다.\n\n");
+				printf("         그저 나아 갈 뿐이다.\n\n");
 				Sleep(1000);
 				printf("         이동 : 화살표 키\n\n");
 				printf("         상호작용 : Z 키\n\n");
@@ -871,7 +871,7 @@ int main(void)
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 				Sleep(100);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				Sleep(2000);
+				Sleep(1200);
 				system("cls");
 				game = 1;
 
@@ -1732,11 +1732,11 @@ int main(void)
 							system("cls");
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1000);
-							printf("  큰 체력 물약을 획득했다!\n\n");
+							printf("  엘릭서를 획득했다!\n\n");
 							Sleep(1000);
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1000);
-							potion2++;
+							potion3++;
 						}
 
 						if (y_p == 1 && x_p == 6 ||
@@ -1748,7 +1748,7 @@ int main(void)
 							Sleep(1000);
 							printf("  힘의 비약을 획득했다!\n\n");
 							Sleep(1000);
-							printf("  힘이 3 상승했다!\n\n");
+							printf("  힘이 10 상승했다!\n\n");
 							Sleep(1000);
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1000);
@@ -1808,9 +1808,9 @@ int main(void)
 						x_p == x_mon2 && y_p == y_mon2 - 1)
 					{
 
-							monspawn = 4; // 123
-							cntspawn = monspawn;
-							bfmonxy5(y_mon2, x_mon2);
+						monspawn = 4; // 123
+						cntspawn = monspawn;
+						bfmonxy5(y_mon2, x_mon2);
 
 
 
@@ -1930,9 +1930,9 @@ int main(void)
 							break;
 						}						
 						
-						if (y_p == 1 && x_p == 6)
+						if (y_p == 6 && x_p == 7)
 						{
-							map_arr_loCation_level_7[8][7] = 0;
+							map_arr_loCation_level_7[7][7] = 0;
 							system("cls");
 							printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 							Sleep(1000);
@@ -2340,7 +2340,7 @@ int main(void)
 			printf("%s", specialChar5());
 			gotoxy(48, 17);
 			printf("%s", specialChar6());
-			printf("%d", phaze);
+
 
 			////////////////////
 
@@ -2414,30 +2414,28 @@ int main(void)
 				printf("   % s는 % s에게 검을 힘차게 휘둘렀다!\n\n", player.name, mon.name);
 				Sleep(1000);
 				printf("   %s에게 %d의 데미지를 주었다.\n\n", mon.name, cnt_monster_life - mon.life);  // 공격받기전 - 받은후 =데미지
-				Sleep(1500);
+				Sleep(1000);
 				if (mon.life <= 0)
 				{
 					if (monspawn == 6)
 					{
-						
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-						printf("   허억..허억..\n\n");
-						Sleep(1500);
-						printf("\n\n   \"해치웠나...!\"\n\n");
-						Sleep(3000);
+						Sleep(1000);
+						printf("   \"해치웠나...!\"\n\n");
+						Sleep(1000);
 						printf("   쿠 오 오 오 오 오 오 !!!!!!!!!\n\n");
-						Sleep(3000);
+						Sleep(2000);
 						printf("   도끼를 든 그는 이미 영웅의 모습과도 같았다.\n\n");
-						Sleep(3000);
+						Sleep(200);
 						printf("   사슬을 풀고 그는 가둬놨던 힘을 해방한다.\n\n");
-						Sleep(3000);
+						Sleep(1500);
 						monspawn = 7;
-
-						mon.name = mino.name;
-						mon.attack = mino.attack;
-						mon.life = mino.life;
-						mon.max_life = mino.max_life;
+						phaze++; //2
+						mon.name = mi2.name;
+						mon.attack = mi2.attack;
+						mon.life = mi2.life;
+						mon.max_life = mi2.max_life;
 						situation_num = 999;
 						break;
 					}
@@ -2467,7 +2465,7 @@ int main(void)
 						player.crono += mon.crono;
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-						Sleep(2000);
+						Sleep(1500);
 						*monlife = 0;
 						system("cls");
 						situation_num = 1;
@@ -2578,7 +2576,7 @@ int main(void)
 					{
 						system("cls");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-						Sleep(1000);
+						Sleep(500);
 						printf("   아직 사용할 수 없습니다.\n");
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1500);
@@ -2617,10 +2615,10 @@ int main(void)
 								Sleep(1500);
 								monspawn = 7;
 								phaze++; //2
-								mon.name = mino.name;
-								mon.attack = mino.attack;
-								mon.life = mino.life;
-								mon.max_life = mino.max_life;
+								mon.name = mi2.name;
+								mon.attack = mi2.attack;
+								mon.life = mi2.life;
+								mon.max_life = mi2.max_life;
 								situation_num = 999;
 								break;
 						
@@ -2780,11 +2778,11 @@ int main(void)
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(1000);
 						printf("   ricaus는 울부짖었다.\n\n");
-						Sleep(1500);
+						Sleep(1000);
 						printf("   \"우 오 오 오 ! ! !\"\n\n");
 						player.attack += skill_rage(player.attack);
 						Sleep(1500);
-						printf("   용사의 공격력이 일시적으로 증가했다!\n\n");
+						printf("   %s의 공격력이 일시적으로 증가했다!\n\n",player.name);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 						Sleep(2000);
 						system("cls");
@@ -2915,7 +2913,7 @@ int main(void)
 						turn = 0;
 						cnt_turn_stab = -3;
 						cnt_turn_rage = -5;
-						cnt_turn_heal = -3;
+						cnt_turn_heal = -4;
 						printf("   모든 스킬의 쿨타임이 초기화됐다!\n");
 						Sleep(500);
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
@@ -2984,9 +2982,9 @@ int main(void)
 			case 0:
 			{
 				system("cls");
-				Sleep(1000);
+				Sleep(500);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				Sleep(1500);
+				Sleep(1000);
 				printf("%d크로노가 필요합니다.\n\n연속 찌르기를 강화하시겠습니까?\n", cost_stab);
 				switch (yesnodraw())
 				{
@@ -2998,7 +2996,7 @@ int main(void)
 						player.crono -= cost_stab;
 
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-						Sleep(1500);
+						Sleep(1000);
 						printf("\n\n\n  연속 찌르기의 레벨이 상승했습니다.");
 						Sleep(1500);
 						if (stab_lv == 1) // 50.
@@ -3041,9 +3039,9 @@ int main(void)
 			case 1:
 			{
 				system("cls");
-				Sleep(1000);
+				Sleep(500);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				Sleep(1500);
+				Sleep(1000);
 				printf("%d크로노가 필요합니다.\n\n신성한 회복을 강화하시겠습니까?\n", cost_heal);
 				switch (yesnodraw())
 				{
@@ -3055,7 +3053,7 @@ int main(void)
 						player.crono -= cost_heal;
 
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-						Sleep(1500);
+						Sleep(500);
 						printf("\n\n\n  신성한 회복의 레벨이 상승했습니다.");
 						Sleep(1500);
 						if (heal_lv == 1) // 50.
@@ -3098,9 +3096,9 @@ int main(void)
 			case 2:
 			{
 				system("cls");
-				Sleep(1000);
+				Sleep(500);
 				printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-				Sleep(1500);
+				Sleep(1000);
 				printf("%d크로노가 필요합니다.\n\n용사의 분노를 강화하시겠습니까?\n", cost_rage);
 				switch (yesnodraw())
 				{
@@ -3112,9 +3110,9 @@ int main(void)
 						player.crono -= cost_rage;
 
 						printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-						Sleep(1500);
+						Sleep(500);
 						printf("\n\n\n  용사의 분노의 레벨이 상승했습니다.");
-						Sleep(1500);
+						Sleep(1000);
 						if (rage_lv == 1) // 50.
 						{
 							rage_lv++;
@@ -3167,12 +3165,12 @@ int main(void)
 		if (situation_num == 6)
 		{
 			system("cls");
-			printf("깡... 깡.. 깡..\n\n");
-			Sleep(1000);
-			printf("철 두드리는 소리가 계속해서 울린다.\n\n");
-			Sleep(1000);
-			printf("흰머리가 난 늙은 할아버지가 검을 두드리고 있다.\n\n");
-			Sleep(1000);
+			printf("\n\n   깡... 깡.. 깡..\n\n");
+			Sleep(1500);
+			printf("   철 두드리는 소리가 계속해서 울린다.\n\n");
+			Sleep(1500);
+			printf("   흰머리가 난 늙은 할아버지가 검을 두드리고 있다.\n\n");
+			Sleep(2000);
 			system("cls");
 			situation_num = 7;
 		}
@@ -3331,7 +3329,7 @@ int main(void)
 				_setmode(_fileno(stdout), exMode);
 
 				gotoxy(qx, qy);
-				printf("[검은 가시 창]  %d Crono 보유한 Crono : %d\n",spear.cost, player.crono);
+				printf("[붉은 가시 창]  %d Crono 보유한 Crono : %d\n",spear.cost, player.crono);
 				printf(" 겉면에 가시가 나있다.\n");
 				printf(" 묵직하여 들고만 있어도 \n 운동이 되는 느낌이다.");
 				switch (buyornodraw())
@@ -3937,7 +3935,7 @@ int main(void)
 			printf("   \"너희 아버지는 미궁에 갇혔단다.\"\n\n");
 			_getch();
 			Sleep(500);
-			printf("   \"그것을 너가 무찌른다면 그곳에서\n\n   나올수있게 도와주마...\"\n\n");
+			printf("   \"그것을 너가 무찌른다면 그곳에서\n   나올수있게 도와주마...\"\n\n");
 			_getch();
 			Sleep(500);
 
@@ -3952,7 +3950,7 @@ int main(void)
 
 		if (situation_num == 171) //별자리석판
 		{
-			printf("\n\n   석판이 보인다.\n\n");
+			printf("\n\n   별자리라고 써진 석판이 있다.\n\n");
 			Sleep(1500);
 			printf("   이상한 문양이 새겨져잇다.\n\n");
 			Sleep(1500);
@@ -4249,7 +4247,7 @@ int main(void)
 			{
 			case 0:
 			{
-				situation_num = 100;
+				situation_num = 105;
 				break;
 			}
 			case 1:
@@ -4261,6 +4259,32 @@ int main(void)
 				break;
 			}
 
+		}
+		if (situation_num == 105) //// 분기점 
+		{
+			system("cls");
+			switch (chodraw())
+			{
+			case 0://죽인다
+			{
+				system("cls");
+				situation_num = 92;
+				break;
+			}
+			case 1: //살린다.
+			{
+				if (windkey == 1)
+				{
+					system("cls");
+					situation_num = 91;
+
+				}
+				else
+					break;
+			}
+			default:
+				break;
+			}
 		}
 
 		if (situation_num == 92)
@@ -4876,7 +4900,7 @@ int titleDraw() {
 	int x = 14;
 	int y = 14;
 	gotoxy(x, y);
-	printf("[Open your eyes..]");
+	printf("[START]");
 	gotoxy(x, y + 1);
 	if (root >= 1) {
 		printf("[갈림길]");
