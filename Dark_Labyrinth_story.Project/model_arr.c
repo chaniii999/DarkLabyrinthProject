@@ -24,10 +24,10 @@
 
 // 초기 함수
 
-int game = 1; // 타이틀은 0 게임시작은 1
+int game = 0; // 타이틀은 0 게임시작은 1
 int root = 0;
 
-int dengeon_level =	7; //2부터  시
+int dengeon_level =	2; //2부터  시
 int situation_num = 1;
 
 int phaze = 0; //mino
@@ -391,7 +391,7 @@ int main(void)
 	player.max_life = 100;
 	player.life = player.max_life;
 	player.critical = 25;
-	player.evasion = 30;
+	player.evasion = 25;
 
 
 
@@ -802,7 +802,7 @@ int main(void)
 		case 0:
 		{
 			system("cls");
-			printf("\n\n\n           Welcome to my Labyrinth. . .");
+			printf("\n\n\n           Welcome to my Rabyrinth. . .");
 			Sleep(2500);
 			system("cls");
 			printf("\n\n\n\n\n\n              프롤로그를 보시겠습니까?");
