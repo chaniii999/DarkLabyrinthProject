@@ -421,14 +421,14 @@ int main(void)
 	moth.attack = 6;
 	moth.life = 23;
 	moth.crono = rand() % 50 + 170;
-	moth.max_life = 20;
+	moth.max_life = 23;
 
 	oBject spider; // 2
 	spider.name = "거미";
 	spider.attack = 8;
 	spider.life = 22;
 	spider.crono = rand() % 25 + 170;
-	spider.max_life = 20;
+	spider.max_life = 22;
 
 
 	oBject kero; // 3       2층 마지막
@@ -460,7 +460,7 @@ int main(void)
 
 	oBject mi2;  //7
 	mi2.name = "Asterios";
-	mi2.attack = 37;
+	mi2.attack = 39;
 	mi2.life = 800;
 	mi2.max_life = 800;
 		
