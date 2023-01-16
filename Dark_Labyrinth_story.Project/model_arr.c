@@ -448,21 +448,21 @@ int main(void)
 	oBject monster1; //       5 층 마지막
 	monster1.name = "블랙 해츨링";
 	monster1.attack = 28;
-	monster1.life = 900;
+	monster1.life = 700;
 	monster1.crono = rand() % 150 + 700;
-	monster1.max_life = 900;
+	monster1.max_life = 700;
 
 	oBject mino;  //7
 	mino.name = "억압받은 자";
 	mino.attack = 33;
-	mino.life = 1400;
-	mino.max_life = 1400;
+	mino.life = 1100;
+	mino.max_life = 1100;
 
 	oBject mi2;  //7
 	mi2.name = "Asterios";
 	mi2.attack = 37;
-	mi2.life = 1000;
-	mi2.max_life = 1000;
+	mi2.life = 800;
+	mi2.max_life = 800;
 		
 
 
